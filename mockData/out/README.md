@@ -1,4 +1,0 @@
-hackreactorproject
-==================
-
-Hack Reactor Project
