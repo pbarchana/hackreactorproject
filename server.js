@@ -14,10 +14,6 @@ var dataSchema = new Schema ({
 
 // Setup the model
 var Servers = mongoose.model('Servers', dataSchema);
-// clear any existing data from the model
-// Servers.remove({}, function(err) {
-//   console.log('collection removed');
-// });
 
 // Bootstrap db connection
 mongoose.connect(config.db);
@@ -29,9 +25,8 @@ db.once('open', function () {
   readFiles(Servers);
 });
 
-app.get('/', function(req, res){
-  res.send('hello world');
-});
+// Bootstrap routes
+require('./config/routes')(app);
 
-console.log("Listening on http://localhost:8080");
 app.listen(8080);
+console.log("Listening on http://localhost:8080");
