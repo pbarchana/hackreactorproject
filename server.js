@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/config');
-var readFiles = require('./readFile');
+var readFiles = require('./readFiles');
 var app = express();
 
 // Setup our database schema and model
