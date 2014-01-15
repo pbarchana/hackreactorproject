@@ -1,3 +1,6 @@
+var fs = require('fs');
+var path = require("path");
+var mockDir = path.join(__dirname, '..', 'mockData/out/');
 
 var clearDatabase = function(Servers) {
   Servers.remove({}, function(err) {
@@ -9,19 +12,13 @@ var saveToDB = function(Servers, json) {
   var servers = new Servers(JSON.parse(json));
   servers.save(function (err, servers) {
     if (err) console.log(err);
-    console.log('SAVED:' + servers);
-
-    Servers.find(function (err, servers) {
-      if (err) console.log(err);// TODO handle err
-      console.log('RETRIEVED:' + servers);
-    });
+    console.log('saved server to db');
   });
 };
 
 module.exports = function(Servers) {
-  var fs = require('fs');
-  var mockDir = './mockData/out/';
   // clear any collections data from the database
+  debugger;
   clearDatabase(Servers);
   // readfiles each file in the mockData/out dir and save them to the DB
   fs.readdir(mockDir, function(err, files){
