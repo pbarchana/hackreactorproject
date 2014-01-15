@@ -4,31 +4,37 @@
 			"interface": "0/43",
 			"state": "active",
 			"vlanID": "1",
+			"mac": "8D:8E:5F:EC:E1:C5",
 			"neighbors": ["00:0c:29:f2:b5:3e", "00:1e:67:93:db:fc", "00:26:6c:f0:3a:44", "00:26:6c:f0:49:ac", "00:26:6c:f0:5a:a0", "00:26:6c:f0:71:c0", "00:26:6c:f9:76:a8", "00:26:6c:f9:76:ab", "00:26:6c:f9:81:14", "00:26:6c:f9:81:17", "00:26:6c:f9:81:ac", "00:26:6c:f9:81:af", "00:26:6c:f9:82:c4", "00:26:6c:f9:82:c7", "00:50:56:ab:35:ce", "00:a0:d1:ea:66:2c", "00:a0:d1:ea:ca:7c", "00:a0:d1:eb:77:78", "00:a0:d1:eb:87:cc", "00:a0:d1:eb:89:7c", "00:a0:d1:eb:8e:e0", "00:a0:d1:eb:8f:34", "00:a0:d1:eb:93:b4", "00:a0:d1:eb:96:6c", "00:a0:d1:eb:96:8c", "00:a0:d1:eb:98:b8", "00:a0:d1:eb:98:f4", "00:a0:d1:eb:9c:68", "00:a0:d1:eb:ab:88", "00:a0:d1:eb:b0:74", "00:a0:d1:eb:bb:9c", "00:a0:d1:eb:db:00", "00:a0:d1:eb:dc:ac", "00:a0:d1:eb:f5:88", "00:a0:d1:eb:f6:cc", "00:a0:d1:eb:fa:08", "00:a0:d1:ec:14:60", "00:a0:d1:ec:1c:74", "a0:36:9f:07:89:64", "f0:4d:a2:00:a8:54"]
 		}, {
 			"interface": "0/33",
 			"state": "active",
 			"vlanID": "1",
+			"mac": "5D:53:96:BE:A3:C2",
 			"neighbors": ["00:26:b9:4e:ae:0a"]
 		}, {
 			"interface": "0/34",
 			"state": "active",
 			"vlanID": "1",
+			"mac": "FF:C1:D0:B7:C6:70",
 			"neighbors": ["00:26:b9:51:a6:5e"]
 		}, {
 			"interface": "0/49",
 			"state": "active",
 			"vlanID": "1",
+			"mac": "5C:37:13:AF:12:DA",
 			"neighbors": ["00:1e:67:93:db:fd"]
 		}, {
 			"interface": "0/48",
 			"state": "active",
 			"vlanID": "1",
+			"mac": "92:4E:CA:26:49:4C",
 			"neighbors": ["a0:36:9f:07:89:66"]
 		}, {
 			"interface": "0/0",
 			"state": "active",
 			"vlanID": "1",
+			"mac": "9A:BF:58:19:26:01",
 			"neighbors": ["98:4b:e1:66:65:f6"]
 		}
 
