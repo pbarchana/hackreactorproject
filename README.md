@@ -1,4 +1,3 @@
-hackreactorproject
-==================
+# hackreactorproject
 
-Hack Reactor Project
+Run `npm install`, then `grunt` in the command line to start the server.
