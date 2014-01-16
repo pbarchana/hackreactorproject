@@ -7,14 +7,21 @@ var app = express();
 
 // Setup our database schema and model
 var Schema = mongoose.Schema;
-var dataSchema = new Schema ({
+var serverSchema = new Schema ({
   date: Number,
   attributes: {},
   components: {}
 });
+var switchSchema = newScheam ({
+  attributes: {},
+  components: {
+    nics: []
+  }
+});
 
-// Setup the model
-var Servers = mongoose.model('Servers', dataSchema);
+// Setup the models
+var Servers = mongoose.model('Servers', serverSchema);
+var Switches = mongoose.model('Switches', switchSchema);
 
 // Bootstrap routes
 require('./config/routes')(app, Servers);
