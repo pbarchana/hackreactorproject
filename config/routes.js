@@ -9,19 +9,21 @@ module.exports = function(app, Servers, Switches) {
   // get all data
   app.get('/all', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
-    var results = '';
+    var json = {"results": {}};
     Servers.find().lean().exec(function (err, servers) {
       if (err) console.log(err);// TODO handle err
       Switches.find().lean().exec(function (err, switches) {
         if (err) console.log(err);// TODO handle err
-        debugger;
+        json.results.servers = servers;
+        json.results.switches = switches;
         res.set("Content-Type", "application/json");
-        res.send(servers);
+        res.send(json);
+      });
     });
   });
+
   // get server data
   app.get('/servers', function(req, res) {
-    // lean returns a plain javascript object with not mongoose stuff atached to it
     Servers.find().lean().exec(function (err, servers) {
       if (err) console.log(err);// TODO handle err
       console.log('RETRIEVED:' + servers);
@@ -29,9 +31,9 @@ module.exports = function(app, Servers, Switches) {
       res.send(servers);
     });
   });
+
   // get switch data
   app.get('/switches', function(req, res) {
-    // lean returns a plain javascript object with not mongoose stuff atached to it
     Switches.find().lean().exec(function (err, switches) {
       if (err) console.log(err);// TODO handle err
       console.log('RETRIEVED:' + switches);
@@ -39,4 +41,4 @@ module.exports = function(app, Servers, Switches) {
       res.send(switches);
     });
   });
-}
+};

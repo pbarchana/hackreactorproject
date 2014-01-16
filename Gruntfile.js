@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       dev: {
         options: {
           file: 'server.js',
-          nodeArgs: ['--debug-brk']
+          nodeArgs: ['--debug']
         }
       }
     }
