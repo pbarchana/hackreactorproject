@@ -25,7 +25,7 @@ var Servers = mongoose.model('Servers', serverSchema);
 var Switches = mongoose.model('Switches', switchSchema);
 
 // Bootstrap routes
-require('./config/routes')(app, Servers);
+require('./config/routes')(app, Servers, Switches);
 
 // Bootstrap db connection
 mongoose.connect(config.db);
