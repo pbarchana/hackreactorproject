@@ -6,21 +6,21 @@ var saveFilesToDB = require('./workers/readFiles');
 
 var app = express();
 
-// Setup our database schema and model
+// Create schemas
 var Schema = mongoose.Schema;
 var serverSchema = new Schema ({
   date: Number,
   attributes: {},
   components: {}
 });
-var switchSchema = newScheam ({
+var switchSchema = new Schema ({
   attributes: {},
   components: {
     nics: []
   }
 });
 
-// Setup the models
+// Create models
 var Servers = mongoose.model('Servers', serverSchema);
 var Switches = mongoose.model('Switches', switchSchema);
 
@@ -37,6 +37,7 @@ db.once('open', function () {
   saveFilesToDB(Servers, path.join(__dirname, 'mockData/out/'));
   saveFilesToDB(Switches, path.join(__dirname, 'mockData/switches/'));
   
+  // Open the connection
   app.listen(8081);
   console.log("Listening on http://localhost:8081");
 });

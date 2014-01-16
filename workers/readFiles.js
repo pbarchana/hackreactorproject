@@ -1,6 +1,4 @@
 var fs = require('fs');
-var path = require("path");
-var mockDir = path.join(__dirname, '..', 'mockData/out/');
 
 var clearDatabase = function(Model) {
   Model.remove({}, function(err) {
@@ -12,7 +10,7 @@ var saveToDB = function(Model, json) {
   var model = new Model(JSON.parse(json));
   model.save(function (err, Model) {
     if (err) console.log(err);
-    console.log('saved server to db');
+    console.log('saved file to db');
   });
 };
 
