@@ -17,6 +17,7 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Create schemas
+// TODO: create a separate models folder for this
 var Schema = mongoose.Schema;
 var serverSchema = new Schema ({
   date: Number,
