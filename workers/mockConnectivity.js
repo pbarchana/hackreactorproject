@@ -9,7 +9,7 @@ var readServerMACs = function() {
   var serverNICs = [];
   var serverMACs = {};
 
-  serverJSON = glob.sync(path.join('./out', '*.json'));
+  serverJSON = glob.sync(path.join('../mockData/servers', '*.json'));
   for (var i = 0; i < serverJSON.length; i++) {
     servers.push(JSON.parse(fs.readFileSync(serverJSON[i], {encoding: 'utf8'})));
   }
@@ -32,7 +32,7 @@ var readSwitchPorts = function() {
   var nicArray = [];
   var switches = [];
 
-  switchJSON = glob.sync(path.join('./out/switches', '*.json'));
+  switchJSON = glob.sync(path.join('../mockData/switches', '*.json'));
   
   for (var i = 0; i < switchJSON.length; i++) {
     var switchMAC = [];
@@ -115,15 +115,15 @@ var generateConnectivity = function() {
     });
   }
 
- var connectedNodes = [];
+  var connectedNodes = [];
 
 
- for (var n = 0; n < switchConn.length; n++) {
-  connectedNodes[n] = [];
+  for (var n = 0; n < switchConn.length; n++) {
+    connectedNodes[n] = [];
     for (i = 0; i < switchConn[n].length; i++) {
       connectedNodes[n].push(switchConn[n][i].serverMAC);
+    }
   }
- }
 
  var isAddressOnSwitch = function(macAdd) {
   for (var i = 0; i < switchMACs.length; i++) {
@@ -135,30 +135,29 @@ var generateConnectivity = function() {
   };
 
   for (var s = 0; s < switchConn.length; s++) {
-   var switchInfo = {};
-   var idx = 0;
-   var temp = [];
-   switchInfo["interfaces"] = [];
+    var switchInfo = {};
+    var idx = 0;
+    var temp = [];
+    switchInfo["interfaces"] = [];
 
-   for (var i = 0; i < switchConn[s].length; i++) {
-    tempNeighbors = [];
-    tempObj = {};
-    if ((idx = isAddressOnSwitch(switchConn[s][i].serverMAC)) > -1) {
-      tempNeighbors = connectedNodes[idx].slice(0);
+    for (i = 0; i < switchConn[s].length; i++) {
+      tempNeighbors = [];
+      tempObj = {};
+      if ((idx = isAddressOnSwitch(switchConn[s][i].serverMAC)) > -1) {
+        tempNeighbors = connectedNodes[idx].slice(0);
+      }
+      //console.log("mac", switchConn[s][i].serverMAC);
+      tempNeighbors.push(switchConn[s][i].serverMAC);
+      tempObj["interfaces"] = switchConn[s][i].switchPort.interface;
+      tempObj["state"] = "active";
+      tempObj["vlandID"] = "1";
+      tempObj["mac"] = switchConn[s][i].switchPort.mac;
+      tempObj["neighbors"] = tempNeighbors.slice(0);
+
+      switchInfo["interfaces"].push(tempObj);
     }
-    //console.log("mac", switchConn[s][i].serverMAC);
-    tempNeighbors.push(switchConn[s][i].serverMAC);
-    tempObj["interfaces"] = switchConn[s][i].switchPort.interface;
-    tempObj["state"] = "active";
-    tempObj["vlandID"] = "1";
-    tempObj["mac"] = switchConn[s][i].switchPort.mac;
-    tempObj["neighbors"] = tempNeighbors.slice(0);
-
-    switchInfo["interfaces"].push(tempObj);
+    fs.writeFileSync("../mockData/connectivity/switchInfo_"+s+".conn", JSON.stringify(switchInfo));
   }
-  fs.writeFileSync("./out/connectivity/switchInfo_"+s+".conn", JSON.stringify(switchInfo));
-}
-
 
 //return switchConn;
 

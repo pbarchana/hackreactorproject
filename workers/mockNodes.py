@@ -334,7 +334,6 @@ if len(sys.argv) == 1:
 
 for n in xrange(int(sys.argv[1])):
     ni = genNodeInfo()
-    out = open("out/" + ni["attributes"]["UUID"] + ".json", "w")
+    out = open("../mockData/servers/" + ni["attributes"]["UUID"] + ".json", "w")
     out.write(str(json.JSONEncoder().encode(ni)))
     out.close()
-
