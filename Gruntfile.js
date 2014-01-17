@@ -47,6 +47,14 @@ module.exports = function(grunt) {
             cwd: 'workers'
           }
         }
+      },
+      saveFilesToDB: {
+        command: 'node saveFilesToDB.js',
+        options: {
+          execOptions: {
+            cwd: 'workers'
+          }
+        }
       }
     },
 
@@ -66,7 +74,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
 
   // "grunt generate" - deletes existing data, and creates new mock data set
-  grunt.registerTask('generate', ['shell:deleteMockData', 'shell:generateNodes', 'shell:generateSwitches', 'shell:generateConnectivity']);
+  grunt.registerTask('generate', [
+    'shell:deleteMockData',
+    'shell:generateNodes',
+    'shell:generateSwitches',
+    'shell:generateConnectivity',
+    'shell:saveFilesToDB'
+  ]);
 
   // The tasks that get executed when typing 'grunt'
   grunt.registerTask('default', ['shell:mongo', 'nodemon']);

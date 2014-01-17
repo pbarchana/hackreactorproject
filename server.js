@@ -5,7 +5,7 @@ var config = require('./config/config');
 var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
-var saveFilesToDB = require('./workers/saveFilesToDB.js');
+// var saveFilesToDB = require('./workers/saveFilesToDB.js');
 
 var app = express();
 
@@ -27,40 +27,15 @@ app.use(stylus.middleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Create schemas
-// TODO: create a separate models folder for this
-var Schema = mongoose.Schema;
-var serverSchema = new Schema ({
-  date: Number,
-  attributes: {},
-  components: {}
-});
-var switchSchema = new Schema ({
-  attributes: {},
-  components: {
-    nics: []
-  }
-});
-
-// Create models
-var Servers = mongoose.model('Servers', serverSchema);
-var Switches = mongoose.model('Switches', switchSchema);
-
 // Bootstrap routes
-require('./config/routes')(app, Servers, Switches);
+require('./config/routes')(app);
 
 // Bootstrap db connection
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  // once connection open, read all the mock files and save it to database
-  saveFilesToDB(Servers, path.join(__dirname, 'mockData/out/'));
-  saveFilesToDB(Switches, path.join(__dirname, 'mockData/switches/'));
-  
   // Open the connection
-  app.listen(8081);
-  console.log("Listening on http://localhost:8081");
+  app.listen(8080);
+  console.log("Listening on http://localhost:8080");
 });
-
-

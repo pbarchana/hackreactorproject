@@ -1,11 +1,20 @@
 var fs = require('fs');
+var path = require('path');
+var mongoose = require('mongoose');
+var config = require('../config/config');
+var rootDir = path.join(__dirname, '..', 'mockData/');
 
+// Import models
+var Servers = require('../models/servers.js');
+var Switches = require('../models/switches.js');
+var Connectivity = require('../models/connectivity.js');
+
+// Helpers
 var clearDatabase = function(Model) {
   Model.remove({}, function(err) {
     console.log('collection removed');
   });
 };
-
 var saveToDB = function(Model, json) {
   var model = new Model(JSON.parse(json));
   model.save(function (err, Model) {
@@ -15,7 +24,7 @@ var saveToDB = function(Model, json) {
 };
 
 // Save all files in a directory to a database model
-module.exports = function(Model, pathToDir) {
+var clearAndSave = function(Model, pathToDir) {
   // clear any collections data from the database
   clearDatabase(Model);
   // readfiles each file in the mockData/out dir and save them to the DB
@@ -29,3 +38,14 @@ module.exports = function(Model, pathToDir) {
     });
   });
 };
+
+// Connect to database and save
+mongoose.connect(config.db);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  // Save data
+  clearAndSave(Servers, rootDir + "servers/");
+  clearAndSave(Switches, rootDir + "switches/");
+  clearAndSave(Connectivity, rootDir + "connectivity/");
+});
