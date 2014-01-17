@@ -2,7 +2,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/config');
-var path = require("path");
+var path = require('path');
+var stylus = require('stylus');
+var nib = require('nib');
 var saveFilesToDB = require('./workers/readFiles');
 
 var app = express();
@@ -13,7 +15,16 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+app.use(stylus.middleware({
+  src: __dirname + '/', // .styl files are located in `views/stylesheets`
+  dest: __dirname + '/public', // .styl resources are compiled `/stylesheets/*.css`
+  compile: function (str, path) { // optional, but recommended
+    return stylus(str)
+      .set('filename', path)
+      .set('compress', true)
+      .use(nib());
+  }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Create schemas
