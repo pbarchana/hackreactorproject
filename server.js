@@ -27,24 +27,9 @@ app.use(stylus.middleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Create schemas
-// TODO: create a separate models folder for this
-var Schema = mongoose.Schema;
-var serverSchema = new Schema ({
-  date: Number,
-  attributes: {},
-  components: {}
-});
-var switchSchema = new Schema ({
-  attributes: {},
-  components: {
-    nics: []
-  }
-});
-
-// Create models
-var Servers = mongoose.model('Servers', serverSchema);
-var Switches = mongoose.model('Switches', switchSchema);
+// Import models
+var Servers = require('./models/servers.js');
+var Switches = require('./models/switches.js');
 
 // Bootstrap routes
 require('./config/routes')(app, Servers, Switches);
@@ -55,7 +40,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // once connection open, read all the mock files and save it to database
-  saveFilesToDB(Servers, path.join(__dirname, 'mockData/out/'));
+  saveFilesToDB(Servers, path.join(__dirname, 'mockData/servers/'));
   saveFilesToDB(Switches, path.join(__dirname, 'mockData/switches/'));
   
   // Open the connection
