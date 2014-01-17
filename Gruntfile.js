@@ -55,6 +55,14 @@ module.exports = function(grunt) {
             cwd: 'workers'
           }
         }
+      },
+      checkForDirectories: {
+        command: 'node checkForDirectories.js',
+        options: {
+          execOptions: {
+            cwd: 'workers'
+          }
+        }
       }
     },
 
@@ -75,6 +83,7 @@ module.exports = function(grunt) {
 
   // "grunt generate" - deletes existing data, and creates new mock data set
   grunt.registerTask('generate', [
+    'shell:checkForDirectories',
     'shell:deleteMockData',
     'shell:generateNodes',
     'shell:generateSwitches',
