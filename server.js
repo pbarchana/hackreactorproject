@@ -16,9 +16,9 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(stylus.middleware({
-  src: __dirname + '/', // .styl files are located in `views/stylesheets`
-  dest: __dirname + '/public', // .styl resources are compiled `/stylesheets/*.css`
-  compile: function (str, path) { // optional, but recommended
+  src: __dirname + '/public', // .styl files are located in `stylesheets`
+  dest: __dirname + '/public', // .styl resources are compiled `public/stylesheets/*.css`
+  compile: function (str, path) {
     return stylus(str)
       .set('filename', path)
       .set('compress', true)
