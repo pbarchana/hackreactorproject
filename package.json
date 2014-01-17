@@ -19,6 +19,7 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-nodemon": "latest",
-    "grunt-shell-spawn": "latest"
+    "grunt-shell-spawn": "latest",
+    "grunt-execute": "~0.1.5"
   }
 }

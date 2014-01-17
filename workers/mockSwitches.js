@@ -8,7 +8,7 @@ var generateMAC = function() {
     if (i != 5) mac += ":";
 	} 
   return mac;
-}
+};
 
 var nrPortConfigs = [24, 48, 72];
 
@@ -17,7 +17,7 @@ var generatePort = function(id) {
   var port = {};
   port["firmware"] = "bc 5.2.2 NCSI 2.0.6";
   port["interface"] = "eth" + (id);
-  port["link"] = "yes"
+  port["link"] = "yes";
   port["mac"] = generateMAC();
   port["name"]= "Cisco";
   return port;
@@ -26,8 +26,8 @@ var generatePort = function(id) {
 var generatePorts = function() {
   var ports = [];
   var nrPorts = nrPortConfigs[
-    Math.floor (Math.random() * 
-      nrPortConfigs.length) % 
+    Math.floor (Math.random() *
+      nrPortConfigs.length) %
       nrPortConfigs.length
   ];
 
@@ -41,7 +41,7 @@ var generateAttributes = function() {
   var attrib = {};
   attrib["name"] = "Cisco";
   return attrib;
-}
+};
 
 var generateComponents = function() {
   var components = {};
@@ -59,7 +59,6 @@ var generateSwitch = function() {
   return nSwitch;
 };
 
-
 var requiredNrSwitches = process.argv[2];
 var date;
 var switchName = "";
@@ -71,7 +70,7 @@ for (var i = 0; i <requiredNrSwitches; i++) {
   switchName += date.getDate() + ".";
   switchName += date.getTime() + ".json";
   console.log(switchName);
-  fs.writeFileSync("./out/switches/"+switchName, JSON.stringify(generateSwitch()));
+  fs.writeFileSync("../mockData/switches/"+switchName, JSON.stringify(generateSwitch()));
   switchName = "";
 }
 

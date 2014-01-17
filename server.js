@@ -5,7 +5,7 @@ var config = require('./config/config');
 var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
-var saveFilesToDB = require('./workers/readFiles');
+var saveFilesToDB = require('./workers/saveFilesToDB.js');
 
 var app = express();
 
