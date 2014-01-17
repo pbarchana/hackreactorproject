@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
   <meta charset="UTF-8">
   <title>Sample Page</title>
@@ -16,6 +16,9 @@
   <script src="js/services.js"></script>
 </head>
 <body>
-  hello
+  <div ng-controller="dataCtrl">
+    <div ng-repeat="server in servers">Server</div>
+    <div ng-repeat="switch in switches">Server</div>
+  </div>
 </body>
 </html>
