@@ -1,10 +1,5 @@
 
 module.exports = function(app, Servers, Switches) {
-  
-  // TODO: return index.html
-  app.get('/', function(req, res){
-    res.send('hello world');
-  });
 
   // get all data
   app.get('/all', function(req, res) {
