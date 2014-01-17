@@ -156,7 +156,7 @@ var generateConnectivity = function() {
 
       switchInfo["interfaces"].push(tempObj);
     }
-    fs.writeFileSync("../mockData/connectivity/switchInfo_"+s+".conn", JSON.stringify(switchInfo));
+    fs.writeFileSync("../mockData/connectivity/switchInfo_"+s+".json", JSON.stringify(switchInfo));
   }
 
 //return switchConn;

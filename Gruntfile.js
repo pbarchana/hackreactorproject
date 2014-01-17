@@ -75,11 +75,11 @@ module.exports = function(grunt) {
 
   // "grunt generate" - deletes existing data, and creates new mock data set
   grunt.registerTask('generate', [
+    // 'shell:mongo', cannot get this to to work for now
     'shell:deleteMockData',
     'shell:generateNodes',
     'shell:generateSwitches',
     'shell:generateConnectivity',
-    'shell:mongo',
     'shell:saveFilesToDB'
   ]);
 

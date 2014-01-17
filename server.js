@@ -5,7 +5,7 @@ var config = require('./config/config');
 var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
-var saveFilesToDB = require('./workers/saveFilesToDB.js');
+// var saveFilesToDB = require('./workers/saveFilesToDB.js');
 
 var app = express();
 
@@ -28,7 +28,7 @@ app.use(stylus.middleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Bootstrap routes
-require('./config/routes')(app, Servers, Switches);
+require('./config/routes')(app);
 
 // Bootstrap db connection
 mongoose.connect(config.db);

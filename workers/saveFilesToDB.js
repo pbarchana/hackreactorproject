@@ -7,6 +7,7 @@ var rootDir = path.join(__dirname, '..', 'mockData/');
 // Import models
 var Servers = require('../models/servers.js');
 var Switches = require('../models/switches.js');
+var Connectivity = require('../models/connectivity.js');
 
 // Helpers
 var clearDatabase = function(Model) {
@@ -46,4 +47,5 @@ db.once('open', function () {
   // Save data
   clearAndSave(Servers, rootDir + "servers/");
   clearAndSave(Switches, rootDir + "switches/");
+  clearAndSave(Connectivity, rootDir + "connectivity/");
 });
