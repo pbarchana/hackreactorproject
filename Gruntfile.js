@@ -10,7 +10,8 @@ module.exports = function(grunt) {
       mongo: {
         command: 'mongod',
         options: {
-          async: true
+          async: true,
+          timeout: 2000,
         }
       },
 
@@ -70,9 +71,14 @@ module.exports = function(grunt) {
     nodemon: {
       dev: {
         options: {
-          file: 'server.js',
-          nodeArgs: ['--debug']
+          file: 'server.js'
+          // nodeArgs: ['--debug']
         }
+      }
+    },
+    execute: {
+      target: {
+        src: ['server.js']
       }
     }
   });
@@ -80,6 +86,7 @@ module.exports = function(grunt) {
   // get dependencies
   grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-execute');
 
   // "grunt generate" - deletes existing data, and creates new mock data set
   grunt.registerTask('generate', [
@@ -92,5 +99,6 @@ module.exports = function(grunt) {
   ]);
 
   // The tasks that get executed when typing 'grunt'
-  grunt.registerTask('default', ['shell:mongo', 'nodemon']);
+  // Weird things happen if I try to run mongo here
+  grunt.registerTask('default', ['nodemon']);
 };
