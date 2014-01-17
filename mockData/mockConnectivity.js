@@ -14,12 +14,11 @@ var readServerMACs = function() {
     servers.push(JSON.parse(fs.readFileSync(serverJSON[i], {encoding: 'utf8'})));
   }
 
-
   for (i = 0; i < servers.length; i++) {
     serverNICs = servers[i].components.nics;
     for (var j = 0; j < serverNICs.length; j++) {
       serverMACs[serverNICs[j].mac] = servers[i];
-    } 
+    }
   }
  
   var nrServerMACs = Object.keys(serverMACs).length;
@@ -106,13 +105,13 @@ var generateConnectivity = function() {
    
     var portArray = switches[switchBin].macs;
     var portIdx = 0;
-    portIdx = Math.floor(Math.random() * 
-        portArray.length) % 
+    portIdx = Math.floor(Math.random() *
+        portArray.length) %
         (portArray.length);
 
     switchConn[switchBin].push({
-         switchPort: portArray.splice(portIdx, 1)[0], 
-         serverMAC:  mac 
+         switchPort: portArray.splice(portIdx, 1)[0],
+         serverMAC:  mac
     });
   }
 
@@ -123,7 +122,7 @@ var generateConnectivity = function() {
   connectedNodes[n] = [];
     for (i = 0; i < switchConn[n].length; i++) {
       connectedNodes[n].push(switchConn[n][i].serverMAC);
-  } 
+  }
  }
 
  var isAddressOnSwitch = function(macAdd) {
@@ -158,7 +157,7 @@ var generateConnectivity = function() {
     switchInfo["interfaces"].push(tempObj);
   }
   fs.writeFileSync("./out/connectivity/switchInfo_"+s+".conn", JSON.stringify(switchInfo));
-} 
+}
 
 
 //return switchConn;
