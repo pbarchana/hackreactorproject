@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       },
 
       generateNodes: {
-        command: 'python mockNodes.py ' + random(20),
+        command: 'python mockNodes.py ' + random(15),
         options: {
           execOptions: {
             cwd: 'workers' // selected directory
