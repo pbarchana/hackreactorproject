@@ -1,6 +1,7 @@
 // Import models
 var Servers = require('../models/servers.js');
 var Switches = require('../models/switches.js');
+var Connectivity = require('../models/connectivity.js');
 
 module.exports = function(app) {
 
@@ -12,10 +13,14 @@ module.exports = function(app) {
       if (err) console.log(err);// TODO handle err
       Switches.find().lean().exec(function (err, switches) {
         if (err) console.log(err);// TODO handle err
-        json.results.servers = servers;
-        json.results.switches = switches;
-        res.set("Content-Type", "application/json");
-        res.send(json);
+        Switches.find().lean().exec(function (err, connectivity) {
+          if (err) console.log(err);
+          json.results.servers = servers;
+          json.results.switches = switches;
+          json.results.connectivity = connectivity;
+          res.set("Content-Type", "application/json");
+          res.send(json);
+        });
       });
     });
   });
