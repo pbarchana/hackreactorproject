@@ -15,6 +15,15 @@ module.exports = function(grunt) {
       },
 
       // Generate mock data
+      deleteMockData: {
+        command: 'node deleteMockData.js',
+        options: {
+          execOptions: {
+            cwd: 'workers' // selected directory
+          }
+        }
+      },
+
       generateNodes: {
         command: 'python mockNodes.py ' + random(20),
         options: {
@@ -56,8 +65,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  // "grunt generate" - creates all mock data
-  grunt.registerTask('generate', ['shell:generateNodes', 'shell:generateSwitches', 'shell:generateConnectivity']);
+  // "grunt generate" - deletes existing data, and creates new mock data set
+  grunt.registerTask('generate', ['shell:deleteMockData', 'shell:generateNodes', 'shell:generateSwitches', 'shell:generateConnectivity']);
 
   // The tasks that get executed when typing 'grunt'
   grunt.registerTask('default', ['shell:mongo', 'nodemon']);
