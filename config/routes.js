@@ -1,5 +1,8 @@
+// Import models
+var Servers = require('../models/servers.js');
+var Switches = require('../models/switches.js');
 
-module.exports = function(app, Servers, Switches) {
+module.exports = function(app) {
 
   // get all data
   app.get('/all', function(req, res) {
