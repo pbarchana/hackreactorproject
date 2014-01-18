@@ -54,6 +54,14 @@ module.exports = function(app) {
     });
   });
 
+  app.get('/server/:id', function(req, res) {
+    // lean returns a plain javascript object with not mongoose stuff atached to it
+    Servers.findById(req.params.id, function(err, server) {
+      res.set("Content-Type", "application/json");
+      res.send(server);
+    });
+  });
+
   // get all data
   app.get('/all', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
