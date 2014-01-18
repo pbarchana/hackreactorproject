@@ -1,3 +1,6 @@
+// TODO: change strict = false in models (and make more specify schema)
+// TODO: pull out all the paths and save them separately in config
+
 // Dependencies
 var express = require('express');
 var mongoose = require('mongoose');

@@ -14,7 +14,6 @@ module.exports = function(grunt) {
           timeout: 2000,
         }
       },
-
       // Generate mock data
       deleteMockData: {
         command: 'node deleteMockData.js',
@@ -24,7 +23,6 @@ module.exports = function(grunt) {
           }
         }
       },
-
       generateNodes: {
         command: 'python mockNodes.py ' + random(15),
         options: {
