@@ -1,11 +1,13 @@
 // Load models
+var path = require('path');
 var mongoose = require('mongoose');
 var Server = mongoose.model('Server');
 var Switch = mongoose.model('Switch');
 var Connection = mongoose.model('Connection');
 
-// var Switches = require('../models/switches.js');
-// var Connectivity = require('../models/connectivity.js');
+// Load controllers
+var serverCtrl = require('../app/controllers/server.js');
+var switchCtrl = require('../app/controllers/switch.js');
 
 var addToD3Nodes = function(nodes, type, newNodes) {
   nodes.forEach(function(node) {
@@ -57,21 +59,13 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/server/:id', function(req, res) {
-    // lean returns a plain javascript object with not mongoose stuff atached to it
-    Server.findById(req.params.id, function(err, server) {
-      res.set("Content-Type", "application/json");
-      res.send(server);
-    });
-  });
+  // get server data
+  app.get('/server', serverCtrl.getAll);
+  app.get('/server/:id', serverCtrl.getById);
 
-  app.get('/switch/:id', function(req, res) {
-    // lean returns a plain javascript object with not mongoose stuff atached to it
-    Switch.findById(req.params.id, function(err, mySwitch) {
-      res.set("Content-Type", "application/json");
-      res.send(mySwitch);
-    });
-  });
+  // get switch data
+  app.get('/switch', switchCtrl.getAll);
+  app.get('/switch/:id', switchCtrl.getById);
 
   // get all data
   app.get('/all', function(req, res) {
@@ -93,25 +87,7 @@ module.exports = function(app) {
     });
   });
 
-  // get server data
-  app.get('/server', function(req, res) {
-    Server.find().lean().exec(function (err, servers) {
-      if (err) console.log(err);// TODO handle err
-      console.log('RETRIEVED:' + servers);
-      res.set("Content-Type", "application/json");
-      res.send(servers);
-    });
-  });
 
-  // get switch data
-  app.get('/switch', function(req, res) {
-    Switch.find().lean().exec(function (err, switches) {
-      if (err) console.log(err);// TODO handle err
-      console.log('RETRIEVED:' + switches);
-      res.set("Content-Type", "application/json");
-      res.send(switches);
-    });
-  });
   // get switch data
   app.get('/connection', function(req, res) {
     Connection.find().lean().exec(function (err, connections) {
