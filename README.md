@@ -8,10 +8,10 @@
 * Run `grunt generate` to generate mock data
 
 ## Making requests to the server
-* GET /nodes to get D3 formatted data (nodes and links arrays)
+* GET /d3data to get D3 formatted data (nodes and links arrays)
 * GET /all to get all data
 * GET /server to get server data
-* GET /server/:id to get server data
+* GET /server/:id to get specific server data
 * GET /switch to get all switch data
-* GET /switch/:id to get all switch data
+* GET /switch/:id to get specific switch data
 * GET /connection to get all connection data
