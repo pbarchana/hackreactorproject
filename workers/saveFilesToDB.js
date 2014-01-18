@@ -4,10 +4,27 @@ var mongoose = require('mongoose');
 var config = require('../config/config');
 var rootDir = path.join(__dirname, '..', 'mockData/');
 
-// Import models
-var Servers = require('../models/servers.js');
-var Switches = require('../models/switches.js');
-var Connectivity = require('../models/connectivity.js');
+//Bootstrap models
+var models_path = path.join(__dirname, '..', 'app/models');
+var walk = function(path) {
+    fs.readdirSync(path).forEach(function(file) {
+        var newPath = path + '/' + file;
+        var stat = fs.statSync(newPath);
+        if (stat.isFile()) {
+            if (/(.*)\.(js$|coffee$)/.test(file)) {
+                require(newPath);
+            }
+        } else if (stat.isDirectory()) {
+            walk(newPath);
+        }
+    });
+};
+walk(models_path);
+
+// Save reference to models
+var Server = mongoose.model('Server');
+var Switch = mongoose.model('Switch');
+var Connection = mongoose.model('Connection');
 
 // Helpers
 var clearDatabase = function(Model) {
@@ -33,6 +50,7 @@ var clearAndSave = function(Model, pathToDir) {
     files.forEach(function(file){
       fs.readFile(pathToDir + file, 'utf-8', function(err, json) {
         if (err) throw err;
+        debugger;
         saveToDB(Model, json);
       });
     });
@@ -45,7 +63,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // Save data
-  clearAndSave(Servers, rootDir + "servers/");
-  clearAndSave(Switches, rootDir + "switches/");
-  clearAndSave(Connectivity, rootDir + "connectivity/");
+  clearAndSave(Server, rootDir + "servers/");
+  clearAndSave(Switch, rootDir + "switches/");
+  clearAndSave(Connection, rootDir + "connectivity/");
 });

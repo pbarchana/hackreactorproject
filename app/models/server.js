@@ -9,5 +9,4 @@ var serverSchema = new Schema ({
   components: {}
 }, {strict: false});
 
-// Servers model
-module.exports = mongoose.model('Servers', serverSchema);
+mongoose.model('Server', serverSchema);

@@ -15,7 +15,6 @@
     "grunt": "latest",
     "grunt-cli": "latest",
     "glob": "~3.2.8",
-    "bson": "~0.2.5"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

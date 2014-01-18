@@ -10,5 +10,4 @@ var switchSchema = new Schema ({
   }
 });
 
-// switch model
-module.exports = mongoose.model('Switches', switchSchema);
+mongoose.model('Switch', switchSchema);
