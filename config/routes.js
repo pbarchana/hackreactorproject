@@ -1,7 +1,11 @@
-// Import models
-var Servers = require('../models/servers.js');
-var Switches = require('../models/switches.js');
-var Connectivity = require('../models/connectivity.js');
+// Load models
+var mongoose = require('mongoose');
+var Server = mongoose.model('Server');
+var Switch = mongoose.model('Switch');
+var Connection = mongoose.model('Connection');
+
+// var Switches = require('../models/switches.js');
+// var Connectivity = require('../models/connectivity.js');
 
 var addToD3Nodes = function(nodes, type, newNodes) {
   nodes.forEach(function(node) {
@@ -18,9 +22,9 @@ var addToD3Nodes = function(nodes, type, newNodes) {
   });
 };
 
-var addToD3Links = function(connectivities, links) {
-  connectivities.forEach(function(connectivity) {
-    connectivity.interfaces.forEach(function(interface) {
+var addToD3Links = function(connections, links) {
+  connections.forEach(function(connection) {
+    connection.interfaces.forEach(function(interface) {
       interface.neighbors.forEach(function(mac) {
         link = {};
         link.source = interface.mac;
@@ -37,12 +41,13 @@ module.exports = function(app) {
     var json = {};
     var newNodes = [];
     var links = [];
-    Servers.find({}, {"components.nics.mac":1}, function (err, servers) {
+    Server.find({}, {"components.nics.mac":1}, function (err, servers) {
       addToD3Nodes(servers, 'server', newNodes);
-      Switches.find({}, {"components.nics.mac":1}, function (err, switches) {
+      Switch.find({}, {"components.nics.mac":1}, function (err, switches) {
         addToD3Nodes(switches, 'switch', newNodes);
-        Connectivity.find(function(err, connectivities) {
-          addToD3Links(connectivities, links);
+        Connection.find(function(err, connections) {
+          debugger;
+          addToD3Links(connections, links);
           json.nodes = newNodes;
           json.links = links;
           res.set("Content-Type", "application/json");
@@ -54,7 +59,7 @@ module.exports = function(app) {
 
   app.get('/server/:id', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
-    Servers.findById(req.params.id, function(err, server) {
+    Server.findById(req.params.id, function(err, server) {
       res.set("Content-Type", "application/json");
       res.send(server);
     });
@@ -62,7 +67,7 @@ module.exports = function(app) {
 
   app.get('/switch/:id', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
-    Switches.findById(req.params.id, function(err, mySwitch) {
+    Switch.findById(req.params.id, function(err, mySwitch) {
       res.set("Content-Type", "application/json");
       res.send(mySwitch);
     });
@@ -71,13 +76,12 @@ module.exports = function(app) {
   // get all data
   app.get('/all', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
-    debugger;
     var json = {"results": {}};
-    Servers.find('components.nics.mac').lean().exec(function (err, servers) {
+    Server.find('components.nics.mac').lean().exec(function (err, servers) {
       if (err) console.log(err);// TODO handle err
-      Switches.find().lean().exec(function (err, switches) {
+      Switch.find().lean().exec(function (err, switches) {
         if (err) console.log(err);// TODO handle err
-        Switches.find().lean().exec(function (err, connectivity) {
+        Connection.find().lean().exec(function (err, connectivity) {
           if (err) console.log(err);
           json.results.servers = servers;
           json.results.switches = switches;
@@ -90,8 +94,8 @@ module.exports = function(app) {
   });
 
   // get server data
-  app.get('/servers', function(req, res) {
-    Servers.find().lean().exec(function (err, servers) {
+  app.get('/server', function(req, res) {
+    Server.find().lean().exec(function (err, servers) {
       if (err) console.log(err);// TODO handle err
       console.log('RETRIEVED:' + servers);
       res.set("Content-Type", "application/json");
@@ -100,12 +104,21 @@ module.exports = function(app) {
   });
 
   // get switch data
-  app.get('/switches', function(req, res) {
-    Switches.find().lean().exec(function (err, switches) {
+  app.get('/switch', function(req, res) {
+    Switch.find().lean().exec(function (err, switches) {
       if (err) console.log(err);// TODO handle err
       console.log('RETRIEVED:' + switches);
       res.set("Content-Type", "application/json");
       res.send(switches);
+    });
+  });
+  // get switch data
+  app.get('/connection', function(req, res) {
+    Connection.find().lean().exec(function (err, connections) {
+      if (err) console.log(err);// TODO handle err
+      console.log('RETRIEVED:' + connections);
+      res.set("Content-Type", "application/json");
+      res.send(connections);
     });
   });
 };
