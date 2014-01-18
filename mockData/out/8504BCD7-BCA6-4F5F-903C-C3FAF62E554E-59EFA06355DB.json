@@ -1,0 +1,516 @@
+{
+  "date": 1389904108,
+  "attributes": {
+    "isPXE": 1,
+    "memTotal": 40,
+    "vendor": "Dell",
+    "UUID": "8504BCD7-BCA6-4F5F-903C-C3FAF62E554E-59EFA06355DB",
+    "platform": "C6100",
+    "assetTag": "LLIQR62TV7IR",
+    "fqdn": "nodeprime-4754493,nodeprime.net",
+    "ips": [
+      "10.65.227.189",
+      "10.141.190.83",
+      "10.60.189.46",
+      "10.25.243.41",
+      "10.88.126.138",
+      "10.171.192.27",
+      "10.87.58.53",
+      "10.3.249.106",
+      "10.139.55.79",
+      "10.122.56.71",
+      "10.66.188.113",
+      "10.87.94.139",
+      "10.142.150.107",
+      "10.196.175.211"
+    ],
+    "cVendor": "Dell",
+    "cSerial": "DODGJIB",
+    "serial": "QXXEGX1",
+    "type": "Rack Mount Chassis",
+    "isRAID": 1
+  },
+  "components": {
+    "bmc": {
+      "ipmi": "2.0",
+      "vendor": "Dell"
+    },
+    "processors": [
+      {
+        "status": "Populated:Enabled",
+        "vendor": "Intel",
+        "socket": "Proc 1",
+        "family": "Xeon",
+        "platform": "Intel(R) Xeon(R) CPU E5687 @ 3.60GHz",
+        "threads": 8,
+        "units": "GHz",
+        "speed": 3.61
+      },
+      {
+        "status": "Populated:Enabled",
+        "vendor": "Intel",
+        "socket": "Proc 2",
+        "family": "Xeon",
+        "platform": "Intel(R) Xeon(R) CPU E5687 @ 3.60GHz",
+        "threads": 8,
+        "units": [
+          "GHz"
+        ],
+        "speed": 3.61
+      }
+    ],
+    "storageController": {
+      "firmware": "6.37",
+      "totalDisks": 7,
+      "oemModel": "LSI Logic / Symbios Logic MegaRAID SAS 1078 (rev 04)",
+      "pciID": "03:00.0",
+      "cache": "256MB",
+      "enclosureSlots": 12,
+      "criticalDisks": 0,
+      "enclosureDeviceID": 32,
+      "model": "LSI Logic MegaRAID SAS 1078 RAID Controller",
+      "failedDisks": 0,
+      "bbu": "Present"
+    },
+    "nics": [
+      {
+        "pciID": "0000:00:00.0",
+        "firmware": "bc 5.2.2 NCSI 2.0.6",
+        "platform": "Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)",
+        "mac": "07:5C:9C:40:AE:8F",
+        "link": "yes",
+        "interface": "eth0",
+        "type": "Twisted Pair"
+      },
+      {
+        "pciID": "0000:01:00.0",
+        "firmware": "bc 5.2.2 NCSI 2.0.6",
+        "platform": "Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)",
+        "mac": "ED:14:CE:58:76:00",
+        "link": "yes",
+        "interface": "eth1",
+        "type": "Twisted Pair"
+      }
+    ],
+    "bios": {
+      "firmware": "10.25",
+      "vendor": "Dell"
+    },
+    "vDisks": {},
+    "pci": [
+      {
+        "platform": "Intel Corporation 5520 I/O Hub to ESI Port (rev 13)",
+        "pciID": "00:00.0",
+        "type": "Host bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 1 (rev 13)",
+        "pciID": "00:01.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 3 (rev 13)",
+        "pciID": "00:03.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/X58 I/O Hub PCI Express Root Port 4 (rev 13)",
+        "pciID": "00:04.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/X58 I/O Hub PCI Express Root Port 5 (rev 13)",
+        "pciID": "00:05.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/X58 I/O Hub PCI Express Root Port 6 (rev 13)",
+        "pciID": "00:06.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 7 (rev 13)",
+        "pciID": "00:07.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 9 (rev 13)",
+        "pciID": "00:09.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub System Management Registers (rev 13)",
+        "pciID": "00:14.0",
+        "type": "PIC"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub GPIO and Scratch Pad Registers (rev 13)",
+        "pciID": "00:14.1",
+        "type": "PIC"
+      },
+      {
+        "platform": "Intel Corporation 5520/5500/X58 I/O Hub Control Status and RAS Registers (rev 13)",
+        "pciID": "00:14.2",
+        "type": "PIC"
+      },
+      {
+        "platform": "Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #4 (rev 02)",
+        "pciID": "00:1a.0",
+        "type": "USB controller"
+      },
+      {
+        "platform": "Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #5 (rev 02)",
+        "pciID": "00:1a.1",
+        "type": "USB controller"
+      },
+      {
+        "platform": "Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #2 (rev 02)",
+        "pciID": "00:1a.7",
+        "type": "USB controller"
+      },
+      {
+        "platform": "Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #1 (rev 02)",
+        "pciID": "00:1d.0",
+        "type": "USB controller"
+      },
+      {
+        "platform": "Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #2 (rev 02)",
+        "pciID": "00:1d.1",
+        "type": "USB controller"
+      },
+      {
+        "platform": "Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #1 (rev 02)",
+        "pciID": "00:1d.7",
+        "type": "USB controller"
+      },
+      {
+        "platform": "Intel Corporation 82801 PCI Bridge (rev 92)",
+        "pciID": "00:1e.0",
+        "type": "PCI bridge"
+      },
+      {
+        "platform": "Intel Corporation 82801IB (ICH9) LPC Interface Controller (rev 02)",
+        "pciID": "00:1f.0",
+        "type": "ISA bridge"
+      },
+      {
+        "platform": "Intel Corporation 82801IB (ICH9) 2 port SATA Controller [IDE mode] (rev 02)",
+        "pciID": "00:1f.2",
+        "type": "IDE interface"
+      },
+      {
+        "platform": "Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)",
+        "pciID": "01:00.0",
+        "type": "Ethernet controller"
+      },
+      {
+        "platform": "Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)",
+        "pciID": "01:00.1",
+        "type": "Ethernet controller"
+      },
+      {
+        "platform": "Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)",
+        "pciID": "02:00.0",
+        "type": "Ethernet controller"
+      },
+      {
+        "platform": "Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)",
+        "pciID": "02:00.1",
+        "type": "Ethernet controller"
+      },
+      {
+        "platform": "LSI Logic / Symbios Logic MegaRAID SAS 1078 (rev 04)",
+        "pciID": "03:00.0",
+        "type": "RAID bus controller"
+      },
+      {
+        "platform": "Matrox Electronics Systems Ltd. MGA G200eW WPCM450 (rev 0a)",
+        "pciID": "08:03.0",
+        "type": "VGA compatible controller"
+      }
+    ],
+    "memory": [
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM0",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM1",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM2",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM3",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM4",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM5",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM6",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM7",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM8",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Hynix",
+        "platform": "Not Specified",
+        "locator": "DIMM9",
+        "units": "MB",
+        "serial": "Not Specified",
+        "speed": "1333 MHz (0.8ns)",
+        "bank": "Not Specified",
+        "size": 4096
+      },
+      {
+        "vendor": "Not Specified",
+        "platform": "Not Specified",
+        "locator": "DIMM10",
+        "units": "",
+        "serial": "Not Specified",
+        "speed": "(ns)",
+        "bank": "Not Specified",
+        "size": 0
+      },
+      {
+        "vendor": "Not Specified",
+        "platform": "Not Specified",
+        "locator": "DIMM11",
+        "units": "",
+        "serial": "Not Specified",
+        "speed": "(ns)",
+        "bank": "Not Specified",
+        "size": 0
+      }
+    ],
+    "pDisks": [
+      {
+        "slot": 0,
+        "mErrors": 0,
+        "vendor": "Segate",
+        "sErrors": "N/A",
+        "firmware": "11.6",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 2048
+      },
+      {
+        "slot": 1,
+        "mErrors": 0,
+        "vendor": "Samsung",
+        "sErrors": "N/A",
+        "firmware": "6.1",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 1024
+      },
+      {
+        "slot": 2,
+        "mErrors": 0,
+        "vendor": "Segate",
+        "sErrors": "N/A",
+        "firmware": "8.22",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 2048
+      },
+      {
+        "slot": 3,
+        "mErrors": 0,
+        "vendor": "Samsung",
+        "sErrors": "N/A",
+        "firmware": "12.24",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 2048
+      },
+      {
+        "slot": 4,
+        "mErrors": 30,
+        "vendor": "Western Digital",
+        "sErrors": "N/A",
+        "firmware": "8.12",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 1024
+      },
+      {
+        "slot": 5,
+        "mErrors": 14,
+        "vendor": "Hitachi",
+        "sErrors": "N/A",
+        "firmware": "0.4",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 1024
+      },
+      {
+        "slot": 6,
+        "mErrors": 0,
+        "vendor": "Samsung",
+        "sErrors": "N/A",
+        "firmware": "3.14",
+        "units": "GB",
+        "platform": "SAS Hard Drive",
+        "interface": "SAS",
+        "type": "Data Drive",
+        "size": 2048
+      }
+    ],
+    "packages": [
+      "coreutils-libs-8.4-31.el6.x86_64",
+      "glibc-devel-2.12-1.132.el6.x86_64",
+      "device-mapper-event-1.02.79-8.el6.x86_64",
+      "libXcomposite-0.4.3-4.el6.x86_64",
+      "xz-lzma-compat-4.999.9-0.3.beta.20091007git.el6.x86_64",
+      "tcpdump-4.0.0-3.20090921gitdf3cb4.2.el6.x86_64",
+      "ncurses-libs-5.7-3.20090208.el6.x86_64",
+      "popt-1.13-7.el6.x86_64",
+      "gawk-3.1.7-10.el6.x86_64",
+      "p11-kit-trust-0.18.5-2.el6.x86_64",
+      "gmp-4.3.1-7.el6_2.2.x86_64",
+      "db4-utils-4.7.25-18.el6_4.x86_64",
+      "libssh2-1.4.2-1.el6.x86_64",
+      "kernel-2.6.32-358.el6.x86_64",
+      "libpng-1.2.49-1.el6_2.x86_64",
+      "perl-Compress-Raw-Zlib-2.021-136.el6.x86_64",
+      "smolt-1.4.2.2-8.el6.noarch",
+      "glibc-common-2.12-1.132.el6.x86_64",
+      "iptables-1.4.7-11.el6.x86_64",
+      "libffi-3.0.5-3.2.el6.x86_64",
+      "yum-plugin-fastestmirror-1.1.30-14.el6.noarch",
+      "plymouth-0.8.3-27.el6.centos.x86_64",
+      "system-config-firewall-base-1.2.27-5.el6.noarch",
+      "epel-release-6-8.noarch",
+      "mailcap-2.1.31-2.el6.noarch",
+      "doxygen-1.6.1-6.el6.x86_64"
+    ],
+    "OS": {
+      "dist": [
+        "centos",
+        "6.0",
+        "Final"
+      ],
+      "system": "Linux",
+      "machine": "x86_64",
+      "platform": "Linux-2.6.32-431.1.2.0.1.el6.x86_64-x86_64-with-centos-6.0-Final",
+      "version": "#1 SMP Fri Dec 13 13:06:13 UTC 2013",
+      "release": "2.6.32-431.1.2.0.1.el6.x86_644",
+      "arch": "x86_64"
+    },
+    "usb": [
+      {
+        "usbID": "Bus 001 Device 001: ID 1d6b:000",
+        "platform": "Linux Foundation 2.0 root hub"
+      },
+      {
+        "usbID": "Bus 002 Device 001: ID 1d6b:000",
+        "platform": "Linux Foundation 2.0 root hub"
+      },
+      {
+        "usbID": "Bus 003 Device 001: ID 1d6b:000",
+        "platform": "Linux Foundation 1.1 root hub"
+      },
+      {
+        "usbID": "Bus 004 Device 001: ID 1d6b:000",
+        "platform": "Linux Foundation 1.1 root hub"
+      },
+      {
+        "usbID": "Bus 005 Device 001: ID 1d6b:000",
+        "platform": "Linux Foundation 1.1 root hub"
+      },
+      {
+        "usbID": "Bus 006 Device 001: ID 1d6b:000",
+        "platform": "Linux Foundation 1.1 root hub"
+      },
+      {
+        "usbID": "Bus 001 Device 003: ID 0424:251",
+        "platform": "Standard Microsystems Corp. USB 2.0 Hub"
+      },
+      {
+        "usbID": "Bus 005 Device 002: ID 0624:024",
+        "platform": "Avocent Corp."
+      }
+    ]
+  }
+}
