@@ -8,6 +8,7 @@ var Connection = mongoose.model('Connection');
 // Load controllers
 var serverCtrl = require('../app/controllers/server.js');
 var switchCtrl = require('../app/controllers/switch.js');
+var connectionCtrl = require('../app/controllers/connection.js');
 
 var addToD3Nodes = function(nodes, type, newNodes) {
   nodes.forEach(function(node) {
@@ -89,13 +90,5 @@ module.exports = function(app) {
 
 
   // get switch data
-  app.get('/connection', function(req, res) {
-    Connection.find().lean().exec(function (err, connections) {
-      debugger;
-      if (err) console.log(err);// TODO handle err
-      console.log('RETRIEVED:' + connections);
-      res.set("Content-Type", "application/json");
-      res.send(connections);
-    });
-  });
+  app.get('/connection', connectionCtrl.getAll);
 };
