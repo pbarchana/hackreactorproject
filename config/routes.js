@@ -5,7 +5,7 @@ var Servers = require('../models/servers.js');
 var Switches = require('../models/switches.js');
 var Connectivity = require('../models/connectivity.js');
 
-var serversToNodes = function(nodes, type, newNodes) {
+var addToD3Nodes = function(nodes, type, newNodes) {
   nodes.forEach(function(node) {
     var newNode = {};
     newNode._id = node._id.toHexString();
@@ -18,27 +18,35 @@ var serversToNodes = function(nodes, type, newNodes) {
     });
     newNodes.push(newNode);
   });
-  return newNodes;
 };
 
-var connectivityToLinks = function() {
-
+var addToD3Links = function(connectivities, links) {
+  connectivities.forEach(function(connectivity) {
+    connectivity.interfaces.forEach(function(interface) {
+      interface.neighbors.forEach(function(mac) {
+        link = {};
+        link.source = interface.mac;
+        link.target = mac;
+      });
+    });
+  });
 };
 
 module.exports = function(app) {
 
   app.get('/nodes', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
-    var json = {"results": {}};
-    Servers.find('components.nics.mac').lean().exec(function (err, servers) {
-      if (err) console.log(err);// TODO handle err
-      Switches.find().lean().exec(function (err, switches) {
-        if (err) console.log(err);// TODO handle err
-        Switches.find().lean().exec(function (err, connectivity) {
-          if (err) console.log(err);
-          json.results.servers = servers;
-          json.results.switches = switches;
-          json.results.connectivity = connectivity;
+    var json = {};
+    var newNodes = [];
+    var links = [];
+    Servers.find({}, {"components.nics.mac":1}, function (err, servers) {
+      addToD3Nodes(servers, 'server', newNodes);
+      Switches.find({}, {"components.nics.mac":1}, function (err, switches) {
+        addToD3Nodes(switches, 'switch', newNodes);
+        Connectivity.find(function(err, connectivities) {
+          addToD3Links(connectivities, links);
+          json.nodes = newNodes;
+          json.links = linkds;
           res.set("Content-Type", "application/json");
           res.send(json);
         });
