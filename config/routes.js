@@ -62,6 +62,14 @@ module.exports = function(app) {
     });
   });
 
+  app.get('/switch/:id', function(req, res) {
+    // lean returns a plain javascript object with not mongoose stuff atached to it
+    Switches.findById(req.params.id, function(err, mySwitch) {
+      res.set("Content-Type", "application/json");
+      res.send(mySwitch);
+    });
+  });
+
   // get all data
   app.get('/all', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
