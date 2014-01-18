@@ -115,6 +115,7 @@ module.exports = function(app) {
   // get switch data
   app.get('/connection', function(req, res) {
     Connection.find().lean().exec(function (err, connections) {
+      debugger;
       if (err) console.log(err);// TODO handle err
       console.log('RETRIEVED:' + connections);
       res.set("Content-Type", "application/json");
