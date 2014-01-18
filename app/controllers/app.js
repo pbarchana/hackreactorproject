@@ -12,7 +12,6 @@ var addToD3Nodes = function(nodes, type, newNodes) {
     newNode.type = type;
     newNode.macs = [];
     // Extract the mac addresses
-    // Located within components.nics[i].mac for both servers and switches
     node.components.nics.forEach(function(nic) {
       newNode.macs.push(nic.mac);
     });
@@ -35,12 +34,9 @@ var addToD3Links = function(connections, links) {
 module.exports.getAll = function(req, res) {
   // lean returns a plain javascript object with not mongoose stuff atached to it
   var json = {"results": {}};
-  Server.find('components.nics.mac').lean().exec(function (err, servers) {
-    if (err) console.log(err);// TODO handle err
-    Switch.find().lean().exec(function (err, switches) {
-      if (err) console.log(err);// TODO handle err
-      Connection.find().lean().exec(function (err, connectivity) {
-        if (err) console.log(err);
+  Server.find(function (err, servers) {
+    Switch.find(function (err, switches) {
+      Connection.find(function (err, connectivity) {
         json.results.servers = servers;
         json.results.switches = switches;
         json.results.connectivity = connectivity;

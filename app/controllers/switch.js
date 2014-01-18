@@ -9,7 +9,7 @@ module.exports.getById = function(req, res) {
 };
 
 module.exports.getAll = function(req, res) {
-  Switch.find().lean().exec(function (err, switches) {
+  Switch.find(function (err, switches) {
     if (err) console.log(err);// TODO handle err
     console.log('RETRIEVED:' + switches);
     res.set("Content-Type", "application/json");

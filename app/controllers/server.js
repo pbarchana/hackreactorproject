@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Server = mongoose.model('Server');
 
 module.exports.getAll = function(req, res) {
-  Server.find().lean().exec(function (err, servers) {
+  Server.find(function (err, servers) {
     if (err) console.log(err);// TODO handle err
     console.log('RETRIEVED:' + servers);
     res.set("Content-Type", "application/json");
