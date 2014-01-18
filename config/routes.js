@@ -27,13 +27,13 @@ var addToD3Links = function(connectivities, links) {
         link = {};
         link.source = interface.mac;
         link.target = mac;
+        links.push(link);
       });
     });
   });
 };
 
 module.exports = function(app) {
-
   app.get('/nodes', function(req, res) {
     // lean returns a plain javascript object with not mongoose stuff atached to it
     var json = {};
@@ -46,7 +46,7 @@ module.exports = function(app) {
         Connectivity.find(function(err, connectivities) {
           addToD3Links(connectivities, links);
           json.nodes = newNodes;
-          json.links = linkds;
+          json.links = links;
           res.set("Content-Type", "application/json");
           res.send(json);
         });
