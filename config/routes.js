@@ -1,6 +1,4 @@
 // Import models
-var BSON = require('bson');
-
 var Servers = require('../models/servers.js');
 var Switches = require('../models/switches.js');
 var Connectivity = require('../models/connectivity.js');
