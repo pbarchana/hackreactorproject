@@ -5,6 +5,21 @@ module.exports = function(grunt) {
   };
 
   grunt.initConfig({
+    // start server
+    nodemon: {
+      dev: {
+        options: {
+          file: 'server.js',
+          nodeArgs: ['--debug']
+        }
+      }
+    },
+    execute: {
+      target: {
+        src: ['server.js']
+      }
+    },
+
     shell: {
       // start mongo db
       mongo: {
@@ -24,7 +39,7 @@ module.exports = function(grunt) {
         }
       },
       generateNodes: {
-        command: 'python mockNodes.py ' + random(15),
+        command: 'python mockNodes.py ' + 20,
         options: {
           execOptions: {
             cwd: 'workers' // selected directory
@@ -32,7 +47,7 @@ module.exports = function(grunt) {
         }
       },
       generateSwitches: {
-        command: 'node mockSwitches.js ' + random(5),
+        command: 'node mockSwitches.js ' + 5,
         options: {
           execOptions: {
             cwd: 'workers'
@@ -63,22 +78,8 @@ module.exports = function(grunt) {
           }
         }
       }
-    },
-
-    // start server
-    nodemon: {
-      dev: {
-        options: {
-          file: 'server.js'
-          // nodeArgs: ['--debug']
-        }
-      }
-    },
-    execute: {
-      target: {
-        src: ['server.js']
-      }
     }
+
   });
 
   // get dependencies

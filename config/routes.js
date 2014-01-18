@@ -8,6 +8,7 @@ var connectionCtrl = require('../app/controllers/connection.js');
 module.exports = function(app) {
   // get all data
   app.get('/all', appCtrl.getAll);
+  app.get('/all-flattened', appCtrl.getAllFlattened);
   // get D3 data
   app.get('/d3data', appCtrl.getD3Data);
 

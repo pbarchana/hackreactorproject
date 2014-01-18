@@ -47,6 +47,25 @@ module.exports.getAll = function(req, res) {
   });
 };
 
+module.exports.getAllFlattened = function(req, res) {
+  // lean returns a plain javascript object with not mongoose stuff atached to it
+  var json = [];
+  Server.find(function (err, servers) {
+    Switch.find(function (err, switches) {
+      Connection.find(function (err, connectivity) {
+        servers.forEach(function(server) {
+          json.push(server);
+        });
+        switches.forEach(function(oneSwitch) {
+          json.push(oneSwitch);
+        });
+        res.set("Content-Type", "application/json");
+        res.send(json);
+      });
+    });
+  });
+};
+
 module.exports.getD3Data = function(req, res) {
   // lean returns a plain javascript object with not mongoose stuff atached to it
   var json = {};
