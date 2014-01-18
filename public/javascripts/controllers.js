@@ -15,4 +15,5 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
   }, function errorFunction(reason) {
     $scope.error = reason;
   })
+
 });
