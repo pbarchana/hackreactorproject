@@ -17,8 +17,8 @@
 </head>
 <body>
   <div ng-controller="dataCtrl">
-    <div ng-repeat="server in servers">Server</div>
-    <div ng-repeat="switch in switches">Switch</div>
+    <input type="search" ng-model="liveSearch"></input>
+    <div class="searchResults" ng-repeat="node in nodes | filter:liveSearch">node</div>
   </div>
 </body>
 </html>
