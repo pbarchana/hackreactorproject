@@ -22,10 +22,16 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var svg =  d3.select(document.body)
                       .append('svg')
                       .attr('width', viewWidth)
-                      .attr('height', viewHeight);
-                      // .call(d3.behavior.zoom().on("zoom", redraw));
-
-        //var data = scope.nwdata;
+                      .attr('height', viewHeight)
+                      .attr("pointer-events", "all")
+                      .append('g')
+                       .call(d3.behavior.zoom().on("zoom", redraw))
+                      .append('g');
+                      
+        
+        function redraw() {
+          svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
+        };
 
         //function to map MAC address of nic to containing host
         var mapMac = function(nodes) {
