@@ -4,19 +4,13 @@
   <meta charset="UTF-8">
   <title>Sample Page</title>
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-  <!-- Icons -->
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-  
-  <!-- jQuery -->
-  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
-  <!-- angular -->
-  <script src="lib/angular/angular.js"></script>
 
   <!-- Scripts -->
   <script src="javascripts/app.js"></script>
@@ -31,6 +25,10 @@
     <div class="fluid-container">
 
       <div class="row top-buffer top-row">
+        <!-- Title -->
+        <div class="col-sm-8">
+          <div class="title">NodePrime Visualizer</div>
+        </div>
         <!-- Search Bar -->
         <div class="col-sm-4">
           <div class="input-group">
@@ -39,31 +37,62 @@
               <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
           </div>
+          
         </div>
-        <!-- Title -->
-        <div class="col-sm-8">
-          <div class="title">NodePrime Visualizer</div>
-        </div>
+
       </div>
       
       <div class="row">
+        
+      </div><!-- /.row -->
+    
+      <!-- Accordian -->
+      <div class="row">
+        <div class="col-sm-4 float-right">
+          <div ng-controller="AccordionDemoCtrl">
+            <label class="checkbox">
+              <input type="checkbox" ng-model="oneAtATime">
+              Open only one at a time
+            </label>
+            <accordion close-others="oneAtATime">
+              <accordion-group heading="Static Header, initially expanded" is-open="true">
+                This content is straight in the template.
+              </accordion-group>
+              <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+                {{group.content}}
+              </accordion-group>
+              <accordion-group heading="Dynamic Body Content">
+                <p>The body of the accordion group grows to fit the contents</p>
+                  <button class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+                  <div ng-repeat="item in items">{{item}}</div>
+              </accordion-group>
+              <accordion-group is-open="isopen">
+                  <accordion-heading>
+                      I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                  </accordion-heading>
+                  This is just some content to illustrate fancy headings.
+              </accordion-group>
+            </accordion>
+          </div><!-- AccordianDemoCtrl -->
+        </div><!-- /.col-sm-8 -->
+
         <!-- Live search results -->
-        <div class="col-sm-4">
+        <div class="col-sm-4 pull-right">
           <div class="results">
             <div class="result" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
               <div>{{ node.type }}</div>
               <div class="info">Vendor: {{ node.attributes.vendor }}</div>
               <div class="info">UUID: {{ node.attributes.UUID }}</div>
             </div>
-          </div>
-        </div><!-- /.col-sm-6 -->
+          </div><!-- /.results -->
+        </div><!-- /.col-sm-4 -->
       </div><!-- /.row -->
+    </div> <!-- /fluid-layout -->
 
-    </div> 
     <!-- Angular Directive -->
-
     <div network-graph nwdata="ctldata"></div>
-  </div>
+  </div><!-- /.dataCtrl -->
+
 
 </body>
 </html>
