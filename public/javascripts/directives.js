@@ -10,6 +10,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
         var linkDirectory = {};
+        var links;
+        var nodes;
 
         var force = d3.layout.force()
             .charge(-2000)
@@ -45,7 +47,33 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           linkDirectory["'" + b + "," + a + "'"] = 1;
         };
 
+        var neighbors = function(node){
 
+        };
+
+        var showDetails = function(node){
+
+          // if(links){
+          //   links.attr('stroke-opacity', 0.8);
+          // }
+
+          if (links) {
+            links.style("stroke", function(l) {
+              if (l.source === node || l.target === node) {
+                console.log('if ----- yes ', l);
+                return "black";
+              } else {
+                return "#ddd";
+              }
+            }).style("stroke-opacity", function(l) {
+              if (l.source === node || l.target === node) {
+                return 1.0;
+              } else {
+                return 0.5;
+              }
+            }).style('z-index', '9999');
+          }
+        };
 
         function redraw() {
           svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
@@ -90,7 +118,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           force.stop();
 
 
-          var links = svg.append('g').selectAll(".link")
+          links = svg.append('g').selectAll(".link")
                 .data(force.links())
                 .enter().append("line")
                 .attr("x1", function(d) { return d.source.x; })
@@ -100,7 +128,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .attr("class", "link");
 
 
-          var nodes = svg.append('g').selectAll(".node")
+          nodes = svg.append('g').selectAll(".node")
                 .data(force.nodes())
                 .enter().append("circle")
                 .attr("class", "node")
@@ -114,7 +142,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                     return "blue";
                   }
                 })
-                .call(force.drag);
+                .on('mouseover', showDetails);
+                // .call(force.drag);
 
           // var tick = 0;
 
