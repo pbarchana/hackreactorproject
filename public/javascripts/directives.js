@@ -11,8 +11,10 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var viewHeight = 800;
 
         var force = d3.layout.force()
-            .charge(-1500)
-            .linkDistance(300)
+            .charge(-2000)
+            .linkStrength(0.2)
+            // .gravity(0.1)
+            .linkDistance(200)
             .size([viewWidth, viewHeight]);
 
         //Create view window SVG
@@ -64,7 +66,13 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
               .enter().append("circle")
               .attr("class", "node")
               .attr("r", 15)
-              .attr("fill", "blue")
+              .attr("fill", function(d, i){
+                if (d.type === 'server') {
+                  return "red";
+                } else {
+                  return "blue";
+                }
+              })
               .call(force.drag);
 
 
