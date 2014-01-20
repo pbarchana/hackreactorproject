@@ -22,7 +22,12 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var svg =  d3.select(document.body)
                       .append('svg')
                       .attr('width', viewWidth)
-                      .attr('height', viewHeight);
+                      .attr('height', viewHeight)
+                      .attr('height', viewHeight)
+                      .attr("pointer-events", "all")
+                      .append('g')
+                       .call(d3.behavior.zoom().on("zoom", redraw))
+                      .append('g');
                       // .call(d3.behavior.zoom().on("zoom", redraw));
 
         //display simulating text before loading graph
@@ -34,6 +39,12 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
             .text("Simulating. One moment please…");
 
         // var data = scope.nwdata;
+
+
+
+        function redraw() {
+          svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
+        }
 
         //function to map MAC address of nic to containing host
         var mapMac = function(nodes) {
