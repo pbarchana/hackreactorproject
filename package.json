@@ -14,7 +14,7 @@
     "nib": "*",
     "grunt": "latest",
     "grunt-cli": "latest",
-    "glob": "~3.2.8",
+    "glob": "~3.2.8"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
