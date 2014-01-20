@@ -29,7 +29,7 @@
   <div ng-controller="dataCtrl">
     
     <div class="fluid-container">
-
+     
       <div class="row top-buffer top-row">
         <!-- Search Bar -->
         <div class="col-sm-4">
@@ -55,6 +55,7 @@
               <div class="info">Vendor: {{ node.attributes.vendor }}</div>
               <div class="info">UUID: {{ node.attributes.UUID }}</div>
             </div>
+
           </div>
         </div><!-- /.col-sm-6 -->
       </div><!-- /.row -->
@@ -63,6 +64,7 @@
     <!-- Angular Directive -->
 
     <div network-graph nwdata="ctldata"></div>
+    <div class="selected" ng-model="selNode"> {{ selNode }} </div>
   </div>
 
 </body>

@@ -2,13 +2,18 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   return {
     restrict: 'EA',
     scope: {
-      nwdata: '='
+      nwdata: '=',
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
         //View window width and height
         var viewWidth = 1200; //set to a percentage for dynamic resizing
         var viewHeight = 800;
+
+        //console.log("ngModel", ngModel.$getViewValue());
+        console.log("Attrs", attrs);
+        console.log("this selNode", scope.selNode);
+        console.log("this parent selNode", scope.$parent.selNode);
 
         var force = d3.layout.force()
             .charge(-2000)
@@ -66,6 +71,12 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
               .enter().append("circle")
               .attr("class", "node")
               .attr("r", 15)
+              .on("click", function(d) {
+                  scope.$apply(function (){
+                    scope.$parent.selNode = d;
+                  });
+
+              })
               .attr("fill", function(d, i){
                 if (d.type === 'server') {
                   return "red";

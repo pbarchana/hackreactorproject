@@ -7,9 +7,15 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
   NetworkDataService.getAllFlattened()
   .then(function(data) {
     $scope.ctldata = data;
+//    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
   }, function errorFunction(reason) {
     $scope.error = reason;
+  });
+
+
+  $scope.$watch('selectedNode', function() {
+    console.log("Changed");
   });
 });
