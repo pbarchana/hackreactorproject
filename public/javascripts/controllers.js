@@ -6,7 +6,7 @@ app.controller('d3Controller', function($scope, NetworkDataService) {
 app.controller('dataCtrl', function($scope, NetworkDataService){
   NetworkDataService.getAllFlattened()
   .then(function(data) {
-    $scope.data = data;
+    $scope.ctldata = data;
     $scope.nodes = data.nodes;
     $scope.links = data.links;
   }, function errorFunction(reason) {
