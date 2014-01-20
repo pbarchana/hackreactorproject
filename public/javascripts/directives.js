@@ -25,7 +25,15 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .attr('height', viewHeight);
                       // .call(d3.behavior.zoom().on("zoom", redraw));
 
-        //var data = scope.nwdata;
+        //display simulating text before loading graph
+        var loading = svg.append("text")
+            .attr("x", viewWidth / 2)
+            .attr("y", viewHeight / 2)
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text("Simulating. One moment please…");
+
+        // var data = scope.nwdata;
 
         //function to map MAC address of nic to containing host
         var mapMac = function(nodes) {
@@ -52,39 +60,60 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         // Start the force physics
         force
           .nodes(scope.nwdata.nodes)
-          .links(scope.nwdata.links)
-          .start();
+          .links(scope.nwdata.links);
+          // .start();
 
-        var links = svg.append('g').selectAll(".link")
-              .data(force.links())
-              .enter().append("line")
-              .attr("class", "link");
-
-
-        var nodes = svg.append('g').selectAll(".node")
-              .data(force.nodes())
-              .enter().append("circle")
-              .attr("class", "node")
-              .attr("r", 15)
-              .attr("fill", function(d, i){
-                if (d.type === 'server') {
-                  return "red";
-                } else {
-                  return "blue";
-                }
-              })
-              .call(force.drag);
+        force.start();
+        for(var i = scope.nwdata.nodes * scope.nwdata.nodes; i > 0; --i){
+          force.tick();
+        }
+        // use a timeout to allow the rest of the page to load first
+        setTimeout(function(){
+          force.stop();
 
 
-        force.on("tick", function() {
-            links.attr("x1", function(d) { return d.source.x; })
+          var links = svg.append('g').selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("x1", function(d) { return d.source.x; })
                 .attr("y1", function(d) { return d.source.y; })
                 .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; });
+                .attr("y2", function(d) { return d.target.y; })
+                .attr("class", "link");
 
-            nodes.attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });
-        });
+
+          var nodes = svg.append('g').selectAll(".node")
+                .data(force.nodes())
+                .enter().append("circle")
+                .attr("class", "node")
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; })
+                .attr("r", 15)
+                .attr("fill", function(d, i){
+                  if (d.type === 'server') {
+                    return "red";
+                  } else {
+                    return "blue";
+                  }
+                })
+                .call(force.drag);
+
+          // var tick = 0;
+
+          // force.on("tick", function() {
+          //     tick++;
+          //     console.log(tick);
+          //     links.attr("x1", function(d) { return d.source.x; })
+          //         .attr("y1", function(d) { return d.source.y; })
+          //         .attr("x2", function(d) { return d.target.x; })
+          //         .attr("y2", function(d) { return d.target.y; });
+
+          //     nodes.attr("cx", function(d) { return d.x; })
+          //         .attr("cy", function(d) { return d.y; });
+          // });
+
+          loading.remove();
+        }, 1000);
 
         // Browser onresize event
         window.onresize = function() {
@@ -97,6 +126,14 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         // }, function() {
         //   scope.render(scope.nwdata);
         // });
+
+      // zoom function
+      // function redraw(){
+      //   console.log("translate: ", d3.event.translate, "scale:", d3.event.scale);
+      //   svg.selectAll('nodes').selectAll('link').attr("transform",
+      //         "translate(" + d3.event.translate + ")" +
+      //         " scale(" + d3.event.scale + ")");
+      // }
 
       });
     }
