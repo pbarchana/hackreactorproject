@@ -53,14 +53,9 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         var showDetails = function(node){
 
-          // if(links){
-          //   links.attr('stroke-opacity', 0.8);
-          // }
-
           if (links) {
             links.style("stroke", function(l) {
               if (l.source === node || l.target === node) {
-                console.log('if ----- yes ', l);
                 return "black";
               } else {
                 return "#ddd";
@@ -69,10 +64,15 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
               if (l.source === node || l.target === node) {
                 return 1.0;
               } else {
-                return 0.5;
+                return 0.1;
               }
-            }).style('z-index', '9999');
+            });
           }
+        };
+
+        var hideDetails = function(node){
+          links.style("stroke", "#999")
+          .style("stroke-opacity", '0.3');
         };
 
         function redraw() {
@@ -142,7 +142,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                     return "blue";
                   }
                 })
-                .on('mouseover', showDetails);
+                .on('mouseover', showDetails)
+                .on('mouseout', hideDetails);
                 // .call(force.drag);
 
           // var tick = 0;
@@ -181,8 +182,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
       //         "translate(" + d3.event.translate + ")" +
       //         " scale(" + d3.event.scale + ")");
       // }
-
-      console.log(linkDirectory);
       });
     }
   };
