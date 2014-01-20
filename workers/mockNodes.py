@@ -311,6 +311,7 @@ def genUSB(vendor):
 def genNodeInfo():
     vendor = random.choice(["Dell", "HP", "Cisco", "Quanta", "Supermicro"])
     nodeInfo = {}
+    nodeInfo["type"] = "server"
     nodeInfo["date"] = genTime()
     nodeInfo["attributes"] = genAttributes(vendor)
     nodeInfo["components"] = {}

@@ -14,6 +14,19 @@ app.factory('NetworkDataService', function($q, $http/* DI */) {
         d.reject(reason);
       });
       return d.promise;
+    },  
+
+    getAllFlattened: function() {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/all-flattened'
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
     },
    
    // Information required for drawing the network
@@ -41,7 +54,7 @@ app.factory('NetworkDataService', function($q, $http/* DI */) {
         d.reject(reason);
       });
       return d.promise;
-    }
+    },
 
     getAllSwitches: function() {
       var d = $q.defer();
@@ -96,6 +109,6 @@ app.factory('NetworkDataService', function($q, $http/* DI */) {
     }
   };
   return service;
-})
+});
 
 

@@ -53,6 +53,7 @@ var generateComponents = function() {
 
 var generateSwitch = function() {
   var nSwitch = {};
+  nSwitch["type"] = "switch";
   nSwitch["attributes"] = generateAttributes();
   nSwitch["components"] = generateComponents();
   nSwitch["attributes"]["portTotal"]= nSwitch["components"]["nics"].length;

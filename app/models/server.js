@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 // server schema
 var Schema = mongoose.Schema;
 var serverSchema = new Schema ({
-  // _serverId: new mongoose.Types.ObjectId,
+  type: String,
   date: Number,
   attributes: {},
   components: {}

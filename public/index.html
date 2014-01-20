@@ -4,26 +4,71 @@
   <meta charset="UTF-8">
   <title>Sample Page</title>
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+  <!-- Icons -->
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   
-  <!-- Libraries -->
+  <!-- jQuery -->
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+  <!-- angular -->
   <script src="lib/angular/angular.js"></script>
 
   <!-- Scripts -->
   <script src="javascripts/app.js"></script>
+  <script src="javascripts/services.js"></script>
   <script src="javascripts/controllers.js"></script>
   <script src="javascripts/directives.js"></script>
   <script src="javascripts/filters.js"></script>
-  <script src="javascripts/services.js"></script>
 </head>
 <body>
   <div ng-controller="dataCtrl">
-    <input type="search" ng-model="liveSearch"></input>
-    <div class="searchResults" ng-repeat="node in nodes | filter:liveSearch">node</div>
+    
+    <div class="fluid-container">
+
+      <div class="row top-buffer top-row">
+        
+        <div class="col-sm-4">
+          <div class="input-group">
+            <input type="text" ng-model="liveSearch" class="form-control">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-sm-6 -->
+
+        <div class="col-sm-8">
+          <div class="title">NodePrime Visualizer</div>
+        </div><!-- /.col-sm-6 -->
+      </div><!-- /.row -->
+      
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="results">
+            <div class="result" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
+              {{ node.type }}
+            </div>
+          </div>
+        </div><!-- /.col-sm-6 -->
+      </div><!-- /.row -->
+
+    </div>
+<!-- 
+    <div class="search">
+      <div class="search-bar">
+        <input class="search" type="search" ng-model="liveSearch"></input>
+        <button><i class="fa fa-search"></i></button>
+      </div>
+
+
+
+    </div> -->
+
   </div>
- <!--div ng-controller='d3Controller'>
-    <div node ng-model="nodeData"></div>
-    <div node ng-model="nodeData"></div>
-  </div -->
 
 </body>
 </html>
