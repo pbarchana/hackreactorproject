@@ -9,6 +9,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         //View window width and height
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
+        var linkDirectory = {};
 
         var force = d3.layout.force()
             .charge(-2000)
@@ -23,12 +24,10 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .append('svg')
                       .attr('width', viewWidth)
                       .attr('height', viewHeight)
-                      .attr('height', viewHeight)
                       .attr("pointer-events", "all")
                       .append('g')
                        .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
-                      // .call(d3.behavior.zoom().on("zoom", redraw));
 
         //display simulating text before loading graph
         var loading = svg.append("text")
@@ -39,6 +38,12 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
             .text("Simulating. One moment please…");
 
         // var data = scope.nwdata;
+
+        //adds stringified link to directory
+        var addLink = function(a, b){
+          linkDirectory["'" + a + "," + b + "'"] = 1;
+          linkDirectory["'" + b + "," + a + "'"] = 1;
+        };
 
 
 
@@ -64,6 +69,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         //set link source and target to node instead of mac address
         scope.nwdata.links.forEach(function(l){
+          addLink(l.source, l.target);
+
           l.source = map.get(l.source);
           l.target = map.get(l.target);
         });
@@ -146,6 +153,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
       //         " scale(" + d3.event.scale + ")");
       // }
 
+      console.log(linkDirectory);
       });
     }
   };
