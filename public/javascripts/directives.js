@@ -7,7 +7,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
         //View window width and height
-        debugger;
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
 
