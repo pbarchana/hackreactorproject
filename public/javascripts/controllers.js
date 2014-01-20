@@ -17,7 +17,7 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
 
 
 app.controller('AccordionDemoCtrl', function($scope) {
-  $scope.oneAtATime = true;
+  $scope.oneAtATime = false;
 
   $scope.groups = [
     {
