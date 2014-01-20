@@ -28,14 +28,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                        .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
                       
-                     // console.log(scope.nwdata);
-
-        // var redraw = function() {
-        //   console.log("here", d3.event.translate, d3.event.scale);
-        //   svg.attr("transform",
-        //       "translate(" + d3.event.translate + ")"
-        //       + " scale(" + d3.event.scale + ")");
-        // };
+        
         function redraw() {
           svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
         };
