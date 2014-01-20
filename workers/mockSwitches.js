@@ -38,8 +38,19 @@ var generatePorts = function() {
 };
 
 var generateAttributes = function() {
+  var s4 = function() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  };
+  var uuid = function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+           s4() + '-' + s4() + s4() + s4();
+  };
+
   var attrib = {};
-  attrib["name"] = "Cisco";
+  attrib["vendor"] = "Cisco";
+  attrib["UUID"] = uuid();
   return attrib;
 };
 

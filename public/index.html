@@ -31,26 +31,29 @@
     <div class="fluid-container">
 
       <div class="row top-buffer top-row">
-        
+        <!-- Search Bar -->
         <div class="col-sm-4">
           <div class="input-group">
             <input type="text" ng-model="liveSearch" class="form-control">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
-          </div><!-- /input-group -->
-        </div><!-- /.col-sm-6 -->
-
+          </div>
+        </div>
+        <!-- Title -->
         <div class="col-sm-8">
           <div class="title">NodePrime Visualizer</div>
-        </div><!-- /.col-sm-6 -->
-      </div><!-- /.row -->
+        </div>
+      </div>
       
       <div class="row">
+        <!-- Live search results -->
         <div class="col-sm-4">
           <div class="results">
             <div class="result" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
-              {{ node.type }}
+              <div>{{ node.type }}</div>
+              <div class="info">Vendor: {{ node.attributes.vendor }}</div>
+              <div class="info">UUID: {{ node.attributes.UUID }}</div>
             </div>
           </div>
         </div><!-- /.col-sm-6 -->
