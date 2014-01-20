@@ -2,7 +2,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   return {
     restrict: 'EA',
     scope: {
-      data: '='
+      nwdata: '='
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
@@ -25,7 +25,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .attr('height', viewHeight);
                       // .call(d3.behavior.zoom().on("zoom", redraw));
 
-        var data = scope.data;
+        //var data = scope.nwdata;
 
         //function to map MAC address of nic to containing host
         var mapMac = function(nodes) {
@@ -41,18 +41,18 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         //map mac addresses to nodes
-        var map = mapMac(data.nodes);
+        var map = mapMac(scope.nwdata.nodes);
 
         //set link source and target to node instead of mac address
-        data.links.forEach(function(l){
+        scope.nwdata.links.forEach(function(l){
           l.source = map.get(l.source);
           l.target = map.get(l.target);
         });
 
         // Start the force physics
         force
-          .nodes(data.nodes)
-          .links(data.links)
+          .nodes(scope.nwdata.nodes)
+          .links(scope.nwdata.links)
           .start();
 
         var links = svg.append('g').selectAll(".link")
@@ -95,7 +95,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         // scope.$watch(function() {
         //   return angular.element($window)[0].innerWidth;
         // }, function() {
-        //   scope.render(scope.data);
+        //   scope.render(scope.nwdata);
         // });
 
       });
