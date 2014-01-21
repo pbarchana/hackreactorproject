@@ -136,6 +136,14 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                     console.log("Clicked", d);
                   })
                 })
+                .append("svg:title").text(function(d, i) {
+                  var retString = 
+                    "Vendor: " + d.attributes["vendor"] + "\n" + 
+                    "UUID: "   + d.attributes["UUID"];  
+                  return retString;
+                    //+ d.attributes["vendor"];
+                  //+ "UUID: "   + d.attributes["UUID"];
+                })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
                     return "#ca8142";
