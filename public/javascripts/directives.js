@@ -6,6 +6,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
+
+                console.log("Inside directive");
         //View window width and height
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
@@ -143,14 +145,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                     console.log("Clicked", d);
                   })
                 })
-                .append("svg:title").text(function(d, i) {
-                  var retString = 
-                    "Vendor: " + d.attributes["vendor"] + "\n" + 
-                    "UUID: "   + d.attributes["UUID"];  
-                  return retString;
-                    //+ d.attributes["vendor"];
-                  //+ "UUID: "   + d.attributes["UUID"];
-                })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
                     return "red";
@@ -159,7 +153,14 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                   }
                 })
                 .on('mouseover', showDetails)
-                .on('mouseout', hideDetails);
+                .on('mouseout', hideDetails)
+                .append("title").text(function(d, i) {
+                  var retString = 
+                    "Vendor: " + d.attributes["vendor"] + "\n" + 
+                    "UUID: "   + d.attributes["UUID"];  
+                  return retString;
+                });
+                
                 // .call(force.drag);
 
           // var tick = 0;
