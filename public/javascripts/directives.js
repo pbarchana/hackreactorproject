@@ -103,6 +103,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .on("click", function(d) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
+                    console.log("Clicked", d);
                   })
                 })
                 .attr("fill", function(d, i){
