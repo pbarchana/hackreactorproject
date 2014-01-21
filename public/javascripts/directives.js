@@ -7,7 +7,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
         //View window width and height
-        debugger;
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
 
@@ -103,8 +102,9 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .attr("r", 15)
                 .on("click", function(d) {
                   scope.$apply(function (){
-                    scope.$parent.selNode = d;
-                  });
+                    scope.$parent.selectedNode = d;
+                  })
+                })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
                     return "red";
