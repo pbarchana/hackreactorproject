@@ -7,6 +7,7 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
   NetworkDataService.getAllFlattened()
   .then(function(data) {
     $scope.ctldata = data;
+//    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
     $scope.selectedNode = data.nodes[0];
@@ -17,7 +18,7 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
 
 
 app.controller('AccordionDemoCtrl', function($scope) {
-  $scope.oneAtATime = true;
+  $scope.oneAtATime = false;
 
   $scope.groups = [
     {

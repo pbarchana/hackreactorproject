@@ -7,8 +7,11 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
         //View window width and height
-        var viewWidth = 1200; //set to a percentage for dynamic resizing
-        var viewHeight = 800;
+        var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
+        var viewHeight = window.innerHeight;
+        var linkDirectory = {};
+        var links;
+        var nodes;
 
         var force = d3.layout.force()
             .charge(-2000)
@@ -23,12 +26,10 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .append('svg')
                       .attr('width', viewWidth)
                       .attr('height', viewHeight)
-                      .attr('height', viewHeight)
                       .attr("pointer-events", "all")
                       .append('g')
                        .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
-                      // .call(d3.behavior.zoom().on("zoom", redraw));
 
         //display simulating text before loading graph
         var loading = svg.append("text")
@@ -40,7 +41,41 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         // var data = scope.nwdata;
 
+        //adds stringified link to directory
+        var addLink = function(a, b){
+          linkDirectory["'" + a + "," + b + "'"] = 1;
+          linkDirectory["'" + b + "," + a + "'"] = 1;
+        };
 
+        var neighbors = function(node){
+
+        };
+
+        var showDetails = function(node){
+
+          if (links) {
+            links.transition()
+            .style("stroke", function(l) {
+              if (l.source === node || l.target === node) {
+                return "black";
+              } else {
+                return "#ddd";
+              }
+            }).style("stroke-opacity", function(l) {
+              if (l.source === node || l.target === node) {
+                return 1.0;
+              } else {
+                return 0.1;
+              }
+            });
+          }
+        };
+
+        var hideDetails = function(node){
+          links.transition()
+          .style("stroke", "#999")
+          .style("stroke-opacity", '0.3');
+        };
 
         function redraw() {
           svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
@@ -64,6 +99,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         //set link source and target to node instead of mac address
         scope.nwdata.links.forEach(function(l){
+          addLink(l.source, l.target);
+
           l.source = map.get(l.source);
           l.target = map.get(l.target);
         });
@@ -83,7 +120,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           force.stop();
 
 
-          var links = svg.append('g').selectAll(".link")
+          links = svg.append('g').selectAll(".link")
                 .data(force.links())
                 .enter().append("line")
                 .attr("x1", function(d) { return d.source.x; })
@@ -93,13 +130,18 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .attr("class", "link");
 
 
-          var nodes = svg.append('g').selectAll(".node")
+          nodes = svg.append('g').selectAll(".node")
                 .data(force.nodes())
                 .enter().append("circle")
                 .attr("class", "node")
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; })
                 .attr("r", 15)
+                .on("click", function(d) {
+                  scope.$apply(function (){
+                    scope.$parent.selectedNode = d;
+                  })
+                })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
                     return "red";
@@ -107,7 +149,9 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                     return "blue";
                   }
                 })
-                .call(force.drag);
+                .on('mouseover', showDetails)
+                .on('mouseout', hideDetails);
+                // .call(force.drag);
 
           // var tick = 0;
 
@@ -145,7 +189,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
       //         "translate(" + d3.event.translate + ")" +
       //         " scale(" + d3.event.scale + ")");
       // }
-
       });
     }
   };
