@@ -4,37 +4,32 @@ app.controller('d3Controller', function($scope, NetworkDataService) {
 });
 
 app.controller('dataCtrl', function($scope, NetworkDataService){
+  $scope.loading = true;
+  console.log("Inside dataCtrl");
   NetworkDataService.getAllFlattened()
   .then(function(data) {
     $scope.ctldata = data;
-//    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
-    $scope.selectedNode = data.nodes[0];
+    // $scope.selectedNode = data.nodes[0];
   }, function errorFunction(reason) {
     $scope.error = reason;
   });
+
+  $scope.select = function(node) {
+    $scope.selectedNode = node;
+    $scope.liveSearch = "";
+  };
 });
 
 
-app.controller('AccordionDemoCtrl', function($scope) {
+app.controller('AccordionCtrl', function($scope) {
   $scope.oneAtATime = false;
 
-  $scope.groups = [
-    {
-      title: "Dynamic Group Header - 1",
-      content: "Dynamic Group Body - 1"
-    },
-    {
-      title: "Dynamic Group Header - 2",
-      content: "Dynamic Group Body - 2"
-    }
-  ];
-
-  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-  $scope.addItem = function() {
-    var newItemNo = $scope.items.length + 1;
-    $scope.items.push('Item ' + newItemNo);
+  $scope.isPrimitive = function(value) {
+    if (Array.isArray(value)) return false;
+    if (typeof value === 'object') return false;
+    return true;
   };
+
 });

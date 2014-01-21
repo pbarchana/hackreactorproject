@@ -2,4 +2,5 @@ mockData
 node_modules
 .DS_Store
 public/lib
+!public/lib/angular-bootstrap/ui-bootstrap-tpls.js
 public/stylesheets/*.css

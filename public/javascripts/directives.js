@@ -2,10 +2,13 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   return {
     restrict: 'EA',
     scope: {
-      nwdata: '='
+      nwdata: '=',
+      loading: '='
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
+
+                console.log("Inside directive");
         //View window width and height
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
@@ -30,16 +33,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .append('g')
                       .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
-
-        //display simulating text before loading graph
-        var loading = svg.append("text")
-            .attr("x", viewWidth / 2)
-            .attr("y", viewHeight / 2)
-            .attr("dy", ".35em")
-            .style('font-size', '2em')
-            .style("text-anchor", "middle")
-            .text("Simulating. One moment please…");
-
         // var data = scope.nwdata;
 
         //adds stringified link to directory
@@ -169,18 +162,25 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .on("click", function(d) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
+                    console.log("Clicked", d);
                   });
                 })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
-                    return "red";
+                    return "#ca8142";
                   } else {
-                    return "blue";
+                    return "#428bca";
                   }
                 })
                 .on('mouseover', showDetails)
                 .on('mouseout', hideDetails)
-                .on('click', selectNode);
+                .on('click', selectNode)
+                .append("title").text(function(d, i) {
+                  var retString =
+                    "Vendor: " + d.attributes.vendor + "\n" +
+                    "UUID: "   + d.attributes.UUID;
+                  return retString;
+                });
                 // .call(force.drag);
 
           // var tick = 0;
@@ -197,7 +197,10 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           //         .attr("cy", function(d) { return d.y; });
           // });
 
-          loading.remove();
+          // debugger;
+          scope.$apply(function() {
+            scope.loading = false;
+          });
         }, 1000);
 
         // Browser onresize event

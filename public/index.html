@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Sample Page</title>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.js"></script>
-  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <!-- TODO: find a way to permanently edit panel in here -->
+  <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
@@ -22,79 +23,81 @@
   <script src="javascripts/filters.js"></script>
 </head>
 <body>
+
+  <!-- Tree Display Template for Accordian -->
+  <script type="text/ng-template"  id="tree_item_renderer.html">
+    <!-- Branches -->
+    <div ng-if="!isPrimitive(value)">
+      <accordion-group heading="{{ key }}" is-open="false">
+        <div ng-repeat="(key, value) in value" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group>
+    </div>
+    <!-- Leaves -->
+    <div ng-if="isPrimitive(value)">
+      <table class="table table-bordered table-striped dropdown-table">
+        <tr> 
+          <td class="key"> {{key}} </td> <td> {{ value }} </td> 
+        </tr>
+      </table>
+    </div>
+  </script>
+
+  <!-- Main application -->
   <div ng-controller="dataCtrl">
+    
+    <!-- Loading gif -->
+    <div ng-show="loading" class="loading">
+      <img src="img/ajax-loader.gif"></img>
+    </div>
 
     <div class="fluid-container">
-
       <div class="row top-buffer">
         <!-- Title -->
-        <div class="col-sm-8">
+        <div class="col-sm-8 hover">
           <div class="title">NodePrime Visualizer</div>
         </div>
         <!-- Search Bar -->
-        <div class="col-sm-4">
+        <div class="col-sm-4 hover">
           <div class="input-group">
             <input type="text" ng-model="liveSearch" class="form-control">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
           </div>
-
-        </div>
-
-      </div>
-
-      <div class="row">
-
+        </div><!-- /.col-sm-4 -->
       </div><!-- /.row -->
 
-      <!-- Accordian -->
-
-      <div class="row" style="z-index:-20">
-        <div class="col-sm-4 top-buffer">
-          <div ng-controller="AccordionDemoCtrl">
-            <h4>{{ selectedNode.type.toUpperCase() }}</h4>
+      
+      <div class="row">
+        
+        <!-- Accordian -->
+        <div ng-show="selectedNode" class="col-sm-4 top-buffer hover">
+          <div ng-controller="AccordionCtrl">
+            
             <accordion close-others="oneAtATime">
+              <table class="table table-bordered dropdown-table">
+                <th> {{ selectedNode.type.toUpperCase() }}</th>
               <!-- Attributes -->
-              <accordion-group is-open="false">
-                <accordion-heading>
-                  Attributes
-                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
-                </accordion-heading>
-                <table class="table table-bordered table-striped dropdown-table">
-                  <tr ng-repeat="(key, value) in selectedNode.attributes">
-                    <td class="key"> {{key}} </td> <td> {{ value }} </td>
-                  </tr>
-                </table>
-              </accordion-group>
-              <!-- Components -->
-              <accordion-group heading="Components" is-open="isopen">
-                <accordion-heading>
-                  Components
-                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
-                </accordion-heading>
-                <div ng-repeat="(key1, value1) in selectedNode.components">
-                  <accordion-group heading="{{ key1 }}" is-open="false">
-                    <table class="table table-bordered table-striped dropdown-table">
-                      <tr ng-repeat="(key2, value2) in value1">
-                        <td class="key"> {{key2}} </td> <td> {{ value2 }} </td>
-                      </tr>
-                    </table>
+                <tr><td>
+                  <accordion-group heading="Attributes" is-open="false">
+                    <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
                   </accordion-group>
-                </div>
-              </accordion-group>
-              <!-- Connections -->
-              <accordion-group heading="Connections" is-open="false">
-              </accordion-group>
-
+                </td></tr>
+                  <!-- Components -->
+                <tr><td>
+                  <accordion-group heading="Components" is-open="false">
+                    <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
+                  </accordion-group>
+                </td></tr>
+              </table>
             </accordion>
           </div><!-- /.AccordianDemoCtrl -->
         </div><!-- /.col-sm-8 -->
 
         <!-- Live search results -->
-        <div class="col-sm-4 pull-right">
+        <div class="col-sm-4 pull-right hover">
           <div class="results">
-            <div class="result" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
+            <div class="result" ng-click="select(node)" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
               <div>{{ node.type }}</div>
               <div class="info">Vendor: {{ node.attributes.vendor }}</div>
               <div class="info">UUID: {{ node.attributes.UUID }}</div>
@@ -105,9 +108,7 @@
     </div> <!-- /fluid-layout -->
 
     <!-- Angular Directive -->
-    <div network-graph nwdata="ctldata"></div>
-     <div class="selected" ng-model="selNode"> {{ selNode }} </div>
-
+    <div network-graph loading="loading" nwdata="ctldata"></div>
   </div><!-- /.dataCtrl -->
 
 
