@@ -48,7 +48,14 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var neighbors = function(node){
+          //find all nodes connected to selected node
+        };
 
+        var selectNode = function(node, i){
+
+          nodes.style('stroke', 'white');
+
+          d3.select(this).style('stroke', 'black');
         };
 
         var showDetails = function(node){
@@ -140,7 +147,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .on("click", function(d) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
-                  })
+                  });
                 })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
@@ -150,7 +157,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                   }
                 })
                 .on('mouseover', showDetails)
-                .on('mouseout', hideDetails);
+                .on('mouseout', hideDetails)
+                .on('click', selectNode);
                 // .call(force.drag);
 
           // var tick = 0;
