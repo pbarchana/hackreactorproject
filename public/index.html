@@ -23,16 +23,15 @@
   <script src="javascripts/filters.js"></script>
 </head>
 <body>
+
   <!-- Tree Display Template for Accordian -->
   <script type="text/ng-template"  id="tree_item_renderer.html">
-    
     <!-- Branches -->
     <div ng-if="!isPrimitive(value)">
       <accordion-group heading="{{ key }}" is-open="false">
         <div ng-repeat="(key, value) in value" ng-include="'tree_item_renderer.html'"></div>
       </accordion-group>
     </div>
-    
     <!-- Leaves -->
     <div ng-if="isPrimitive(value)">
       <table class="table table-bordered table-striped dropdown-table">
@@ -41,9 +40,7 @@
         </tr>
       </table>
     </div>
-
   </script>
-
 
   <!-- Main application -->
   <div ng-controller="dataCtrl">
@@ -61,31 +58,23 @@
               <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
           </div>
-          
-        </div>
-
-      </div>
-      
-      <div class="row">
-        
+        </div><!-- /.col-sm-4 -->
       </div><!-- /.row -->
-    
+
       <!-- Accordian -->
-   
-      <div class="row">
+      <div class="row" style="z-index:-20">
         <div class="col-sm-4 top-buffer">
           <div ng-controller="AccordionDemoCtrl">
             <h4>{{ selectedNode.type.toUpperCase() }}</h4>
             <accordion close-others="oneAtATime">
-              
+              <!-- Attributes -->
               <accordion-group heading="Attributes" is-open="false">
                 <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
               </accordion-group>
-
+              <!-- Components -->
               <accordion-group heading="Components" is-open="false">
                 <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
               </accordion-group>
-
             </accordion>
           </div><!-- /.AccordianDemoCtrl -->
         </div><!-- /.col-sm-8 -->
@@ -105,6 +94,8 @@
 
     <!-- Angular Directive -->
     <div network-graph nwdata="ctldata"></div>
+     <div class="selected" ng-model="selNode"> {{ selNode }} </div>
+
   </div><!-- /.dataCtrl -->
 
 
