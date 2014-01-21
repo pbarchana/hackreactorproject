@@ -97,7 +97,7 @@
         <!-- Live search results -->
         <div class="col-sm-4 pull-right hover">
           <div class="results">
-            <div class="result" ng-click="select(node)" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
+            <div class="result" ng-click="select(node)" ng-show="liveSearch" style="cursor:hand" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
               <div>{{ node.type }}</div>
               <div class="info">Vendor: {{ node.attributes.vendor }}</div>
               <div class="info">UUID: {{ node.attributes.UUID }}</div>
