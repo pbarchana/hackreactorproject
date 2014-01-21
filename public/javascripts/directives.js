@@ -53,12 +53,21 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         var selectNode = function(node, i){
 
-          nodes.style('stroke', 'white');
+          this.nodeSelected = true;
 
-          d3.select(this).style('stroke', 'black');
+          nodes.style('stroke', 'white')
+          .style('stroke-width', '3px');
+
+          d3.select(this)
+          .transition()
+          .style('stroke', 'black')
+          .style('stroke-width', '6px');
         };
 
         var showDetails = function(node){
+          if(!this.nodeSelected){
+            d3.select(this).style('stroke', 'grey');
+          }
 
           if (links) {
             links.transition()
@@ -79,6 +88,12 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var hideDetails = function(node){
+          if(!this.nodeSelected){
+            d3.select(this)
+            .transition()
+            .style('stroke', 'white');
+          }
+
           links.transition()
           .style("stroke", "#999")
           .style("stroke-opacity", '0.3');
