@@ -134,16 +134,16 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
                     console.log("Clicked", d);
-                  })
+                  });
                 })
-                .append("svg:title").text(function(d, i) {
-                  var retString = 
-                    "Vendor: " + d.attributes["vendor"] + "\n" + 
-                    "UUID: "   + d.attributes["UUID"];  
-                  return retString;
-                    //+ d.attributes["vendor"];
-                  //+ "UUID: "   + d.attributes["UUID"];
-                })
+                // .append("svg:title").text(function(d, i) {
+                //   var retString = 
+                //     "Vendor: " + d.attributes["vendor"] + "\n" + 
+                //     "UUID: "   + d.attributes["UUID"];  
+                //   return retString;
+                //     //+ d.attributes["vendor"];
+                //   //+ "UUID: "   + d.attributes["UUID"];
+                // })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
                     return "#ca8142";

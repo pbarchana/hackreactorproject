@@ -1,22 +1,12 @@
 @import 'nib'
 
-// Reset all styles
+// Variables
+// =========
 
 $shadow = 0 2px 6px rgba(0,0,0,0.1),0 4px 15px -5px rgba(0,0,0,0.0)
 
-svg
-  z-index -10
-  background-color: #F5F5F5
-  left: 0px
-  top: 0px
-  position: absolute
-
-.float-right
-  float right
-
-.node
-  stroke: #fff
-  stroke-width: 3px
+// Loading popover
+// ===============
 
 .loading
   position absolute
@@ -29,10 +19,30 @@ svg
     top: 0; left: 0; bottom: 0; right: 0;
     margin auto
 
+
+
+// D3 Styles
+// =========
+
+svg
+  // background-color: #F5F5F5
+  left: 0px
+  top: 0px
+  position: absolute
+
+.node
+  stroke: #fff
+  stroke-width: 3px
+
 .link
   stroke-width: 4px
   stroke: #999
   stroke-opacity: 0.3
+
+
+
+// Main Styles
+// ================
 
 .fluid-container
   // Make the container background transparent so we can see the background div
@@ -42,25 +52,28 @@ svg
   margin-left: auto
   margin-right: auto
 
-// TODO: find a way to adjust panel body without overriding defaults
-.panel-body
-  padding 5px
-
-.dropdown-table
-  margin: 0px
-  overflow: auto
-
-  .key
-    font-weight 600
-    width: 20%
-
-.top-buffer
-  margin-top: 20px
-
+// Site Title
 .title
   font-size 25px
   font-weight 500
 
+// Table Styles
+.dropdown-table
+  margin: 0px
+  overflow: auto
+  background-color white
+
+  th
+    background-color #ca8142
+
+  .key
+    font-weight 600
+    width: 20%
+// TODO: find a way to adjust panel body without overriding defaults
+.panel-body
+  padding 5px
+
+// Display results
 .results
   margin-right 40px
   background-color white
@@ -80,7 +93,19 @@ svg
 
 
 
+// Miscellaneous Add-ons
+// =====================
 
+// To make columns float above the svg panel
+// Don't put this on rows! It will mess up the svg functionality
+.hover
+  z-index: 50
+
+.float-right
+  float right
+
+.top-buffer
+  margin-top: 20px
 
 
 

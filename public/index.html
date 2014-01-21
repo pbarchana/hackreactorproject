@@ -53,11 +53,11 @@
     <div class="fluid-container">
       <div class="row top-buffer">
         <!-- Title -->
-        <div class="col-sm-8">
+        <div class="col-sm-8 hover">
           <div class="title">NodePrime Visualizer</div>
         </div>
         <!-- Search Bar -->
-        <div class="col-sm-4">
+        <div class="col-sm-4 hover">
           <div class="input-group">
             <input type="text" ng-model="liveSearch" class="form-control">
             <span class="input-group-btn">
@@ -68,27 +68,34 @@
       </div><!-- /.row -->
 
       
-      <div class="row" style="z-index:-20">
+      <div class="row">
         
         <!-- Accordian -->
-        <div ng-show="selectedNode" class="col-sm-4 top-buffer">
+        <div ng-show="selectedNode" class="col-sm-4 top-buffer hover">
           <div ng-controller="AccordionCtrl">
-            <h4>{{ selectedNode.type.toUpperCase() }}</h4>
+            
             <accordion close-others="oneAtATime">
+              <table class="table table-bordered dropdown-table">
+                <th> {{ selectedNode.type.toUpperCase() }}</th>
               <!-- Attributes -->
-              <accordion-group heading="Attributes" is-open="false">
-                <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
-              </accordion-group>
-              <!-- Components -->
-              <accordion-group heading="Components" is-open="false">
-                <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
-              </accordion-group>
+                <tr><td>
+                  <accordion-group heading="Attributes" is-open="false">
+                    <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
+                  </accordion-group>
+                </td></tr>
+                  <!-- Components -->
+                <tr><td>
+                  <accordion-group heading="Components" is-open="false">
+                    <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
+                  </accordion-group>
+                </td></tr>
+              </table>
             </accordion>
           </div><!-- /.AccordianDemoCtrl -->
         </div><!-- /.col-sm-8 -->
 
         <!-- Live search results -->
-        <div class="col-sm-4 pull-right">
+        <div class="col-sm-4 pull-right hover">
           <div class="results">
             <div class="result" ng-click="select(node)" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
               <div>{{ node.type }}</div>
