@@ -61,10 +61,12 @@
         </div><!-- /.col-sm-4 -->
       </div><!-- /.row -->
 
-      <!-- Accordian -->
+      
       <div class="row" style="z-index:-20">
-        <div class="col-sm-4 top-buffer">
-          <div ng-controller="AccordionDemoCtrl">
+        
+        <!-- Accordian -->
+        <div ng-show="selectedNode" class="col-sm-4 top-buffer">
+          <div ng-controller="AccordionCtrl">
             <h4>{{ selectedNode.type.toUpperCase() }}</h4>
             <accordion close-others="oneAtATime">
               <!-- Attributes -->
@@ -82,7 +84,7 @@
         <!-- Live search results -->
         <div class="col-sm-4 pull-right">
           <div class="results">
-            <div class="result" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
+            <div class="result" ng-click="select(node)" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
               <div>{{ node.type }}</div>
               <div class="info">Vendor: {{ node.attributes.vendor }}</div>
               <div class="info">UUID: {{ node.attributes.UUID }}</div>

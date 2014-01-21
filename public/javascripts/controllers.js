@@ -10,14 +10,20 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
 //    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
-    $scope.selectedNode = data.nodes[0];
+    // $scope.selectedNode = data.nodes[0];
   }, function errorFunction(reason) {
     $scope.error = reason;
   });
+
+  $scope.select = function(node) {
+    debugger;
+    $scope.selectedNode = node;
+    $scope.liveSearch = "";
+  };
 });
 
 
-app.controller('AccordionDemoCtrl', function($scope) {
+app.controller('AccordionCtrl', function($scope) {
   $scope.oneAtATime = false;
 
   $scope.isPrimitive = function(value) {
