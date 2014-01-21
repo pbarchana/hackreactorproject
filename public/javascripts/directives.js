@@ -137,6 +137,10 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; })
                 .attr("r", 15)
+                .on("click", function(d) {
+                  scope.$apply(function (){
+                    scope.$parent.selNode = d;
+                  });
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
                     return "red";
