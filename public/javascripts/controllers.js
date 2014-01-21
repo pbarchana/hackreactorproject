@@ -11,20 +11,15 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
 //    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
-    // $scope.loading = false;
     // $scope.selectedNode = data.nodes[0];
   }, function errorFunction(reason) {
     $scope.error = reason;
-    // $scope.loading = false;
   });
 
   $scope.select = function(node) {
-    debugger;
     $scope.selectedNode = node;
     $scope.liveSearch = "";
   };
-
-  // $scope.loading = false;
 });
 
 
@@ -36,4 +31,5 @@ app.controller('AccordionCtrl', function($scope) {
     if (typeof value === 'object') return false;
     return true;
   };
+
 });

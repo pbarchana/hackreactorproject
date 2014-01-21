@@ -32,18 +32,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                        .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
 
-        //display simulating text before loading graph
-        // scope.$apply(function() {
-        //   debugger;
-        //   scope.loading = true;
-        // });
-        // var loading = svg.append("text")
-        //     .attr("x", viewWidth / 2)
-        //     .attr("y", viewHeight / 2)
-        //     .attr("dy", ".35em")
-        //     .style("text-anchor", "middle")
-        //     .text("Simulating. One moment please…");
-
         // var data = scope.nwdata;
 
         //adds stringified link to directory
