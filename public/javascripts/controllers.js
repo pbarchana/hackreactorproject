@@ -5,10 +5,10 @@ app.controller('d3Controller', function($scope, NetworkDataService) {
 
 app.controller('dataCtrl', function($scope, NetworkDataService){
   $scope.loading = true;
+  console.log("Inside dataCtrl");
   NetworkDataService.getAllFlattened()
   .then(function(data) {
     $scope.ctldata = data;
-//    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
     // $scope.selectedNode = data.nodes[0];
