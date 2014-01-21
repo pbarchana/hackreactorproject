@@ -54,7 +54,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var showDetails = function(node){
 
           if (links) {
-            links.style("stroke", function(l) {
+            links.transition()
+            .style("stroke", function(l) {
               if (l.source === node || l.target === node) {
                 return "black";
               } else {
@@ -71,7 +72,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var hideDetails = function(node){
-          links.style("stroke", "#999")
+          links.transition()
+          .style("stroke", "#999")
           .style("stroke-opacity", '0.3');
         };
 
