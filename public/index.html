@@ -73,16 +73,23 @@
         <!-- Accordian -->
         <div ng-show="selectedNode" class="col-sm-4 top-buffer hover">
           <div ng-controller="AccordionCtrl">
-            <h4>{{ selectedNode.type.toUpperCase() }}</h4>
+            
             <accordion close-others="oneAtATime">
+              <table class="table table-bordered dropdown-table">
+                <th> {{ selectedNode.type.toUpperCase() }}</th>
               <!-- Attributes -->
-              <accordion-group heading="Attributes" is-open="false">
-                <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
-              </accordion-group>
-              <!-- Components -->
-              <accordion-group heading="Components" is-open="false">
-                <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
-              </accordion-group>
+                <tr><td>
+                  <accordion-group heading="Attributes" is-open="false">
+                    <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
+                  </accordion-group>
+                </td></tr>
+                  <!-- Components -->
+                <tr><td>
+                  <accordion-group heading="Components" is-open="false">
+                    <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
+                  </accordion-group>
+                </td></tr>
+              </table>
             </accordion>
           </div><!-- /.AccordianDemoCtrl -->
         </div><!-- /.col-sm-8 -->

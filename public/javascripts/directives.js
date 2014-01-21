@@ -134,7 +134,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
                     console.log("Clicked", d);
-                  })
+                  });
                 })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
