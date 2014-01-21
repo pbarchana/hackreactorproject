@@ -1,18 +1,36 @@
 @import 'nib'
 
-// Reset all styles
+// Variables
+// =========
 
 $shadow = 0 2px 6px rgba(0,0,0,0.1),0 4px 15px -5px rgba(0,0,0,0.0)
+$color1 = #ca8142
+$backgroundColor = #F8F8F8
+
+// Loading popover
+// ===============
+
+.loading
+  position absolute
+  top: 0; left: 0; bottom: 0; right: 0;
+  margin auto
+  background: rgba(255,255,255,0.6)
+  z-index 100
+  img
+    position absolute
+    top: 0; left: 0; bottom: 0; right: 0;
+    margin auto
+
+
+
+// D3 Styles
+// =========
 
 svg
-  z-index -10
-  background-color: #F5F5F5
+  background-color: $backgroundColor
   left: 0px
   top: 0px
   position: absolute
-
-.float-right
-  float right
 
 .node
   stroke: #fff
@@ -23,6 +41,11 @@ svg
   stroke: #999
   stroke-opacity: 0.3
 
+
+
+// Main Styles
+// ================
+
 .fluid-container
   // Make the container background transparent so we can see the background div
   background: rgba(255,255,255,0.0);
@@ -31,25 +54,25 @@ svg
   margin-left: auto
   margin-right: auto
 
-// TODO: find a way to adjust panel body without overriding defaults
-.panel-body
-  padding 5px
-
-.dropdown-table
-  margin: 0px
-  overflow: auto
-
-  .key
-    font-weight 600
-    width: 20%
-
-.top-buffer
-  margin-top: 20px
-
+// Site Title
 .title
   font-size 25px
   font-weight 500
 
+// Table Styles
+.dropdown-table
+  margin: 0px
+  overflow: auto
+  background-color white
+
+  .key
+    font-weight 600
+    width: 20%
+// TODO: find a way to adjust panel body without overriding defaults
+.panel-body
+  padding 5px
+
+// Display results
 .results
   margin-right 40px
   background-color white
@@ -67,51 +90,21 @@ svg
       font-size 10px
       color #848484
 
-// input, button
-//   -webkit-appearance: none
-//   margin none
-//   outline: none
-
-// // Global styles
-// html, body
-//   font-family Roboto, Arial, sans-serif
-//   padding none
-//   margin none
-
-// // Search Box
-
-// .search
-//   margin 15px 0px 0px 30px
-//   font-size 15px
-
-//   .search-bar
-//     background transparent
-//     border-radius 3px
-//     line-height 32px
-//     font-size 15px
-//     box-shadow: $shadow
-//     // box-shadow 0 2px 6px rgba(0,0,0,0.3),0 4px 15px -5px rgba(0,0,0,0.0)
-//     display inline-block
-
-//     input
-//       margin 0px
-//       display inline
-//       box-shadow none
-//       border none
-//       width 350px
-
-//     button
-//       color white
-//       font-size 17px
-//       height 32px
-//       width 60px
-//       background-color #4d90fe
-//       border none
-//       border-radius 0px 3px 3px 0px
 
 
+// Miscellaneous Add-ons
+// =====================
 
+// To make columns float above the svg panel
+// Don't put this on rows! It will mess up the svg functionality
+.hover
+  z-index: 50
 
+.float-right
+  float right
+
+.top-buffer
+  margin-top: 20px
 
 
 

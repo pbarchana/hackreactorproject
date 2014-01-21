@@ -2,7 +2,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   return {
     restrict: 'EA',
     scope: {
-      nwdata: '='
+      nwdata: '=',
+      loading: '='
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
@@ -32,14 +33,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .append('g')
                        .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
-
-        //display simulating text before loading graph
-        var loading = svg.append("text")
-            .attr("x", viewWidth / 2)
-            .attr("y", viewHeight / 2)
-            .attr("dy", ".35em")
-            .style("text-anchor", "middle")
-            .text("Simulating. One moment please…");
 
         // var data = scope.nwdata;
 
@@ -143,21 +136,22 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
                     console.log("Clicked", d);
-                  })
+
+                  });
                 })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
-                    return "red";
+                    return "#ca8142";
                   } else {
-                    return "blue";
+                    return "#428bca";
                   }
                 })
                 .on('mouseover', showDetails)
                 .on('mouseout', hideDetails)
                 .append("title").text(function(d, i) {
                   var retString = 
-                    "Vendor: " + d.attributes["vendor"] + "\n" + 
-                    "UUID: "   + d.attributes["UUID"];  
+                    "Vendor: " + d.attributes["vendor"] + "\n" +
+                    "UUID: "   + d.attributes["UUID"];
                   return retString;
                 });
                 
@@ -176,8 +170,11 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           //     nodes.attr("cx", function(d) { return d.x; })
           //         .attr("cy", function(d) { return d.y; });
           // });
-
-          loading.remove();
+          
+          // debugger;
+          scope.$apply(function() {
+            scope.loading = false;
+          });
         }, 1000);
 
         // Browser onresize event

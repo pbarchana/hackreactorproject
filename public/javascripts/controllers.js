@@ -4,6 +4,7 @@ app.controller('d3Controller', function($scope, NetworkDataService) {
 });
 
 app.controller('dataCtrl', function($scope, NetworkDataService){
+  $scope.loading = true;
   console.log("Inside dataCtrl");
   NetworkDataService.getAllFlattened()
   .then(function(data) {
@@ -16,7 +17,6 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
   });
 
   $scope.select = function(node) {
-    debugger;
     $scope.selectedNode = node;
     $scope.liveSearch = "";
   };
@@ -31,4 +31,5 @@ app.controller('AccordionCtrl', function($scope) {
     if (typeof value === 'object') return false;
     return true;
   };
+
 });

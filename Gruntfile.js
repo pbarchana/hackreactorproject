@@ -47,7 +47,7 @@ module.exports = function(grunt) {
         }
       },
       generateSwitches: {
-        command: 'node mockSwitches.js ' + 5,
+        command: 'node mockSwitches.js ' + 10,
         options: {
           execOptions: {
             cwd: 'workers'
