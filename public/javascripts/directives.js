@@ -28,7 +28,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                       .attr('height', viewHeight)
                       .attr("pointer-events", "all")
                       .append('g')
-                       .call(d3.behavior.zoom().on("zoom", redraw))
+                      .call(d3.behavior.zoom().on("zoom", redraw))
                       .append('g');
 
         //display simulating text before loading graph
@@ -36,6 +36,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
             .attr("x", viewWidth / 2)
             .attr("y", viewHeight / 2)
             .attr("dy", ".35em")
+            .style('font-size', '2em')
             .style("text-anchor", "middle")
             .text("Simulating. One moment please…");
 
@@ -43,12 +44,18 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         //adds stringified link to directory
         var addLink = function(a, b){
-          linkDirectory["'" + a + "," + b + "'"] = 1;
-          linkDirectory["'" + b + "," + a + "'"] = 1;
+          linkDirectory[a + "," + b] = 1;
+          linkDirectory[b + "," + a] = 1;
         };
 
-        var neighbors = function(node){
-          //find all nodes connected to selected node
+        //find all nodes connected to selected node
+        var neighbors = function(target, source){
+          return linkDirectory[target + "," + source] ||
+            linkDirectory[source + "," + target];
+        };
+
+        var resetSelection = function(svg){
+          console.log('BOOM!');
         };
 
         var selectNode = function(node, i){
@@ -65,6 +72,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var showDetails = function(node){
+
           if(!this.nodeSelected){
             d3.select(this).style('stroke', 'grey');
           }
@@ -122,7 +130,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         //set link source and target to node instead of mac address
         scope.nwdata.links.forEach(function(l){
           addLink(l.source, l.target);
-
           l.source = map.get(l.source);
           l.target = map.get(l.target);
         });
