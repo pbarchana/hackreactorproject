@@ -22,10 +22,31 @@
   <script src="javascripts/filters.js"></script>
 </head>
 <body>
-  <div ng-controller="dataCtrl">
+  <!-- Tree Display Template for Accordian -->
+  <script type="text/ng-template"  id="tree_item_renderer.html">
     
-    <div class="fluid-container">
+    <!-- Branches -->
+    <div ng-if="!isPrimitive(value)">
+      <accordion-group heading="{{ key }}" is-open="false">
+        <div ng-repeat="(key, value) in value" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group>
+    </div>
+    
+    <!-- Leaves -->
+    <div ng-if="isPrimitive(value)">
+      <table class="table table-bordered table-striped dropdown-table">
+        <tr> 
+          <td class="key"> {{key}} </td> <td> {{ value }} </td> 
+        </tr>
+      </table>
+    </div>
 
+  </script>
+
+
+  <!-- Main application -->
+  <div ng-controller="dataCtrl">
+    <div class="fluid-container">
       <div class="row top-buffer">
         <!-- Title -->
         <div class="col-sm-8">
@@ -55,36 +76,13 @@
           <div ng-controller="AccordionDemoCtrl">
             <h4>{{ selectedNode.type.toUpperCase() }}</h4>
             <accordion close-others="oneAtATime">
-              <!-- Attributes -->
-              <accordion-group is-open="false">
-                <accordion-heading>
-                  Attributes
-                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
-                </accordion-heading>
-                <table class="table table-bordered table-striped dropdown-table">
-                  <tr ng-repeat="(key, value) in selectedNode.attributes">
-                    <td class="key"> {{key}} </td> <td> {{ value }} </td>
-                  </tr>
-                </table>
+              
+              <accordion-group heading="Attributes" is-open="false">
+                <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
               </accordion-group>
-              <!-- Components -->
-              <accordion-group heading="Components" is-open="isopen">
-                <accordion-heading>
-                  Components
-                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
-                </accordion-heading>
-                <div ng-repeat="(key1, value1) in selectedNode.components">
-                  <accordion-group heading="{{ key1 }}" is-open="false">
-                    <table class="table table-bordered table-striped dropdown-table">
-                      <tr ng-repeat="(key2, value2) in value1">
-                        <td class="key"> {{key2}} </td> <td> {{ value2 }} </td>
-                      </tr>
-                    </table>
-                  </accordion-group>
-                </div>
-              </accordion-group>
-              <!-- Connections -->
-              <accordion-group heading="Connections" is-open="false">
+
+              <accordion-group heading="Components" is-open="false">
+                <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
               </accordion-group>
 
             </accordion>

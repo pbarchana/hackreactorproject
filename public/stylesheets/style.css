@@ -5,7 +5,7 @@ svg{z-index:-10;background-color:#f5f5f5;left:0;top:0;position:absolute}
 .fluid-container{background:rgba(255,255,255,0);padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto}
 .panel-body{padding:0}
 .dropdown-table{margin:0;overflow:auto;}
-.dropdown-table .key{font-weight:600}
+.dropdown-table .key{font-weight:600;width:20%}
 .top-buffer{margin-top:20px}
 .title{font-size:25px;font-weight:500}
 .results{margin-right:40px;background-color:#fff;-webkit-box-shadow:0 2px 6px rgba(0,0,0,0.1),0 4px 15px -5px rgba(0,0,0,0);box-shadow:0 2px 6px rgba(0,0,0,0.1),0 4px 15px -5px rgba(0,0,0,0);}
