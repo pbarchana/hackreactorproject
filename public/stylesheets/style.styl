@@ -4,20 +4,7 @@
 
 $shadow = 0 2px 6px rgba(0,0,0,0.1),0 4px 15px -5px rgba(0,0,0,0.0)
 
-svg
-  z-index -10
-  background-color: #F5F5F5
-  left: 0px
-  top: 0px
-  position: absolute
-
-.float-right
-  float right
-
-.node
-  stroke: #fff
-  stroke-width: 3px
-
+// Loading popover
 .loading
   position absolute
   top: 0; left: 0; bottom: 0; right: 0;
@@ -28,6 +15,24 @@ svg
     position absolute
     top: 0; left: 0; bottom: 0; right: 0;
     margin auto
+
+// To make columns float above the svg panel
+// Don't put this on rows! It will mess up the svg functionality
+.hover
+  z-index: 50
+
+svg
+  // background-color: #F5F5F5
+  left: 0px
+  top: 0px
+  position: absolute
+
+.float-right
+  float right
+
+.node
+  stroke: #fff
+  stroke-width: 3px
 
 .link
   stroke-width: 4px
@@ -77,48 +82,6 @@ svg
     .info
       font-size 10px
       color #848484
-
-// input, button
-//   -webkit-appearance: none
-//   margin none
-//   outline: none
-
-// // Global styles
-// html, body
-//   font-family Roboto, Arial, sans-serif
-//   padding none
-//   margin none
-
-// // Search Box
-
-// .search
-//   margin 15px 0px 0px 30px
-//   font-size 15px
-
-//   .search-bar
-//     background transparent
-//     border-radius 3px
-//     line-height 32px
-//     font-size 15px
-//     box-shadow: $shadow
-//     // box-shadow 0 2px 6px rgba(0,0,0,0.3),0 4px 15px -5px rgba(0,0,0,0.0)
-//     display inline-block
-
-//     input
-//       margin 0px
-//       display inline
-//       box-shadow none
-//       border none
-//       width 350px
-
-//     button
-//       color white
-//       font-size 17px
-//       height 32px
-//       width 60px
-//       background-color #4d90fe
-//       border none
-//       border-radius 0px 3px 3px 0px
 
 
 
