@@ -4,15 +4,18 @@ app.controller('d3Controller', function($scope, NetworkDataService) {
 });
 
 app.controller('dataCtrl', function($scope, NetworkDataService){
+  $scope.loading = true;
   NetworkDataService.getAllFlattened()
   .then(function(data) {
     $scope.ctldata = data;
 //    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
+    // $scope.loading = false;
     // $scope.selectedNode = data.nodes[0];
   }, function errorFunction(reason) {
     $scope.error = reason;
+    // $scope.loading = false;
   });
 
   $scope.select = function(node) {
@@ -20,6 +23,8 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
     $scope.selectedNode = node;
     $scope.liveSearch = "";
   };
+
+  // $scope.loading = false;
 });
 
 
