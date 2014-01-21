@@ -150,9 +150,9 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 })
                 .attr("fill", function(d, i){
                   if (d.type === 'server') {
-                    return "red";
+                    return "#ca8142";
                   } else {
-                    return "blue";
+                    return "#428bca";
                   }
                 })
                 .on('mouseover', showDetails)
@@ -177,7 +177,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           scope.$apply(function() {
             scope.loading = false;
           });
-          // loading.remove();
         }, 1000);
 
         // Browser onresize event
