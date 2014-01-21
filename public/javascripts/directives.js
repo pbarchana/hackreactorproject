@@ -2,18 +2,14 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   return {
     restrict: 'EA',
     scope: {
-      nwdata: '=',
+      nwdata: '='
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
         //View window width and height
-        var viewWidth = 1200; //set to a percentage for dynamic resizing
-        var viewHeight = 800;
-
-        //console.log("ngModel", ngModel.$getViewValue());
-        console.log("Attrs", attrs);
-        console.log("this selNode", scope.selNode);
-        console.log("this parent selNode", scope.$parent.selNode);
+        debugger;
+        var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
+        var viewHeight = window.innerHeight;
 
         var force = d3.layout.force()
             .charge(-2000)
@@ -27,10 +23,29 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var svg =  d3.select(document.body)
                       .append('svg')
                       .attr('width', viewWidth)
-                      .attr('height', viewHeight);
+                      .attr('height', viewHeight)
+                      .attr('height', viewHeight)
+                      .attr("pointer-events", "all")
+                      .append('g')
+                       .call(d3.behavior.zoom().on("zoom", redraw))
+                      .append('g');
                       // .call(d3.behavior.zoom().on("zoom", redraw));
 
-        //var data = scope.nwdata;
+        //display simulating text before loading graph
+        var loading = svg.append("text")
+            .attr("x", viewWidth / 2)
+            .attr("y", viewHeight / 2)
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text("Simulating. One moment please…");
+
+        // var data = scope.nwdata;
+
+
+
+        function redraw() {
+          svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
+        }
 
         //function to map MAC address of nic to containing host
         var mapMac = function(nodes) {
@@ -57,45 +72,64 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         // Start the force physics
         force
           .nodes(scope.nwdata.nodes)
-          .links(scope.nwdata.links)
-          .start();
+          .links(scope.nwdata.links);
+          // .start();
 
-        var links = svg.append('g').selectAll(".link")
-              .data(force.links())
-              .enter().append("line")
-              .attr("class", "link");
+        force.start();
+        for(var i = scope.nwdata.nodes * scope.nwdata.nodes; i > 0; --i){
+          force.tick();
+        }
+        // use a timeout to allow the rest of the page to load first
+        setTimeout(function(){
+          force.stop();
 
 
-        var nodes = svg.append('g').selectAll(".node")
-              .data(force.nodes())
-              .enter().append("circle")
-              .attr("class", "node")
-              .attr("r", 15)
-              .on("click", function(d) {
+          var links = svg.append('g').selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; })
+                .attr("class", "link");
+
+
+          var nodes = svg.append('g').selectAll(".node")
+                .data(force.nodes())
+                .enter().append("circle")
+                .attr("class", "node")
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; })
+                .attr("r", 15)
+                .on("click", function(d) {
                   scope.$apply(function (){
                     scope.$parent.selNode = d;
                   });
+                .attr("fill", function(d, i){
+                  if (d.type === 'server') {
+                    return "red";
+                  } else {
+                    return "blue";
+                  }
+                })
+                .call(force.drag);
 
-              })
-              .attr("fill", function(d, i){
-                if (d.type === 'server') {
-                  return "red";
-                } else {
-                  return "blue";
-                }
-              })
-              .call(force.drag);
+          // var tick = 0;
 
+          // force.on("tick", function() {
+          //     tick++;
+          //     console.log(tick);
+          //     links.attr("x1", function(d) { return d.source.x; })
+          //         .attr("y1", function(d) { return d.source.y; })
+          //         .attr("x2", function(d) { return d.target.x; })
+          //         .attr("y2", function(d) { return d.target.y; });
 
-        force.on("tick", function() {
-            links.attr("x1", function(d) { return d.source.x; })
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; });
+          //     nodes.attr("cx", function(d) { return d.x; })
+          //         .attr("cy", function(d) { return d.y; });
+          // });
 
-            nodes.attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });
-        });
+          loading.remove();
+        }, 1000);
 
         // Browser onresize event
         window.onresize = function() {
@@ -108,6 +142,14 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         // }, function() {
         //   scope.render(scope.nwdata);
         // });
+
+      // zoom function
+      // function redraw(){
+      //   console.log("translate: ", d3.event.translate, "scale:", d3.event.scale);
+      //   svg.selectAll('nodes').selectAll('link').attr("transform",
+      //         "translate(" + d3.event.translate + ")" +
+      //         " scale(" + d3.event.scale + ")");
+      // }
 
       });
     }

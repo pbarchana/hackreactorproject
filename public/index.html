@@ -3,20 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Sample Page</title>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-  <!-- Icons -->
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-  
-  <!-- jQuery -->
-  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
-  <!-- angular -->
-  <script src="lib/angular/angular.js"></script>
+  <!-- Our styles -->
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 
   <!-- Scripts -->
   <script src="javascripts/app.js"></script>
@@ -29,8 +25,12 @@
   <div ng-controller="dataCtrl">
     
     <div class="fluid-container">
-     
-      <div class="row top-buffer top-row">
+
+      <div class="row top-buffer">
+        <!-- Title -->
+        <div class="col-sm-8">
+          <div class="title">NodePrime Visualizer</div>
+        </div>
         <!-- Search Bar -->
         <div class="col-sm-4">
           <div class="input-group">
@@ -39,33 +39,77 @@
               <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
           </div>
+          
         </div>
-        <!-- Title -->
-        <div class="col-sm-8">
-          <div class="title">NodePrime Visualizer</div>
-        </div>
+
       </div>
       
       <div class="row">
+        
+      </div><!-- /.row -->
+    
+      <!-- Accordian -->
+   
+      <div class="row">
+        <div class="col-sm-4 top-buffer">
+          <div ng-controller="AccordionDemoCtrl">
+            <h4>{{ selectedNode.type.toUpperCase() }}</h4>
+            <accordion close-others="oneAtATime">
+              <!-- Attributes -->
+              <accordion-group is-open="false">
+                <accordion-heading>
+                  Attributes
+                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                </accordion-heading>
+                <table class="table table-bordered table-striped dropdown-table">
+                  <tr ng-repeat="(key, value) in selectedNode.attributes">
+                    <td class="key"> {{key}} </td> <td> {{ value }} </td>
+                  </tr>
+                </table>
+              </accordion-group>
+              <!-- Components -->
+              <accordion-group heading="Components" is-open="isopen">
+                <accordion-heading>
+                  Components
+                  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                </accordion-heading>
+                <div ng-repeat="(key1, value1) in selectedNode.components">
+                  <accordion-group heading="{{ key1 }}" is-open="false">
+                    <table class="table table-bordered table-striped dropdown-table">
+                      <tr ng-repeat="(key2, value2) in value1">
+                        <td class="key"> {{key2}} </td> <td> {{ value2 }} </td>
+                      </tr>
+                    </table>
+                  </accordion-group>
+                </div>
+              </accordion-group>
+              <!-- Connections -->
+              <accordion-group heading="Connections" is-open="false">
+              </accordion-group>
+
+            </accordion>
+          </div><!-- /.AccordianDemoCtrl -->
+        </div><!-- /.col-sm-8 -->
+
         <!-- Live search results -->
-        <div class="col-sm-4">
+        <div class="col-sm-4 pull-right">
           <div class="results">
             <div class="result" ng-show="liveSearch" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
               <div>{{ node.type }}</div>
               <div class="info">Vendor: {{ node.attributes.vendor }}</div>
               <div class="info">UUID: {{ node.attributes.UUID }}</div>
             </div>
-
-          </div>
-        </div><!-- /.col-sm-6 -->
+          </div><!-- /.results -->
+        </div><!-- /.col-sm-4 -->
       </div><!-- /.row -->
+    </div> <!-- /fluid-layout -->
 
-    </div> 
     <!-- Angular Directive -->
-
     <div network-graph nwdata="ctldata"></div>
-    <div class="selected" ng-model="selNode"> {{ selNode }} </div>
-  </div>
+     <div class="selected" ng-model="selNode"> {{ selNode }} </div>
+
+  </div><!-- /.dataCtrl -->
+
 
 </body>
 </html>

@@ -10,12 +10,31 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
 //    $scope.selNode = "ABC";
     $scope.nodes = data.nodes;
     $scope.links = data.links;
+    $scope.selectedNode = data.nodes[0];
   }, function errorFunction(reason) {
     $scope.error = reason;
   });
+});
 
 
-  $scope.$watch('selectedNode', function() {
-    console.log("Changed");
-  });
+app.controller('AccordionDemoCtrl', function($scope) {
+  $scope.oneAtATime = false;
+
+  $scope.groups = [
+    {
+      title: "Dynamic Group Header - 1",
+      content: "Dynamic Group Body - 1"
+    },
+    {
+      title: "Dynamic Group Header - 2",
+      content: "Dynamic Group Body - 2"
+    }
+  ];
+
+  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+  $scope.addItem = function() {
+    var newItemNo = $scope.items.length + 1;
+    $scope.items.push('Item ' + newItemNo);
+  };
 });

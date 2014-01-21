@@ -4,15 +4,15 @@
 
 $shadow = 0 2px 6px rgba(0,0,0,0.1),0 4px 15px -5px rgba(0,0,0,0.0)
 
-html, body
-  background-color: #F5F5F5
-
 svg
+  z-index -10
   background-color: #F5F5F5
-  z-index: -10
   left: 0px
   top: 0px
   position: absolute
+
+.float-right
+  float right
 
 .node
   stroke: #fff
@@ -24,21 +24,30 @@ svg
   stroke-opacity: 0.3
 
 .fluid-container
-  z-index: 10
+  // Make the container background transparent so we can see the background div
+  background: rgba(255,255,255,0.0);
   padding-left: 15px
   padding-right: 15px
   margin-left: auto
   margin-right: auto
-  background-color: #F5F5F5;
 
-.top-row
-  line-height 30px
+// TODO: find a way to adjust panel body without overriding defaults
+.panel-body
+  padding 0px
+
+.dropdown-table
+  margin: 0px 
+  overflow: auto
+
+  .key
+    font-weight 600
+
+.top-buffer
   margin-top: 20px
 
 .title 
   font-size 25px
   font-weight 500
-  text-align right
   
 .results 
   margin-right 40px
