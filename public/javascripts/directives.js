@@ -53,20 +53,21 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         var selectNode = function(node, i){
 
-          this.nodeSelected = true;
-
-          nodes.style('stroke', 'white')
+          svg.selectAll('.node').attr('nodeSelected', false)
+          .style('stroke', 'white')
           .style('stroke-width', '3px');
 
           d3.select(this)
+          .attr('nodeSelected', true)
           .transition()
           .style('stroke', 'black')
           .style('stroke-width', '6px');
         };
 
         var showDetails = function(node){
+          console.log(d3.select(this).attr('nodeSelected'));
 
-          if(!this.nodeSelected){
+          if(!d3.select(this).attr('nodeSelected')){
             d3.select(this).style('stroke', 'grey');
           }
 
@@ -89,7 +90,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var hideDetails = function(node){
-          if(!this.nodeSelected){
+
+          if(!d3.select(this).attr('nodeSelected')){
             d3.select(this)
             .transition()
             .style('stroke', 'white');
@@ -155,11 +157,13 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           nodes = svg.append('g').selectAll(".node")
                 .data(force.nodes())
                 .enter().append("circle")
+                .attr('nodeSelected', false)
                 .attr("class", "node")
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; })
                 .attr("r", 15)
-                .on("click", function(d) {
+                .on('click.selectNode', selectNode)
+                .on("click.sideDetails", function(d) {
                   scope.$apply(function (){
                     scope.$parent.selectedNode = d;
                     console.log("Clicked", d);
@@ -174,7 +178,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
                 })
                 .on('mouseover', showDetails)
                 .on('mouseout', hideDetails)
-                .on('click', selectNode)
                 .append("title").text(function(d, i) {
                   var retString =
                     "Vendor: " + d.attributes.vendor + "\n" +
@@ -201,7 +204,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           scope.$apply(function() {
             scope.loading = false;
           });
-        }, 1000);
+        }, 500);
 
         // Browser onresize event
         window.onresize = function() {
