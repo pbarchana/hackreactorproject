@@ -49,48 +49,64 @@
 <!--     <div ng-show="loading" class="loading">
       <img src="img/ajax-loader.gif"></img>
     </div> -->
-
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#"><img src="img/nodeprime-logo2.png"></img></a>
-      </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img src="img/nodeprime-logo2.png"></img></a>
+        </div>
+<!--         <div class="input-group search">
+          <input type="text" ng-model="liveSearch" class="form-control">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+          </span>
+        </div>
+      </div> -->
+      
     </nav>
 
-    <div class="content">
-      <div network-graph class="background" loading="loading" nwdata="ctldata"><div></div></div>
+    <div class="content top-buffer">
+      <div network-graph class="background" loading="loading" nwdata="ctldata">
+      </div>
+<!--       <div class="input-group search">
+        <input type="text" ng-model="liveSearch" class="form-control">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+      </div> -->
     </div>
 
-    <div class="side-panel">
+      <!-- Search Bar -->
+<!--     <form class="navbar-form" role="search">
+      <div class="input-group">
+        <input type="text" ng-model="liveSearch" class="form-control">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+      </div>
+    </form> -->
+
+    <div class="side-panel top-buffer" style="overflow-y: scroll">
       <div ng-controller="AccordionCtrl">
         <accordion close-others="oneAtATime">
-          <table class="table table-bordered dropdown-table">
-            <th> {{ selectedNode.type.toUpperCase() }}</th>
+          <!-- Title -->
+          <h4>{{ selectedNode.type.toUpperCase() }}</h4>
           <!-- Attributes -->
-            <tr><td>
-              <accordion-group heading="Attributes" is-open="false">
-                <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
-              </accordion-group>
-            </td></tr>
-              <!-- Components -->
-            <tr><td>
-              <accordion-group heading="Components" is-open="false">
-                <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
-              </accordion-group>
-            </td></tr>
-          </table>
-        </accordion>
+<!--           <div class="divider">NODE INFO</div>
+ -->          <accordion-group heading="Attributes" is-open="false">
+            <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
+          </accordion-group>
+          <!-- Components -->
+          <accordion-group heading="Components" is-open="false">
+            <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
+          </accordion-group>
+
+<!--           <div class="divider">CONNECTIONS</div>
+ -->        </accordion>
       </div><!-- /.AccordianDemoCtrl -->
     </div>
 
 
-    <!-- Search Bar -->
-    <div class="input-group">
-      <input type="text" ng-model="liveSearch" class="form-control">
-      <span class="input-group-btn">
-        <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
-      </span>
-    </div>
+
 
     <div class="results">
       <div class="result" ng-click="select(node)" ng-show="liveSearch" style="cursor:hand" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
