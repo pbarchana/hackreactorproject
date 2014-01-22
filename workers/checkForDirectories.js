@@ -15,5 +15,6 @@ var checkForDir = function(dirPath) {
 checkForDir(baseDir + 'servers/');
 checkForDir(baseDir + 'switches/');
 checkForDir(baseDir + 'connectivity/');
+checkForDir(baseDir + 'datacenters/');
 
 

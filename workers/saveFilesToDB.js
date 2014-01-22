@@ -25,6 +25,7 @@ walk(models_path);
 var Server = mongoose.model('Server');
 var Switch = mongoose.model('Switch');
 var Connection = mongoose.model('Connection');
+var DataCenter = mongoose.model('DataCenter');
 
 // Helpers
 var clearDatabase = function(Model) {
@@ -66,4 +67,5 @@ db.once('open', function () {
   clearAndSave(Server, rootDir + "servers/");
   clearAndSave(Switch, rootDir + "switches/");
   clearAndSave(Connection, rootDir + "connectivity/");
+  clearAndSave(DataCenter, rootDir + "datacenters/");
 });
