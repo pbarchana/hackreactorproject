@@ -17,52 +17,84 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         var node;
 
         var force = d3.layout.force()
-        .charge(-2000)
-        .linkStrength(0.2)
-        .linkDistance(200)
-        .size([viewWidth, viewHeight]);
+          .charge(-2000)
+          .linkStrength(0.2)
+          .linkDistance(200)
+          .size([viewWidth, viewHeight]);
 
         //Create view window SVG
         // elemnt[0] selects containing element
         var svg =  d3.select(document.body)
-        .append('svg')
-        .attr('width', viewWidth)
-        .attr('height', viewHeight)
-        .attr("pointer-events", "all")
-        .append('g')
-        .call(d3.behavior.zoom().on("zoom", redraw))
-        .append('g');
-
+          .append('svg')
+          .attr('width', viewWidth)
+          .attr('height', viewHeight)
+          .attr("pointer-events", "all")
+          .append('g')
+          .call(d3.behavior.zoom().on("zoom", redraw))
+          .append('g');
 
         //adds stringified link to directory
         var addLink = function(a, b){
-          linkDirectory["'" + a + "," + b + "'"] = 1;
-          linkDirectory["'" + b + "," + a + "'"] = 1;
+          linkDirectory[a + "," + b] = 1;
+          linkDirectory[b + "," + a] = 1;
         };
 
-        var neighbors = function(node){
+        //find all nodes connected to selected node
+        var neighbors = function(target, source){
+          return linkDirectory[target + "," + source] ||
+            linkDirectory[source + "," + target];
+        };
 
+        var resetSelection = function(svg){
+          console.log('BOOM!');
+        };
+
+        var selectNode = function(node, i){
+
+          svg.selectAll('.node').attr('nodeSelected', false)
+          .style('stroke', 'white')
+          .style('stroke-width', '3px');
+
+          d3.select(this)
+          .attr('nodeSelected', true)
+          .transition()
+          .style('stroke', 'black')
+          .style('stroke-width', '6px');
         };
 
         var showDetails = function(node){
-          d3.selectAll(".link").transition()
-          .style("stroke", function(l) {
-            if (l.source === node || l.target === node) {
-              return "black";
-            } else {
-              return "#ddd";
-            }
-          }).style("stroke-opacity", function(l) {
-            if (l.source === node || l.target === node) {
-              return 1.0;
-            } else {
-              return 0.1;
-            }
-          });
+          // console.log(d3.select(this).attr('nodeSelected'));
+
+          // if(!d3.select(this).attr('nodeSelected')){
+          //   d3.select(this).style('stroke', 'grey');
+          // }
+
+
+            d3.selectAll(".link").transition()
+            .style("stroke", function(l) {
+              if (l.source === node || l.target === node) {
+                return "black";
+              } else {
+                return "#ddd";
+              }
+            }).style("stroke-opacity", function(l) {
+              if (l.source === node || l.target === node) {
+                return 1.0;
+              } else {
+                return 0.1;
+              }
+            });
           
         };
 
         var hideDetails = function(node){
+
+          if(!d3.select(this).attr('nodeSelected')){
+            d3.select(this)
+            .transition()
+            .style('stroke', 'white');
+          }
+
           d3.selectAll(".link").transition()
           .style("stroke", "#999")
           .style("stroke-opacity", '0.3');
@@ -93,7 +125,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         //set link source and target to node instead of mac address
         scope.nwdata.links.forEach(function(l){
           addLink(l.source, l.target);
-
           l.source = map.get(l.source);
           l.target = map.get(l.target);
         });
@@ -132,53 +163,58 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
             .attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; })
             .attr("r", 15)
+            .on('click.selectNode', selectNode)
+            // .on("click.sideDetails", function(d) {
+            //       scope.$apply(function (){
+            //         scope.$parent.selectedNode = d;
+            //         console.log("Clicked", d);
+            //       });
+            //     })
             .on("click", function(d) {
+              scope.$apply(function () {
+                scope.$parent.selectedNode1 = scope.$parent.selectedNode;
+                scope.$parent.selectedNode =d ;
+                if (scope.$parent.selectedNode !== undefined && 
+                  scope.$parent.selectedNode1 !== undefined &&
+                  scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
+                  console.log("node", scope.$parent.selectedNode);
+                  console.log("node1", scope.$parent.selectedNode1);
 
-            scope.$apply(function () {
-              scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-              scope.$parent.selectedNode = d;
-              if (scope.$parent.selectedNode !== undefined && 
-                scope.$parent.selectedNode1 !== undefined) {
-                console.log("node1", scope.$parent.selectedNode);
-              console.log("node1", scope.$parent.selectedNode1);
+                  var testLink = {};
+                  var testLinkArray = [];
+                  testLink.source = scope.$parent.selectedNode1;
+                  testLink.target = scope.$parent.selectedNode;
+                  testLinkArray.push(testLink);
+                  force.links().push(testLink);  
 
-              var testLink = {};
-              var testLinkArray = [];
-              testLink.source = scope.$parent.selectedNode1;
-              testLink.target = scope.$parent.selectedNode;
-              testLinkArray.push(testLink);
+                  link
+                    .data(testLinkArray)
+                    .enter().insert("line", ".node")
+                    .attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; })
+                    .attr("class", "link");
 
-              
-
-              force.links().push(testLink);  
-
-
-              link
-                .data(testLinkArray)
-                .enter().insert("line", ".node")
-                .attr("x1", function(d) { return d.source.x; })
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; })
-                .attr("class", "link")
-            }
-          });
-})
-.attr("fill", function(d, i){
-  if (d.type === 'server') {
-    return "#ca8142";
-  } else {
-    return "#428bca";
-  }
-})
-.on('mouseover', showDetails)
-.on('mouseout', hideDetails)
-.append("title").text(function(d, i) {
-  var retString = 
-  "Vendor: " + d.attributes["vendor"] + "\n" +
-  "UUID: "   + d.attributes["UUID"];
-  return retString;
-});
+                  showDetails(d);  
+                }
+              })
+            })
+            .attr("fill", function(d, i){
+              if (d.type === 'server') {
+                return "#ca8142";
+              } else {
+              return "#428bca";
+              }
+            })
+            .on('mouseover', showDetails)
+            .on('mouseout', hideDetails)
+            .append("title").text(function(d, i) {
+              var retString = 
+              "Vendor: " + d.attributes["vendor"] + "\n" +
+              "UUID: "   + d.attributes["UUID"];
+              return retString;
+            });
 
                 // .call(force.drag);
 
@@ -200,7 +236,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           scope.$apply(function() {
             scope.loading = false;
           });
-        }, 1000);
+        }, 500);
 
         // Browser onresize event
         window.onresize = function() {

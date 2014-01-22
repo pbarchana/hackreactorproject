@@ -35,8 +35,8 @@
     <!-- Leaves -->
     <div ng-if="isPrimitive(value)">
       <table class="table table-bordered table-striped dropdown-table">
-        <tr> 
-          <td class="key"> {{key}} </td> <td> {{ value }} </td> 
+        <tr>
+          <td class="key"> {{key}} </td> <td> {{ value }} </td>
         </tr>
       </table>
     </div>
@@ -44,7 +44,7 @@
 
   <!-- Main application -->
   <div ng-controller="dataCtrl">
-    
+
     <!-- Loading gif -->
     <div ng-show="loading" class="loading">
       <img src="img/ajax-loader.gif"></img>
@@ -67,13 +67,13 @@
         </div><!-- /.col-sm-4 -->
       </div><!-- /.row -->
 
-      
+
       <div class="row">
-        
+
         <!-- Accordian -->
         <div ng-show="selectedNode" class="col-sm-4 top-buffer hover">
           <div ng-controller="AccordionCtrl">
-            
+
             <accordion close-others="oneAtATime">
               <table class="table table-bordered dropdown-table">
                 <th> {{ selectedNode.type.toUpperCase() }}</th>

@@ -3,7 +3,7 @@
 svg{background-color:#f8f8f8;left:0;top:0;position:absolute}
 .node{stroke:#fff;stroke-width:3px}
 .link{stroke-width:4px;stroke:#999;stroke-opacity:.3}
-.fluid-container{background:rgba(255,255,255,0);padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto}
+.fluid-container{background:rgba(255,255,255,0);padding-left:15px;padding-right:15px;margin-left:auto;margin-right:auto;z-index:-100}
 .title{font-size:25px;font-weight:500}
 .dropdown-table{margin:0;overflow:auto;background-color:#fff;}
 .dropdown-table .key{font-weight:600;width:20%}
