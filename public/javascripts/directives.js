@@ -7,7 +7,6 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
-
         console.log("Inside directive");
         //View window width and height
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
@@ -32,6 +31,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           .append('g')
           .call(d3.behavior.zoom().on("zoom", redraw))
           .append('g');
+
 
         //adds stringified link to directory
         var addLink = function(a, b){
@@ -63,11 +63,11 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var showDetails = function(node){
-          // console.log(d3.select(this).attr('nodeSelected'));
+          console.log(d3.select(this).attr('nodeSelected'));
 
-          // if(!d3.select(this).attr('nodeSelected')){
-          //   d3.select(this).style('stroke', 'grey');
-          // }
+          if(!d3.select(this).attr('nodeSelected')){
+            d3.select(this).style('stroke', 'grey');
+          }
 
 
             d3.selectAll(".link").transition()
