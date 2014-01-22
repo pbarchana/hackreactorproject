@@ -1,5 +1,3 @@
-var fs = require('fs');
-
 // Random name from the ones listed below
 var generateName = function() {
   var names = ['XO San Francisco', 'Cogent', 'Virtustream SF', 'Savvis SN1', 'Colocation America'];

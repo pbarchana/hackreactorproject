@@ -6,8 +6,6 @@ var clusterSchema = new Schema ({
   type: String,
   name: String,
   dataCenter_id: {type: Schema.ObjectId, ref: 'DataCenter'},
-  longitude: Number,
-  latitude: Number
 });
 
 mongoose.model('Cluster', clusterSchema);
