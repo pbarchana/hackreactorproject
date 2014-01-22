@@ -1,4 +1,5 @@
 var fs = require('fs');
+
 var generateMAC = function() {
   var mac = "";
 
