@@ -8,33 +8,31 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
 
-                console.log("Inside directive");
+        console.log("Inside directive");
         //View window width and height
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
         var linkDirectory = {};
-        var links;
-        var nodes;
+        var link;
+        var node;
 
         var force = d3.layout.force()
-            .charge(-2000)
-            .linkStrength(0.2)
-            // .gravity(0.1)
-            .linkDistance(200)
-            .size([viewWidth, viewHeight]);
+        .charge(-2000)
+        .linkStrength(0.2)
+        .linkDistance(200)
+        .size([viewWidth, viewHeight]);
 
         //Create view window SVG
         // elemnt[0] selects containing element
         var svg =  d3.select(document.body)
-                      .append('svg')
-                      .attr('width', viewWidth)
-                      .attr('height', viewHeight)
-                      .attr("pointer-events", "all")
-                      .append('g')
-                       .call(d3.behavior.zoom().on("zoom", redraw))
-                      .append('g');
+        .append('svg')
+        .attr('width', viewWidth)
+        .attr('height', viewHeight)
+        .attr("pointer-events", "all")
+        .append('g')
+        .call(d3.behavior.zoom().on("zoom", redraw))
+        .append('g');
 
-        // var data = scope.nwdata;
 
         //adds stringified link to directory
         var addLink = function(a, b){
@@ -47,43 +45,43 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         };
 
         var showDetails = function(node){
-
-          if (links) {
-            links.transition()
-            .style("stroke", function(l) {
-              if (l.source === node || l.target === node) {
-                return "black";
-              } else {
-                return "#ddd";
-              }
-            }).style("stroke-opacity", function(l) {
-              if (l.source === node || l.target === node) {
-                return 1.0;
-              } else {
-                return 0.1;
-              }
-            });
-          }
+          d3.selectAll(".link").transition()
+          .style("stroke", function(l) {
+            if (l.source === node || l.target === node) {
+              return "black";
+            } else {
+              return "#ddd";
+            }
+          }).style("stroke-opacity", function(l) {
+            if (l.source === node || l.target === node) {
+              return 1.0;
+            } else {
+              return 0.1;
+            }
+          });
+          
         };
 
         var hideDetails = function(node){
-          links.transition()
+          d3.selectAll(".link").transition()
           .style("stroke", "#999")
           .style("stroke-opacity", '0.3');
         };
 
         function redraw() {
           svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
-        }
+        };
 
         //function to map MAC address of nic to containing host
         var mapMac = function(nodes) {
+          var tempNode;
+          var nics;
           var nodesMap = d3.map();
           nodes.forEach(function(n){
-            var node = n;
-            var nics = n.components.nics;
+            tempNode = n;
+            nics = n.components.nics;
             nics.forEach(function(n){
-              nodesMap.set(n.mac, node);
+              nodesMap.set(n.mac, tempNode);
             });
           });
           return nodesMap;
@@ -101,60 +99,87 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
         });
 
         // Start the force physics
+       
         force
+          .links(scope.nwdata.links)
           .nodes(scope.nwdata.nodes)
-          .links(scope.nwdata.links);
-          // .start();
-
-        force.start();
-        for(var i = scope.nwdata.nodes * scope.nwdata.nodes; i > 0; --i){
+          .start();
+        
+        for(var i = scope.nwdata.nodes * scope.nwdata.nodes; i > 0; --i) {
           force.tick();
         }
         // use a timeout to allow the rest of the page to load first
         setTimeout(function(){
+
           force.stop();
 
+          link = svg.append('g').selectAll(".link");
 
-          links = svg.append('g').selectAll(".link")
-                .data(force.links())
-                .enter().append("line")
+          link.data(force.links())
+            .enter().append("line")
+            .attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; })
+            .attr("class", "link");
+
+
+          node = svg.append('g').selectAll(".node")
+
+          node.data(force.nodes())  
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .attr("r", 15)
+            .on("click", function(d) {
+
+            scope.$apply(function () {
+              scope.$parent.selectedNode1 = scope.$parent.selectedNode;
+              scope.$parent.selectedNode = d;
+              if (scope.$parent.selectedNode !== undefined && 
+                scope.$parent.selectedNode1 !== undefined) {
+                console.log("node1", scope.$parent.selectedNode);
+              console.log("node1", scope.$parent.selectedNode1);
+
+              var testLink = {};
+              var testLinkArray = [];
+              testLink.source = scope.$parent.selectedNode1;
+              testLink.target = scope.$parent.selectedNode;
+              testLinkArray.push(testLink);
+
+              
+
+              force.links().push(testLink);  
+
+
+              link
+                .data(testLinkArray)
+                .enter().insert("line", ".node")
                 .attr("x1", function(d) { return d.source.x; })
                 .attr("y1", function(d) { return d.source.y; })
                 .attr("x2", function(d) { return d.target.x; })
                 .attr("y2", function(d) { return d.target.y; })
-                .attr("class", "link");
+                .attr("class", "link")
+            }
+          });
+})
+.attr("fill", function(d, i){
+  if (d.type === 'server') {
+    return "#ca8142";
+  } else {
+    return "#428bca";
+  }
+})
+.on('mouseover', showDetails)
+.on('mouseout', hideDetails)
+.append("title").text(function(d, i) {
+  var retString = 
+  "Vendor: " + d.attributes["vendor"] + "\n" +
+  "UUID: "   + d.attributes["UUID"];
+  return retString;
+});
 
-
-          nodes = svg.append('g').selectAll(".node")
-                .data(force.nodes())
-                .enter().append("circle")
-                .attr("class", "node")
-                .attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; })
-                .attr("r", 15)
-                .on("click", function(d) {
-                  scope.$apply(function (){
-                    scope.$parent.selectedNode = d;
-                    console.log("Clicked", d);
-
-                  });
-                })
-                .attr("fill", function(d, i){
-                  if (d.type === 'server') {
-                    return "#ca8142";
-                  } else {
-                    return "#428bca";
-                  }
-                })
-                .on('mouseover', showDetails)
-                .on('mouseout', hideDetails)
-                .append("title").text(function(d, i) {
-                  var retString = 
-                    "Vendor: " + d.attributes["vendor"] + "\n" +
-                    "UUID: "   + d.attributes["UUID"];
-                  return retString;
-                });
-                
                 // .call(force.drag);
 
           // var tick = 0;
@@ -170,7 +195,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
           //     nodes.attr("cx", function(d) { return d.x; })
           //         .attr("cy", function(d) { return d.y; });
           // });
-          
+
           // debugger;
           scope.$apply(function() {
             scope.loading = false;
@@ -196,8 +221,8 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
       //         "translate(" + d3.event.translate + ")" +
       //         " scale(" + d3.event.scale + ")");
       // }
-      });
-    }
-  };
+    });
+}
+};
 }]);
 
