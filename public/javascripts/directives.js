@@ -1,11 +1,4 @@
-app.directive('networkGraph', ['d3Service', function(d3Service) {
-  return {
-    restrict: 'EA',
-    scope: {
-      nwdata: '=',
-      loading: '='
-    },
-    link: function(scope, element, attrs) {
+var bootstrapd3 = function(scope, element, attrs, d3Service) {
       d3Service.d3().then(function(d3) {
         console.log("Inside directive");
         //View window width and height
@@ -258,7 +251,18 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
       //         " scale(" + d3.event.scale + ")");
       // }
     });
-}
 };
+
+app.directive('networkGraph', ['d3Service', function(d3Service) {
+  return {
+    restrict: 'EA',
+    scope: {
+      nwdata: '=',
+      loading: '='
+    },
+    link: function(scope, element, attrs) {
+      bootstrapd3(scope, element, attrs, d3Service);
+    }
+  };
 }]);
 
