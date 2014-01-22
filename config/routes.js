@@ -3,6 +3,7 @@ var appCtrl = require('../app/controllers/app.js');
 var serverCtrl = require('../app/controllers/server.js');
 var switchCtrl = require('../app/controllers/switch.js');
 var connectionCtrl = require('../app/controllers/connection.js');
+var datacenterCtrl = require('../app/controllers/datacenter.js');
 
 // Routes
 module.exports = function(app) {
@@ -12,6 +13,10 @@ module.exports = function(app) {
   // get D3 data
   app.get('/d3data', appCtrl.getD3Data);
 
+  // get datacenter data
+  app.get('/datacenter', datacenterCtrl.getAll);
+  app.get('/datacenter/:id', datacenterCtrl.getById);
+  
   // get server data
   app.get('/server', serverCtrl.getAll);
   app.get('/server/:id', serverCtrl.getById);
