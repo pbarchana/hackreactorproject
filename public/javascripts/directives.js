@@ -23,7 +23,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         //Create view window SVG
         // elemnt[0] selects containing element
-        var svg =  d3.select(document.body)
+        var svg =  d3.select(element[0])
           .append('svg')
           .attr('width', viewWidth)
           .attr('height', viewHeight)
