@@ -11,7 +11,7 @@ app.controller('dataCtrl', function($scope, NetworkDataService){
     $scope.ctldata = data;
     $scope.nodes = data.nodes;
     $scope.links = data.links;
-    // $scope.selectedNode = data.nodes[0];
+
   }, function errorFunction(reason) {
     $scope.error = reason;
   });
