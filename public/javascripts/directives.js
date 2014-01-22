@@ -7,8 +7,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     },
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
-
-                console.log("Inside directive");
+        console.log("Inside directive");
         //View window width and height
         var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
         var viewHeight = window.innerHeight;
@@ -25,7 +24,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
 
         //Create view window SVG
         // elemnt[0] selects containing element
-        var svg =  d3.select(document.body)
+        var svg =  d3.select(element[0])
                       .append('svg')
                       .attr('width', viewWidth)
                       .attr('height', viewHeight)
