@@ -1,4 +1,3 @@
-
 var drawLinks = function(link, force){
 	link.data(force.links())
 	.enter().append("path")
