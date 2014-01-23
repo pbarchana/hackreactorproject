@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sample Page</title>
-
+  <title>NodePrime Network Visualizer</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
   <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
   <!-- TODO: find a way to permanently edit panel in here -->
   <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
@@ -16,13 +17,25 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 
   <!-- Scripts -->
-  <script src="javascripts/app.js"></script>
-  <script src="javascripts/services.js"></script>
-  <script src="javascripts/controllers.js"></script>
-  <script src="javascripts/directives.js"></script>
-  <script src="javascripts/filters.js"></script>
+  <script src="client/app.js"></script>
+
+  <!-- Services -->
+  <script src="client/services/networkDataService.js"></script>
+
+  <!-- Controllers -->
+  <script src="client/controllers/d3Controller.js"></script>
+  <script src="client/controllers/accordionController.js"></script>
+  <script src="client/controllers/mainController.js"></script>
+  <script src="client/controllers/zoomInController.js"></script>
+
+  <!-- Directives -->
+  <script src="client/directives/directives.js"></script>
+  <!-- Routes -->
+  <script src="client/config/routes.js"></script>  
+  <script src="client/helpers.js"></script>
+  <script src="client/filters.js"></script>
 </head>
-<body>
+<body ng-app="app">
 
   <!-- Tree Display Template for Accordian -->
   <script type="text/ng-template"  id="tree_item_renderer.html">
@@ -43,8 +56,6 @@
   </script>
 
   <!-- Main application -->
-  <div class="dataCtrl" ng-controller="dataCtrl">
-
     <!-- Loading gif -->
 <!--     <div ng-show="loading" class="loading">
       <img src="img/ajax-loader.gif"></img>
@@ -52,7 +63,7 @@
     <nav role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#"><img src="img/nodeprime-logo2.png"></img></a>
+          <a class="navbar-brand" href="http://www.nodeprime.com"><img src="img/nodeprime-logo2.png"></img></a>
         </div>
 <!--         <div class="input-group search">
           <input type="text" ng-model="liveSearch" class="form-control">
@@ -64,15 +75,8 @@
       
     </nav>
 
-    <div class="content top-buffer">
-      <div network-graph class="background" loading="loading" nwdata="ctldata">
-      </div>
-<!--       <div class="input-group search">
-        <input type="text" ng-model="liveSearch" class="form-control">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
-      </div> -->
+    <div class="view-container">
+      <div ng-view="" class="view-animate"></div>
     </div>
 
       <!-- Search Bar -->
@@ -86,7 +90,7 @@
     </form> -->
 
     <div class="side-panel top-buffer" style="overflow-y: scroll">
-      <div ng-controller="AccordionCtrl">
+      <div ng-controller="accordionController">
         <accordion close-others="oneAtATime">
           <!-- Title -->
           <h4>{{ selectedNode.type.toUpperCase() }}</h4>
