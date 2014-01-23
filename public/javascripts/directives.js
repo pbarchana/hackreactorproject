@@ -1,8 +1,5 @@
 var bootstrapd3 = function(scope, element, attrs, d3Service) {
-<<<<<<< HEAD
-=======
 
->>>>>>> develop
   setTimeout(function(){
     var d3serve = d3Service.d3().then(function(d3) {
       console.log("Inside directive");
@@ -236,6 +233,7 @@ var bootstrapMap = function(scope, element, attrs, d3Service) {
 
     // Add the container when the overlay is added to the map.
     overlay.onAdd = function() {
+      console.log('onadd');
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
           .attr("class", "stations");
 
@@ -265,14 +263,14 @@ var bootstrapMap = function(scope, element, attrs, d3Service) {
             .attr("dy", ".31em")
             .text(function(d) { return d.key; });
 
-        function transform(d) {
-          debugger;
-          d = new google.maps.LatLng(d.value[1], d.value[0]);
-          d = projection.fromLatLngToDivPixel(d);
-          return d3.select(this)
-              .style("left", (d.x - padding) + "px")
-              .style("top", (d.y - padding) + "px");
-        }
+        // function transform(d) {
+        //   debugger;
+        //   d = new google.maps.LatLng(d.value[1], d.value[0]);
+        //   d = projection.fromLatLngToDivPixel(d);
+        //   return d3.select(this)
+        //       .style("left", (d.x - padding) + "px")
+        //       .style("top", (d.y - padding) + "px");
+        // }
       };
     };
 
