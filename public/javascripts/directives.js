@@ -7,7 +7,6 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
     var linkDirectory = {};
     var link;
     var node;
-
     var force = d3.layout.force()
       .charge(-2000)
       .linkStrength(0.2)
@@ -15,7 +14,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       .size([viewWidth, viewHeight]);
 
     //Create view window SVG
-    var svg =  d3.select(element[0])
+    var svg = d3.select(element[0])
       .append('svg')
       .attr('width', viewWidth)
       .attr('height', viewHeight)
