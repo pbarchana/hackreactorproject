@@ -134,11 +134,14 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
         force.stop();
         link = svg.append('g').selectAll(".link");
         link.data(force.links())
-          .enter().append("line")
-          .attr("x1", function(d) { return d.source.x; })
-          .attr("y1", function(d) { return d.source.y; })
-          .attr("x2", function(d) { return d.target.x; })
-          .attr("y2", function(d) { return d.target.y; })
+          .enter().append("path")
+          .attr('d', function(d){
+            var dx = d.target.x - d.source.x,
+                 dy = d.target.y - d.source.y,
+                 dr = Math.sqrt(dx * dx + dy * dy);
+             return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+          })
+          .attr('fill', 'none')
           .attr("class", "link");
         node = svg.append('g').selectAll(".node");
         node.data(force.nodes())
@@ -168,11 +171,14 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
 
                 link
                   .data(testLinkArray)
-                  .enter().insert("line", ".node")
-                  .attr("x1", function(d) { return d.source.x; })
-                  .attr("y1", function(d) { return d.source.y; })
-                  .attr("x2", function(d) { return d.target.x; })
-                  .attr("y2", function(d) { return d.target.y; })
+                  .enter().insert("path", ".node")
+                  .attr('d', function(d){
+                    var dx = d.target.x - d.source.x,
+                         dy = d.target.y - d.source.y,
+                         dr = Math.sqrt(dx * dx + dy * dy);
+                     return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+                  })
+                  .attr('fill', 'none')
                   .attr("class", "link");
 
                 showDetails(d);
