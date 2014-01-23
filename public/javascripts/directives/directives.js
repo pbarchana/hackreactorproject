@@ -7,9 +7,13 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
       var viewHeight = window.innerHeight;
       var linkDirectory = {};
+      var selected_link = null; 
       var link;
       var node;
 
+      d3.select(window)
+        .on('keydown', keydown);
+        
       var force = d3.layout.force()
         .charge(-2000)
         .linkStrength(0.2)
@@ -54,6 +58,57 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
         .style('stroke-width', '5px');
       };
 
+      var selectLink = function(link, i){
+          
+          if (selected_link !== null) {
+            d3.select(".linkSelected")
+            .transition()
+            .style("stroke", "#ddd")
+            .style("stroke-opacity", 0.3)
+            .style("stroke-width", "2px")
+            .style("stroke-dasharray", "none");
+            d3.select('.linkSelected')
+            .classed('linkSelected', false);
+          }
+          else if(selected_link === link){
+            selected_link = null;
+            return;
+          } else { 
+            selected_link = link;
+          }
+
+          d3.select(this)
+          .attr('class', 'linkSelected')
+          .transition()
+          .style('stroke', 'black')
+          .style("stroke-dasharray", ("3, 3"))
+          .style('stroke-width', '6px');
+        };
+
+        function keydown(d) {
+          d3.event.preventDefault();
+          console.log("Inside keydown");
+          // ctrl
+          if(d3.event.keyCode === 17) {
+          circle.call(force.drag);
+          svg.classed('ctrl', true);
+          }
+
+          if(!selected_link) return;
+          switch(d3.event.keyCode) {
+            case 8: // backspace
+            case 46: // delete
+              if(selected_link) {
+                var n = force.links().indexOf(selected_link);
+                if(n >= 0) {
+                  force.links().splice(n, 1);
+                  d3.select(".linkSelected").remove();
+                }
+              }
+              selected_link = null;
+              break;
+          }
+        }
       var showDetails = function(node){
         var selected = d3.select(this).attr('nodeSelected');
 
@@ -142,7 +197,9 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
              return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
           })
           .attr('fill', 'none')
-          .attr("class", "link");
+          .attr("class", "link")
+          .on('click', selectLink);
+
         node = svg.append('g').selectAll(".node");
         node.data(force.nodes())
           .enter().append("circle")
@@ -216,96 +273,107 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
 
 };
 
-var bootstrapMap = function(scope, element, attrs, d3Service) {
-  // Create the Google Map…
-  debugger;
-  d3Service.d3().then(function(d3) {
+// var bootstrapMap = function(scope, element, attrs, d3Service) {
+//   // Create the Google Map…
+//   debugger;
+//   d3Service.d3().then(function(d3) {
+//     debugger;
+//     var map;
+//     // var initialize = function() {
+//       map = new google.maps.Map(d3.select(document.getElementById('map')), {
+//         zoom: 8,
+//         center: new google.maps.LatLng(37.76487, -122.41948),
+//         mapTypeId: google.maps.MapTypeId.TERRAIN
+//       });
+//     // };
+
+//     // google.maps.event.addDomListener(window, 'load', initialize);
+
+//     // Load the station data. When the data comes back, create an overlay.
+//   //   var data = scope.nwdata;
+//   //   var overlay = new google.maps.OverlayView();
+
+//   //   // Add the container when the overlay is added to the map.
+//   //   overlay.onAdd = function() {
+//   //     console.log('onadd');
+//   //     var layer = d3.select(this.getPanes().overlayLayer).append("div")
+//   //         .attr("class", "stations");
+
+//   //     // Draw each marker as a separate SVG element.
+//   //     // We could use a single SVG, but what size would it have?
+//   //     overlay.draw = function() {
+//   //       var projection = this.getProjection(),
+//   //           padding = 10;
+
+//   //       var marker = layer.selectAll("svg")
+//   //           .data(d3.entries(data))
+//   //           .each(transform) // update existing markers
+//   //         .enter().append("svg:svg")
+//   //           .each(transform)
+//   //           .attr("class", "marker");
+
+//   //       // Add a circle.
+//   //       marker.append("svg:circle")
+//   //           .attr("r", 4.5)
+//   //           .attr("cx", padding)
+//   //           .attr("cy", padding);
+
+//   //       // Add a label.
+//   //       marker.append("svg:text")
+//   //           .attr("x", padding + 7)
+//   //           .attr("y", padding)
+//   //           .attr("dy", ".31em")
+//   //           .text(function(d) { return d.key; });
+
+//   //       // function transform(d) {
+//   //       //   debugger;
+//   //       //   d = new google.maps.LatLng(d.value[1], d.value[0]);
+//   //       //   d = projection.fromLatLngToDivPixel(d);
+//   //       //   return d3.select(this)
+//   //       //       .style("left", (d.x - padding) + "px")
+//   //       //       .style("top", (d.y - padding) + "px");
+//   //       // }
+//   //     };
+//   //   };
+
+//   //   // Bind our overlay to the map…
+//   //   overlay.setMap(map);
+//   });
+// };
+
+// app.directive('networkGraph', ['d3Service', function(d3Service) {
+//   return {
+//     restrict: 'EA',
+//     scope: {
+//       nwdata: '=',
+//       loading: '='
+//     },
+//     link: function(scope, element, attrs) {
+//       debugger;
+//       setTimeout(function() {
+//         bootstrapMap(scope, element, attrs, d3Service);
+//       }, 1000);
+//       // bootstrapd3(scope, element, attrs, d3Service);
+//     }
+//   };
+// }]);
+
+app.directive('helloMaps', function () {
+  return function (scope, elem, attrs) {
     debugger;
-    var map = new google.maps.Map(d3.select(element[0]), {
+    var mapOptions,
+      latitude = attrs.latitude,
+      longitude = attrs.longitude,
+      map;
+
+    latitude = latitude && parseFloat(latitude, 10) || 43.074688;
+    longitude = longitude && parseFloat(longitude, 10) || -89.384294;
+
+    mapOptions = {
       zoom: 8,
-      center: new google.maps.LatLng(37.76487, -122.41948),
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    });
-
-    // Load the station data. When the data comes back, create an overlay.
-    var data = scope.nwdata;
-    var overlay = new google.maps.OverlayView();
-
-    // Add the container when the overlay is added to the map.
-    overlay.onAdd = function() {
-      console.log('onadd');
-      var layer = d3.select(this.getPanes().overlayLayer).append("div")
-          .attr("class", "stations");
-
-      // Draw each marker as a separate SVG element.
-      // We could use a single SVG, but what size would it have?
-      overlay.draw = function() {
-        var projection = this.getProjection(),
-            padding = 10;
-
-        var marker = layer.selectAll("svg")
-            .data(d3.entries(data))
-            .each(transform) // update existing markers
-          .enter().append("svg:svg")
-            .each(transform)
-            .attr("class", "marker");
-
-        // Add a circle.
-        marker.append("svg:circle")
-            .attr("r", 4.5)
-            .attr("cx", padding)
-            .attr("cy", padding);
-
-        // Add a label.
-        marker.append("svg:text")
-            .attr("x", padding + 7)
-            .attr("y", padding)
-            .attr("dy", ".31em")
-            .text(function(d) { return d.key; });
-
-        // function transform(d) {
-        //   debugger;
-        //   d = new google.maps.LatLng(d.value[1], d.value[0]);
-        //   d = projection.fromLatLngToDivPixel(d);
-        //   return d3.select(this)
-        //       .style("left", (d.x - padding) + "px")
-        //       .style("top", (d.y - padding) + "px");
-        // }
-      };
+      center: new google.maps.LatLng(latitude, longitude)
     };
 
-    // Bind our overlay to the map…
-    overlay.setMap(map);
-  });
-};
-
-app.directive('networkGraph', ['d3Service', function(d3Service) {
-  return {
-    restrict: 'EA',
-    scope: {
-      nwdata: '=',
-      loading: '='
-    },
-    link: function(scope, element, attrs) {
-      debugger;
-      setTimeout(function() {
-        bootstrapMap(scope, element, attrs, d3Service);
-      }, 1000);
-      // bootstrapd3(scope, element, attrs, d3Service);
-    }
+    map = new google.maps.Map(elem[0], mapOptions);
   };
-}]);
-
-app.directive('dataGraph', ['d3Service', function(d3Service) {
-  return {
-    restrict: 'EA',
-    scope: {
-      nwdata: '=',
-      loading: '='
-    },
-    link: function(scope, element, attrs) {
-      debugger;
-      bootstrapMap(scope, element, attrs, d3Service);
-    }
-  };
-}]);
+});
