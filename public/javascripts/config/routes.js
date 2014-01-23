@@ -5,7 +5,7 @@ angular.module('app')
 		controller: 'mainController',
 		templateUrl: 'javascripts/views/main.html'
 	})
-	.when('/zoomedIn', {
+	.when('/zoomIn', {
 		controller: 'zoomInController',
 		templateUrl: 'javascripts/views/zoomIn.html'
 	})
