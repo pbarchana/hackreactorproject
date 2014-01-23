@@ -49,16 +49,15 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
         d3.select(this)
         .attr('nodeSelected', true)
         .transition()
-        .style('stroke', 'black')
+        .style('stroke', '#bada55')
         .style('stroke-width', '6px');
       };
 
       var showDetails = function(node){
         var selected = d3.select(this).attr('nodeSelected');
-        console.log(selected);
 
         if(selected === 'false'){
-          d3.select(this).style('stroke', 'grey');
+          d3.select(this).style('stroke', '#bada55');
         }
 
         d3.selectAll(".link").transition()
@@ -181,9 +180,9 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
           })
           .attr("fill", function(d, i){
             if (d.type === 'server') {
-              return "#ca8142";
+              return "#444";
             } else {
-            return "#428bca";
+            return "#888";
             }
           })
           .on('mouseover', showDetails)
