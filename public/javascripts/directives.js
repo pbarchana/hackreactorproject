@@ -54,9 +54,10 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       };
 
       var showDetails = function(node){
-        console.log(d3.select(this).attr('nodeSelected'));
+        var selected = d3.select(this).attr('nodeSelected');
+        console.log(selected);
 
-        if(!d3.select(this).attr('nodeSelected')){
+        if(selected === 'false'){
           d3.select(this).style('stroke', 'grey');
         }
 
@@ -78,7 +79,8 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       };
 
       var hideDetails = function(node){
-        if(!d3.select(this).attr('nodeSelected')){
+        var selected = d3.select(this).attr('nodeSelected');
+        if(selected === 'false'){
           d3.select(this)
           .transition()
           .style('stroke', 'white');
@@ -145,6 +147,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
           .attr("cx", function(d) { return d.x; })
           .attr("cy", function(d) { return d.y; })
           .attr("r", 15)
+          .attr('nodeSelected', 'false')
           .on('click.selectNode', selectNode)
           .on("click", function(d) {
             scope.$apply(function () {
