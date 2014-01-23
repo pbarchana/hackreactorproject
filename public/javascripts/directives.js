@@ -206,6 +206,7 @@ var bootstrapMap = function(scope, element, attrs, d3Service) {
   // Create the Google Map…
   debugger;
   d3Service.d3().then(function(d3) {
+    debugger;
     var map = new google.maps.Map(d3.select(element[0]), {
       zoom: 8,
       center: new google.maps.LatLng(37.76487, -122.41948),
@@ -272,7 +273,9 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     },
     link: function(scope, element, attrs) {
       debugger;
-      bootstrapMap(scope, element, attrs, d3Service);
+      setTimeout(function() {
+        bootstrapMap(scope, element, attrs, d3Service);
+      }, 1000);
       // bootstrapd3(scope, element, attrs, d3Service);
     }
   };
