@@ -16,7 +16,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       var link;
       var node;
 
-      d3.select('svg')
+      d3.select(window)
         .on('keydown', keydown);
         
       var force = d3.layout.force()

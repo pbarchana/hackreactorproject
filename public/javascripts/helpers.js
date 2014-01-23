@@ -71,143 +71,132 @@ var drawNodes = function(node, link, force, scope){
     });
 };
 
-
-
-
-
-
-
-
-
 //adds stringified link to directory
 var addLink = function(a, b, linkDirectory){
 	linkDirectory[a + "," + b] = 1;
 	linkDirectory[b + "," + a] = 1;
 };
 
+ //find all nodes connected to selected node  -- NOT USED
+var neighbors = function(target, source, linkDirectory){
+  return linkDirectory[target + "," + source] ||
+    linkDirectory[source + "," + target];
+};
 
+var resetSelection = function(svg){
+  console.log('BOOM!');
+};
 
-      //find all nodes connected to selected node  -- NOT USED
-      var neighbors = function(target, source, linkDirectory){
-        return linkDirectory[target + "," + source] ||
-          linkDirectory[source + "," + target];
-      };
+var selectNode = function(node, i){
+  d3.selectAll('.node').attr('nodeSelected', false)
+  .style('stroke', 'white')
+  .style('stroke-width', '3px');
 
-      var resetSelection = function(svg){
-        console.log('BOOM!');
-      };
+  d3.select(this)
+  .attr('nodeSelected', true)
+  .transition()
+  .style('stroke', '#bada55')
+  .style('stroke-width', '5px');
+};
 
+var selectLink = function(link, i, selected_link){
+  if (selected_link !== null) {
+    d3.select(".linkSelected")
+    .transition()
+    .style("stroke", "#ddd")
+    .style("stroke-opacity", 0.3)
+    .style("stroke-dasharray", "none");
+    d3.select('.linkSelected')
+    .classed('linkSelected', false);
+  }
+  else if(selected_link === link){
+    selected_link = null;
+    return;
+  } else { 
+    selected_link = link;
+  }
 
+  d3.select(this)
+  .attr('class', 'linkSelected')
+  .transition()
+  .style('stroke', 'black')
+  .style("stroke-dasharray", ("3, 3"))
+  .style('stroke-width', '6px');
+};
 
-      var selectNode = function(node, i){
-        d3.selectAll('.node').attr('nodeSelected', false)
-        .style('stroke', 'white')
-        .style('stroke-width', '3px');
+var keydown = function (d, selected_link) {
+  d3.event.preventDefault();
+  console.log("Inside keydown");
+  // ctrl
+  if(d3.event.keyCode === 17) {
+  circle.call(force.drag);
+  svg.classed('ctrl', true);
+  }
 
-        d3.select(this)
-        .attr('nodeSelected', true)
-        .transition()
-        .style('stroke', '#bada55')
-        .style('stroke-width', '5px');
-      };
-
-      var selectLink = function(link, i, selected_link){
-          if (selected_link !== null) {
-            d3.select(".linkSelected")
-            .transition()
-            .style("stroke", "#ddd")
-            .style("stroke-opacity", 0.3)
-            .style("stroke-dasharray", "none");
-            d3.select('.linkSelected')
-            .classed('linkSelected', false);
-          }
-          else if(selected_link === link){
-            selected_link = null;
-            return;
-          } else { 
-            selected_link = link;
-          }
-
-          d3.select(this)
-          .attr('class', 'linkSelected')
-          .transition()
-          .style('stroke', 'black')
-          .style("stroke-dasharray", ("3, 3"))
-          .style('stroke-width', '6px');
-        };
-
-        var keydown = function (d, selected_link) {
-          d3.event.preventDefault();
-          console.log("Inside keydown");
-          // ctrl
-          if(d3.event.keyCode === 17) {
-          circle.call(force.drag);
-          svg.classed('ctrl', true);
-          }
-
-          if(!selected_link) return;
-          switch(d3.event.keyCode) {
-            case 8: // backspace
-            case 46: // delete
-              if(selected_link) {
-                var n = force.links().indexOf(selected_link);
-                if(n >= 0) {
-                  force.links().splice(n, 1);
-                  d3.select(".linkSelected").remove();
-                }
-              }
-              selected_link = null;
-              break;
-          }
-        };
-      var showDetails = function(node){
-        var selected = d3.select(this).attr('nodeSelected');
-
-        if(selected === 'false'){
-          d3.select(this).style('stroke', '#bada55');
+  if(!selected_link) return;
+  switch(d3.event.keyCode) {
+    case 8: // backspace
+    case 46: // delete
+      if(selected_link) {
+        var n = force.links().indexOf(selected_link);
+        if(n >= 0) {
+          force.links().splice(n, 1);
+          d3.select(".linkSelected").remove();
         }
+      }
+      selected_link = null;
+      break;
+  }
+};
 
-        d3.selectAll(".link").transition()
-          .style("stroke", function(l) {
-            if (l.source === node || l.target === node) {
-              return "black";
-            } else {
-              return "#ddd";
-            }
-          })
-          .style("stroke-opacity", function(l) {
-            if (l.source === node || l.target === node) {
-              return 1.0;
-            } else {
-              return 0.1;
-            }
-          });
-      };
+var showDetails = function(node){
+  var selected = d3.select(this).attr('nodeSelected');
 
-      var hideDetails = function(node){
-        var selected = d3.select(this).attr('nodeSelected');
-        if(selected === 'false'){
-          d3.select(this)
-          .transition()
-          .style('stroke', 'white');
-        }
-        d3.selectAll(".link").transition()
-        .style("stroke", "#999")
-        .style("stroke-opacity", '0.3');
-      };
+  if(selected === 'false'){
+    d3.select(this).style('stroke', '#bada55');
+  }
+
+  d3.selectAll(".link").transition()
+    .style("stroke", function(l) {
+      if (l.source === node || l.target === node) {
+        return "black";
+      } else {
+        return "#ddd";
+      }
+    })
+    .style("stroke-opacity", function(l) {
+      if (l.source === node || l.target === node) {
+        return 1.0;
+      } else {
+        return 0.1;
+      }
+  });
+};
+
+var hideDetails = function(node){
+  var selected = d3.select(this).attr('nodeSelected');
+  if(selected === 'false'){
+    d3.select(this)
+    .transition()
+    .style('stroke', 'white');
+  }
+  d3.selectAll(".link").transition()
+  .style("stroke", "#999")
+  .style("stroke-opacity", '0.3');
+};
 
       
-      //function to map MAC address of nic to containing host
-      var mapMac = function(nodes) {
-        var tempNode;
-        var nics;
-        var nodesMap = d3.map();
-        nodes.forEach(function(n){
-          tempNode = n;
-          nics = n.components.nics;
-          nics.forEach(function(n){
-            nodesMap.set(n.mac, tempNode);
-          });
-        });
-        return nodesMap;
-      };
+//function to map MAC address of nic to containing host
+var mapMac = function(nodes) {
+  var tempNode;
+  var nics;
+  var nodesMap = d3.map();
+  nodes.forEach(function(n){
+    tempNode = n;
+    nics = n.components.nics;
+    nics.forEach(function(n){
+      nodesMap.set(n.mac, tempNode);
+    });
+  });
+  return nodesMap;
+};
