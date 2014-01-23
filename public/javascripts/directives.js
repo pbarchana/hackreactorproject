@@ -64,6 +64,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
             .transition()
             .style("stroke", "#ddd")
             .style("stroke-opacity", 0.3)
+            .style("stroke-width", "2px")
             .style("stroke-dasharray", "none");
             d3.select('.linkSelected')
             .classed('linkSelected', false);
