@@ -50,7 +50,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
         .attr('nodeSelected', true)
         .transition()
         .style('stroke', '#bada55')
-        .style('stroke-width', '6px');
+        .style('stroke-width', '5px');
       };
 
       var showDetails = function(node){
