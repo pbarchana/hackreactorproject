@@ -6,9 +6,13 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
       var viewHeight = window.innerHeight;
       var linkDirectory = {};
+      var selected_link = null; 
       var link;
       var node;
 
+      d3.select(window)
+        .on('keydown', keydown);
+        
       var force = d3.layout.force()
         .charge(-2000)
         .linkStrength(0.2)
@@ -53,6 +57,56 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
         .style('stroke-width', '5px');
       };
 
+      var selectLink = function(link, i){
+          
+          if (selected_link !== null) {
+            d3.select(".linkSelected")
+            .transition()
+            .style("stroke", "#ddd")
+            .style("stroke-opacity", 0.3)
+            .style("stroke-dasharray", "none");
+            d3.select('.linkSelected')
+            .classed('linkSelected', false);
+          }
+          else if(selected_link === link){
+            selected_link = null;
+            return;
+          } else { 
+            selected_link = link;
+          }
+
+          d3.select(this)
+          .attr('class', 'linkSelected')
+          .transition()
+          .style('stroke', 'black')
+          .style("stroke-dasharray", ("3, 3"))
+          .style('stroke-width', '6px');
+        };
+
+        function keydown(d) {
+          d3.event.preventDefault();
+          console.log("Inside keydown");
+          // ctrl
+          if(d3.event.keyCode === 17) {
+          circle.call(force.drag);
+          svg.classed('ctrl', true);
+          }
+
+          if(!selected_link) return;
+          switch(d3.event.keyCode) {
+            case 8: // backspace
+            case 46: // delete
+              if(selected_link) {
+                var n = force.links().indexOf(selected_link);
+                if(n >= 0) {
+                  force.links().splice(n, 1);
+                  d3.select(".linkSelected").remove();
+                }
+              }
+              selected_link = null;
+              break;
+          }
+        }
       var showDetails = function(node){
         var selected = d3.select(this).attr('nodeSelected');
 
@@ -138,7 +192,9 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
           .attr("y1", function(d) { return d.source.y; })
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; })
-          .attr("class", "link");
+          .attr("class", "link")
+          .on('click', selectLink);
+
         node = svg.append('g').selectAll(".node");
         node.data(force.nodes())
           .enter().append("circle")
