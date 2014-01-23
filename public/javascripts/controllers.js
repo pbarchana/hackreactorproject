@@ -5,13 +5,14 @@ app.controller('d3Controller', function($scope, NetworkDataService) {
 
 app.controller('dataCtrl', function($scope, NetworkDataService){
   $scope.loading = true;
-  console.log("Inside dataCtrl");
-  NetworkDataService.getAllFlattened()
+
+  NetworkDataService.getAllDataCenters()
   .then(function(data) {
+    debugger;
     $scope.ctldata = data;
-    console.log(data);
-    $scope.nodes = data.nodes;
-    $scope.links = data.links;
+    // console.log(data);
+    // $scope.nodes = data.nodes;
+    // $scope.links = data.links;
 
   }, function errorFunction(reason) {
     $scope.error = reason;
