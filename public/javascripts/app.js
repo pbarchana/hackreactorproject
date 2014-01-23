@@ -29,4 +29,3 @@ angular.module('d3', [])
 
 var app = angular.module('app', ['d3', 'ui.bootstrap']);
 
-
