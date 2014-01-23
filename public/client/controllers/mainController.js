@@ -1,14 +1,14 @@
-app.controller('dataCtrl', function($scope, NetworkDataService){
+angular.module('app')
+.controller('mainController', function($scope, $location, NetworkDataService){
   $scope.loading = true;
 
-  NetworkDataService.getAllDataCenters()
+  NetworkDataService.getAllFlattened()
   .then(function(data) {
     debugger;
     $scope.ctldata = data;
-    // console.log(data);
-    // $scope.nodes = data.nodes;
-    // $scope.links = data.links;
-
+    console.log(data);
+    $scope.nodes = data.nodes;
+    $scope.links = data.links;
   }, function errorFunction(reason) {
     $scope.error = reason;
   });

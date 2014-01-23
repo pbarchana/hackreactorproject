@@ -1,5 +1,4 @@
 var bootstrapd3 = function(scope, element, attrs, d3Service) {
-
   setTimeout(function(){
     var d3serve = d3Service.d3().then(function(d3) {
 
@@ -13,7 +12,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
       var viewHeight = window.innerHeight;
       var linkDirectory = {};
-      var selected_link = null; 
+      var selected_link = null;
       var link;
       var node;
 
@@ -153,22 +152,22 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
 //   });
 // };
 
-// app.directive('networkGraph', ['d3Service', function(d3Service) {
-//   return {
-//     restrict: 'EA',
-//     scope: {
-//       nwdata: '=',
-//       loading: '='
-//     },
-//     link: function(scope, element, attrs) {
-//       debugger;
-//       setTimeout(function() {
-//         bootstrapMap(scope, element, attrs, d3Service);
-//       }, 1000);
-//       // bootstrapd3(scope, element, attrs, d3Service);
-//     }
-//   };
-// }]);
+app.directive('networkGraph', ['d3Service', function(d3Service) {
+  return {
+    restrict: 'EA',
+    scope: {
+      nwdata: '=',
+      loading: '='
+    },
+    link: function(scope, element, attrs) {
+      debugger;
+      setTimeout(function() {
+        bootstrapd3(scope, element, attrs, d3Service);
+      }, 1000);
+      // bootstrapd3(scope, element, attrs, d3Service);
+    }
+  };
+}]);
 
 app.directive('helloMaps', function () {
   return function (scope, elem, attrs) {

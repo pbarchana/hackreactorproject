@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>NodePrime Network Visualizer</title>
@@ -9,6 +9,7 @@
   <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
   <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
   <!-- TODO: find a way to permanently edit panel in here -->
   <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
@@ -22,24 +23,26 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 
   <!-- Scripts -->
-  <script src="javascripts/app.js"></script>
+  <script src="client/app.js"></script>
 
   <!-- Services -->
-  <script src="javascripts/services/networkDataService.js"></script>
+  <script src="client/services/networkDataService.js"></script>
 
   <!-- Controllers -->
-  <script src="javascripts/controllers/d3Controller.js"></script>
-  <script src="javascripts/controllers/accordionCtrl.js"></script>
-  <script src="javascripts/controllers/dataCtrl.js"></script>
+  <script src="client/controllers/d3Controller.js"></script>
+  <script src="client/controllers/accordionController.js"></script>
+  <script src="client/controllers/mainController.js"></script>
+  <script src="client/controllers/zoomInController.js"></script>
 
   <!-- Directives -->
-  <script src="javascripts/directives/directives.js"></script>
 
-  
-  <script src="javascripts/helpers.js"></script>
-  <script src="javascripts/filters.js"></script>
+  <script src="client/directives/directives.js"></script>
+  <!-- Routes -->
+  <script src="client/config/routes.js"></script>  
+  <script src="client/helpers.js"></script>
+  <script src="client/filters.js"></script>
 </head>
-<body>
+<body ng-app="app">
 
 
 
@@ -61,10 +64,6 @@
     </div>
   </script>
 
-  <!-- Main application -->
-  <div class="dataCtrl" ng-controller="dataCtrl">
-
-
 
     <!-- Loading gif -->
 <!--     <div ng-show="loading" class="loading">
@@ -84,20 +83,22 @@
       </div> -->
       
     </nav>
-
-    <div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294"></div>
+<!-- 
+    <div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294"></div> -->
     
-    <div class="content top-buffer">
 <!--       <div network-graph class="background" loading="loading" nwdata="ctldata">
         <div id="map"></div>
       </div> -->
+    <div class="view-container">
+      <div ng-view="" class="view-animate"></div>
+    </div>
 
 <!--       <div data-graph class="background" loading="loading" nwdata="ctldata">
       </div> -->
     </div>
 
     <div class="side-panel top-buffer" style="overflow-y: scroll">
-      <div ng-controller="AccordionCtrl">
+      <div ng-controller="accordionController">
         <accordion close-others="oneAtATime">
           <!-- Title -->
           <h4>{{ selectedNode.type.toUpperCase() }}</h4>
