@@ -27,5 +27,5 @@ angular.module('d3', [])
   }
 ]);
 
-var app = angular.module('app', ['d3', 'ui.bootstrap']);
+var app = angular.module('app', ['ngRoute', 'd3', 'ui.bootstrap']);
 

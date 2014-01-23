@@ -5,6 +5,7 @@
     "angular": "latest",
     "bootstrap": "~3.0.3",
     "angular-bootstrap": "~0.10.0",
-    "d3": "~3.4.1"
+    "d3": "~3.4.1",
+    "angular-route": "~1.2.9"
   }
 }

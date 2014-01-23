@@ -1,4 +1,5 @@
-app.controller('AccordionCtrl', function($scope) {
+angular.module('app')
+.controller('accordionController', function($scope) {
   $scope.oneAtATime = false;
 
   $scope.isPrimitive = function(value) {

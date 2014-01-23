@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>NodePrime Network Visualizer</title>
   <link rel="icon" type="image/png" href="img/favicon.png">
   <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
   <!-- TODO: find a way to permanently edit panel in here -->
   <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
@@ -22,15 +23,18 @@
 
   <!-- Controllers -->
   <script src="javascripts/controllers/d3Controller.js"></script>
-  <script src="javascripts/controllers/accordionCtrl.js"></script>
-  <script src="javascripts/controllers/dataCtrl.js"></script>
+  <script src="javascripts/controllers/accordionController.js"></script>
+  <script src="javascripts/controllers/mainController.js"></script>
+  <script src="javascripts/controllers/zoomInController.js"></script>
 
   <!-- Directives -->
   <script src="javascripts/directives/directives.js"></script>
 
+  <!-- Routes -->
+  <script src="javascripts/config/routes.js"></script>  
   <script src="javascripts/filters.js"></script>
 </head>
-<body>
+<body ng-app="app">
 
   <!-- Tree Display Template for Accordian -->
   <script type="text/ng-template"  id="tree_item_renderer.html">
@@ -51,8 +55,6 @@
   </script>
 
   <!-- Main application -->
-  <div class="dataCtrl" ng-controller="dataCtrl">
-
     <!-- Loading gif -->
 <!--     <div ng-show="loading" class="loading">
       <img src="img/ajax-loader.gif"></img>
@@ -72,16 +74,9 @@
       
     </nav>
 
-    <div class="content top-buffer">
-      <div network-graph class="background" loading="loading" nwdata="ctldata">
+    <div class="view-container">
+        <div ng-view="" class="view-animate"></div>
       </div>
-<!--       <div class="input-group search">
-        <input type="text" ng-model="liveSearch" class="form-control">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
-      </div> -->
-    </div>
 
       <!-- Search Bar -->
 <!--     <form class="navbar-form" role="search">
@@ -94,7 +89,7 @@
     </form> -->
 
     <div class="side-panel top-buffer" style="overflow-y: scroll">
-      <div ng-controller="AccordionCtrl">
+      <div ng-controller="accordionController">
         <accordion close-others="oneAtATime">
           <!-- Title -->
           <h4>{{ selectedNode.type.toUpperCase() }}</h4>
