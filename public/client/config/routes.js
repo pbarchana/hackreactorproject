@@ -3,10 +3,10 @@ angular.module('app')
 	$routeProvider
 	.when('/', {
 		controller: 'mainController',
-		templateUrl: 'javascripts/views/main.html'
+		templateUrl: 'client/views/main.html'
 	})
 	.when('/zoomIn', {
 		controller: 'zoomInController',
-		templateUrl: 'javascripts/views/zoomIn.html'
+		templateUrl: 'client/views/zoomIn.html'
 	})
 })
