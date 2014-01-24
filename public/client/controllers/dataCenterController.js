@@ -2,9 +2,11 @@ angular.module('app')
 .controller('dataCenterController', function($scope, $location, NetworkDataService){
   $scope.loading = true;
 
+
   NetworkDataService.getAllDataCenters()
   .then(function(data) {
     $scope.ctldata = data;
+    $scope.selectedNode = data[0];
     // console.log(data);
     // $scope.nodes = data.nodes;
     // $scope.links = data.links;
@@ -12,8 +14,8 @@ angular.module('app')
     $scope.error = reason;
   });
 
-  $scope.select = function(node) {
-    $scope.selectedNode = node;
-    $scope.liveSearch = "";
-  };
+  // $scope.select = function(node) {
+  //   $scope.selectedNode = node;
+  //   $scope.liveSearch = "";
+  // };
 });

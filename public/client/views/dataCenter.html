@@ -3,4 +3,23 @@
   </div>
 </div> -->
 
-<div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294" loading="loading" nwdata="ctldata"></div>
+<div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294" loading="loading" nwdata="ctldata" selectedNode="selectedNode"></div>
+
+<div class="side-panel top-buffer" style="overflow-y: scroll">
+  <div ng-controller="accordionController">
+    <accordion close-others="oneAtATime">
+      <!-- Title -->
+      <!-- Attributes -->
+      <div class="divider">NODE INFO</div>
+      <accordion-group heading="Data Center" is-open="true">
+        <div ng-repeat="(key, value) in selectedNode" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group>
+      <!-- Components -->
+<!--       <accordion-group heading="Components" is-open="true">
+        <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group> -->
+
+      <div class="divider">CONNECTIONS</div>
+    </accordion>
+  </div><!-- /.AccordianDemoCtrl -->
+</div><!-- /.sidePanel -->

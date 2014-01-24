@@ -56,7 +56,7 @@
       </accordion-group>
     </div>
     <!-- Leaves -->
-    <div ng-if="isPrimitive(value)">
+    <div ng-if="isPrimitive(value, key)">
       <table class="table table-bordered table-striped dropdown-table">
         <tr>
           <td class="key"> {{key}} </td> <td> {{ value }} </td>
@@ -94,26 +94,6 @@
 
 <!--       <div data-graph class="background" loading="loading" nwdata="ctldata">
       </div> -->
-    </div>
-
-    <div class="side-panel top-buffer" style="overflow-y: scroll">
-      <div ng-controller="accordionController">
-        <accordion close-others="oneAtATime">
-          <!-- Title -->
-          <h4>{{ selectedNode.type.toUpperCase() }}</h4>
-          <!-- Attributes -->
-<!--           <div class="divider">NODE INFO</div>
- -->          <accordion-group heading="Attributes" is-open="true">
-            <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
-          </accordion-group>
-          <!-- Components -->
-          <accordion-group heading="Components" is-open="true">
-            <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
-          </accordion-group>
-
-<!--           <div class="divider">CONNECTIONS</div>
- -->        </accordion>
-      </div><!-- /.AccordianDemoCtrl -->
     </div>
 
 
