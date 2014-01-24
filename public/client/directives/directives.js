@@ -142,8 +142,8 @@ app.directive('helloMaps', [function() {
           });
 
           google.maps.event.addListener(marker, 'dblclick', function() {
-            
-            alert(JSON.stringify(node));
+            window.location = '/?id=' + node._id;
+            // alert(JSON.stringify(node._id));
           });
         });
 
