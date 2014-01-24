@@ -130,6 +130,10 @@ app.directive('helloMaps', [function() {
             map: map,
             icon: getCircle()
           });
+
+          google.maps.event.addListener(marker, 'click', function() {
+            alert('clicked');
+          });
         });
 
         function getCircle() {
