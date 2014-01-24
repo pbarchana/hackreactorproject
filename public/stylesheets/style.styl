@@ -131,9 +131,12 @@ nav
   height 55px
 
 .side-panel
+  position absolute
+  top 0px
+  right 0px
   padding 10px
-  position relative
-  float right
+  // position relative
+  // float right
   width: $sidePanelWidth
   background: url('http://s3.amazonaws.com/linkedin_inmaps_images/images/sidepanel-bg.gif') #dedede repeat-y left
 
@@ -152,7 +155,14 @@ nav
     width: 100px
 // TODO: find a way to adjust panel body without overriding defaults
 .panel
+  border-radius 0px !important
   box-shadow $shadow
+
+// .panel-group
+//   margin-top 15px !important
+
+// .panel, .panel-group
+//   margin 5px 0px 5px 0px
 
 .panel-body
   padding 8px

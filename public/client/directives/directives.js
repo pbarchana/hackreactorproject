@@ -144,16 +144,16 @@ app.directive('helloMaps', ['d3Service', function(d3Service) {
 
             // Add a circle.
             marker.append("svg:circle")
-                .attr("r", 4.5)
+                .attr("r", 6)
                 .attr("cx", padding)
                 .attr("cy", padding);
 
             // Add a label.
-            // marker.append("svg:text")
-            //     .attr("x", padding + 7)
-            //     .attr("y", padding)
-            //     .attr("dy", ".31em")
-            //     .text(function(d) { return d.key; });
+            marker.append("svg:text")
+                .attr("x", padding + 7)
+                .attr("y", padding)
+                .attr("dy", ".31em")
+                .text(function(d) { return d.value.name; });
 
             function transform(d) {
               d = new google.maps.LatLng(d.value.latitude, d.value.longitude);
@@ -164,6 +164,22 @@ app.directive('helloMaps', ['d3Service', function(d3Service) {
             }
           };
         };
+
+        var flightPlanCoordinates = [
+            new google.maps.LatLng(37.772323, -122.214897),
+            new google.maps.LatLng(21.291982, -157.821856),
+            new google.maps.LatLng(-18.142599, 178.431),
+            new google.maps.LatLng(-27.46758, 153.027892)
+          ];
+          var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+
+          flightPath.setMap(map);
 
         overlay.setMap(map);
       });

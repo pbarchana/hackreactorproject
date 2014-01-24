@@ -103,11 +103,11 @@
           <h4>{{ selectedNode.type.toUpperCase() }}</h4>
           <!-- Attributes -->
 <!--           <div class="divider">NODE INFO</div>
- -->          <accordion-group heading="Attributes" is-open="false">
+ -->          <accordion-group heading="Attributes" is-open="true">
             <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
           </accordion-group>
           <!-- Components -->
-          <accordion-group heading="Components" is-open="false">
+          <accordion-group heading="Components" is-open="true">
             <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
           </accordion-group>
 
