@@ -124,17 +124,40 @@ app.directive('helloMaps', [function() {
       setTimeout(function() {
         var data = scope.nwdata;
 
-        data.forEach(function(node) {
+        data.forEach(function(node, i) {
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(node.latitude, node.longitude),
             map: map,
             icon: getCircle()
           });
+          marker.setTitle(node.name);
+          // attachSecretMessage(marker, i);
 
-          google.maps.event.addListener(marker, 'click', function() {
-            alert('clicked');
+          google.maps.event.addListener(marker, 'click', function(data) {
+            var infowindow = new google.maps.InfoWindow({
+              content: node.name,
+              size: new google.maps.Size(50,50)
+            });
+            infowindow.open(map, marker);
+          });
+
+          google.maps.event.addListener(marker, 'dblclick', function() {
+            
+            alert(JSON.stringify(node));
           });
         });
+
+        function attachData(data) {
+          
+          var message = ["This","is","the","secret","message"];
+          var infowindow = new google.maps.InfoWindow(
+              { content: message[number],
+                size: new google.maps.Size(50,50)
+              });
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+          });
+        }
 
         function getCircle() {
           var circle = {
