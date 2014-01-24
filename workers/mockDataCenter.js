@@ -13,10 +13,17 @@ var generateCoordinate = function(num) {
   return  (num + (Math.random() * 2)).toFixed(2);
 };
 
+// Generate coordinate within 2 points of given number
+var generateLocation = function() {
+  var locations = ['San Francisco', 'San Jose', 'Los Angeles']
+  return locations[Math.floor(Math.random() * locations.length)];
+};
+
 var generateDataCenter = function() {
   return {
     type: 'datacenter',
     name: generateName(),
+    location: generateLocation(),
     longitude: generateCoordinate(-122),
     latitude: generateCoordinate(36)
   };

@@ -106,7 +106,7 @@ app.directive('helloMaps', [function() {
     restrict: 'EA',
     scope: {
       nwdata: '=',
-      selectednode: '=',
+      selectedNode: '=',
       loading: '='
     },
     link: function (scope, elem, attrs) {
@@ -122,7 +122,6 @@ app.directive('helloMaps', [function() {
       // generate map overlay
       setTimeout(function() {
         var data = scope.nwdata;
-
         data.forEach(function(node, i) {
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(node.latitude, node.longitude),
@@ -133,7 +132,7 @@ app.directive('helloMaps', [function() {
           // attachSecretMessage(marker, i);
           google.maps.event.addListener(marker, 'click', function(data) {
             scope.$apply(function() {
-              scope.selectednode = node;
+              scope.selectedNode = node;
             });
 
             // var infowindow = new google.maps.InfoWindow({
