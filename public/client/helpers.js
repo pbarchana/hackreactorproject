@@ -10,7 +10,9 @@ var drawLinks = function(link, force){
   })
   .attr('fill', 'none')
   .attr("class", "link")
-  .on('click', selectLink);
+  .on('click', selectLink)
+  .on('mouseover', showLinkDetails)
+  .on('mouseout', hideLinkDetails);
 };
 
 var drawNodes = function(node, link, force, scope){
@@ -89,6 +91,12 @@ var resetSelection = function(svg){
   console.log('BOOM!');
 };
 
+var showLinkDetails = function(link){
+
+};
+
+var hideLinkDetails = function(link){};
+
 var selectNode = function(node, i){
   d3.selectAll('.node').attr('nodeSelected', false)
   .style('stroke', 'white')
@@ -106,6 +114,7 @@ var selectLink = function(link, i, selected_link){
     d3.select(".linkSelected")
     .transition()
     .style("stroke", "#ddd")
+    .style("stroke-width", '2px')
     .style("stroke-opacity", 0.3)
     .style("stroke-dasharray", "none");
     d3.select('.linkSelected')
@@ -119,7 +128,7 @@ var selectLink = function(link, i, selected_link){
   }
 
   d3.select(this)
-  .attr('class', 'linkSelected')
+  .classed('linkSelected', true)
   .transition()
   .style('stroke', 'black')
   .style("stroke-dasharray", ("3, 3"))
