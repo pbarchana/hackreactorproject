@@ -10,14 +10,14 @@ var generateName = function() {
 
 // Generate coordinate within 2 points of given number
 var generateCoordinate = function(num) {
-  return  num + (Math.random() * 2);
+  return  (num + (Math.random() * 2)).toFixed(2);
 };
 
 var generateDataCenter = function() {
   return {
     type: 'datacenter',
     name: generateName(),
-    longitude: generateCoordinate(120),
+    longitude: generateCoordinate(-122),
     latitude: generateCoordinate(36)
   };
 };

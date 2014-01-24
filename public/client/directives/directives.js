@@ -111,66 +111,25 @@ app.directive('helloMaps', [function() {
       loading: '='
     },
     link: function (scope, elem, attrs) {
-      d3Service.d3().then(function(d3) {
-        // generate map
-        var mapOptions, map;
-        mapOptions = {
-          zoom: 8,
-          center: new google.maps.LatLng(37.76487, -122.41948),
-          mapTypeId: google.maps.MapTypeId.TERRAIN
-        };
-        map = new google.maps.Map(elem[0], mapOptions);
+      // generate map
+      var mapOptions, map;
+      mapOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(37.76487, -122.41948),
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+      };
+      map = new google.maps.Map(elem[0], mapOptions);
 
-        // generate map overlay
+      // generate map overlay
+      setTimeout(function() {
         var data = scope.nwdata;
 
-        
-        // var overlay = new google.maps.OverlayView();
-        // overlay.onAdd = function() {
-        //   console.log('layer added');
-        //   // select overlay and add a div element
-        //   var layer = d3.select(this.getPanes().overlayLayer).append("div")
-        //       .attr("class", "stations");
-
-        //   overlay.draw = function() {
-        //     console.log('drawing');
-        //     var projection = this.getProjection(),
-        //         padding = 10;
-
-        //     var marker = layer.selectAll("svg")
-        //         .data(d3.entries(data))
-        //         .each(transform) // update existing markers
-        //       .enter().append("svg:svg")
-        //         .each(transform)
-        //         .attr("class", "marker");
-
-        //     // Add a circle.
-        //     marker.append("svg:circle")
-        //         .attr("r", 6)
-        //         .attr("cx", padding)
-        //         .attr("cy", padding);
-
-        //     // Add a label.
-        //     marker.append("svg:text")
-        //         .attr("x", padding + 7)
-        //         .attr("y", padding)
-        //         .attr("dy", ".31em")
-        //         .text(function(d) { return d.value.name; });
-
-        //     function transform(d) {
-        //       d = new google.maps.LatLng(d.value.latitude, d.value.longitude);
-        //       d = projection.fromLatLngToDivPixel(d);
-        //       return d3.select(this)
-        //           .style("left", (d.x - padding) + "px")
-        //           .style("top", (d.y - padding) + "px");
-        //     }
-        //   };
-        // };
-
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(37.76487, -122.41948),
-          map: map,
-          icon: getCircle()
+        data.forEach(function(node) {
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(node.latitude, node.longitude),
+            map: map,
+            icon: getCircle()
+          });
         });
 
         function getCircle() {
@@ -185,24 +144,24 @@ app.directive('helloMaps', [function() {
           return circle;
         }
 
-        // var flightPlanCoordinates = [
-        //     new google.maps.LatLng(37.772323, -122.214897),
-        //     new google.maps.LatLng(21.291982, -157.821856),
-        //     new google.maps.LatLng(-18.142599, 178.431),
-        //     new google.maps.LatLng(-27.46758, 153.027892)
-        //   ];
-        //   var flightPath = new google.maps.Polyline({
-        //     path: flightPlanCoordinates,
-        //     geodesic: true,
-        //     strokeColor: '#FF0000',
-        //     strokeOpacity: 1.0,
-        //     strokeWeight: 2
-        //   });
+        var coordinates = [
+          new google.maps.LatLng(37.76, -121.16),
+          new google.maps.LatLng(37.05, -120.19),
+        ];
+        var path = new google.maps.Polyline({
+          path: coordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
 
-        //   flightPath.setMap(map);
+        path.setMap(map);
 
-        overlay.setMap(map);
-      });
+        
+        // overlay.setMap(map);
+      }, 1000);
+     
     }
   };
 }]);
