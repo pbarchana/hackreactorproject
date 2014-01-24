@@ -113,6 +113,7 @@ app.directive('helloMaps', ['d3Service', function(d3Service) {
     link: function (scope, elem, attrs) {
       d3Service.d3().then(function(d3) {
         // generate map
+        debugger;
         var mapOptions, map;
         mapOptions = {
           zoom: 8,
@@ -124,6 +125,13 @@ app.directive('helloMaps', ['d3Service', function(d3Service) {
         // generate map overlay
         var data = scope.nwdata;
         var overlay = new google.maps.OverlayView();
+        overlay.onAdd = function() {
+          debugger;
+          console.log('arrived');
+          var layer = d3.select(this.getPanes().overlayLayer).append("div")
+              .attr("class", "stations");
+        };
+        overlay.setMap(map);
       });
     }
   };
