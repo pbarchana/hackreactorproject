@@ -106,7 +106,7 @@ app.directive('helloMaps', [function() {
     restrict: 'EA',
     scope: {
       nwdata: '=',
-      selectedNode: '=',
+      selectednode: '=',
       loading: '='
     },
     link: function (scope, elem, attrs) {
@@ -131,18 +131,16 @@ app.directive('helloMaps', [function() {
           });
           marker.setTitle(node.name);
           // attachSecretMessage(marker, i);
-
           google.maps.event.addListener(marker, 'click', function(data) {
             scope.$apply(function() {
-              scope.selectedNode = node;
+              scope.selectednode = node;
             });
-            debugger;
 
-            var infowindow = new google.maps.InfoWindow({
-              content: node.name,
-              size: new google.maps.Size(50,50)
-            });
-            infowindow.open(map, marker);
+            // var infowindow = new google.maps.InfoWindow({
+            //   content: node.name,
+            //   size: new google.maps.Size(50,50)
+            // });
+            // infowindow.open(map, marker);
           });
 
           google.maps.event.addListener(marker, 'dblclick', function() {

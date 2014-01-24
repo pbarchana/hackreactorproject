@@ -5,8 +5,9 @@ angular.module('app')
 
   NetworkDataService.getAllDataCenters()
   .then(function(data) {
+    debugger;
+    $scope.selectednode = data[0];
     $scope.ctldata = data;
-    $scope.selectedNode = data[0];
     // console.log(data);
     // $scope.nodes = data.nodes;
     // $scope.links = data.links;

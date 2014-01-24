@@ -5,7 +5,9 @@ angular.module('app')
   $scope.isPrimitive = function(value, key) {
     if (Array.isArray(value)) return false;
     if (typeof value === 'object') return false;
-    if (key[0] === '_') return false; // ignore hidden variables
+    if (key) {
+      if (key[0] === '_') return false; // ignore hidden variables
+    }
     return true;
   };
 
