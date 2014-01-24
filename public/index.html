@@ -75,36 +75,26 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="http://www.nodeprime.com"><img src="img/nodeprime-logo3.png"></img></a>
       </div>
-      <div class="input-group search">
+<!--       <div class="input-group search">
         <input type="text" ng-model="liveSearch" class="form-control">
         <span class="input-group-btn">
           <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
         </span>
-      </div>
+      </div> -->
       
     </nav>
 
-<!--     <div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294"></div> -->
-    
-<!--       <div network-graph class="background" loading="loading" nwdata="ctldata">
-        <div id="map"></div>
-      </div> -->
     <div ng-view="" class="content top-buffer"></div>
-
-<!--       <div data-graph class="background" loading="loading" nwdata="ctldata">
-      </div> -->
     </div>
 
-
-
-
-    <div class="results">
+<!--     <div class="results">
       <div class="result" ng-click="select(node)" ng-show="liveSearch" style="cursor:hand" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
         <div>{{ node.type }}</div>
         <div class="info">Vendor: {{ node.attributes.vendor }}</div>
         <div class="info">UUID: {{ node.attributes.UUID }}</div>
       </div>
-    </div><!-- /.results -->
+    </div> -->
+    <!-- /.results -->
 
 
     <!-- Angular Directive -->
