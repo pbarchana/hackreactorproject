@@ -1,3 +1,6 @@
+// Due to D3's inability to interpolate 'classed' values on transition()
+// the .style() method must be used and each value set individually after
+// using transition() :(
 
 var drawLinks = function(link, force){
   link.data(force.links())
@@ -87,18 +90,23 @@ var neighbors = function(target, source, linkDirectory){
     linkDirectory[source + "," + target];
 };
 
-var resetSelection = function(svg){
-  console.log('BOOM!');
-};
-
 var showLinkDetails = function(link){
+  console.log('link hovered');
 
+  d3.select(this)
+    .style('stroke-opacity', 1)
+    .style('stroke', 'black');
 };
 
-var hideLinkDetails = function(link){};
+var hideLinkDetails = function(link){
+  d3.select(this)
+    .style('stroke-opacity', 0.3)
+    .style('stroke', '#999');
+};
 
 var selectNode = function(node, i){
-  d3.selectAll('.node').attr('nodeSelected', false)
+  d3.selectAll('.node')
+  .attr('nodeSelected', false)
   .style('stroke', 'white')
   .style('stroke-width', '3px');
 
@@ -113,8 +121,8 @@ var selectLink = function(link, i, selected_link){
   if (selected_link !== null) {
     d3.select(".linkSelected")
     .transition()
-    .style("stroke", "#ddd")
-    .style("stroke-width", '2px')
+    .style("stroke", "#999")
+    .style("stroke-width", '1px')
     .style("stroke-opacity", 0.3)
     .style("stroke-dasharray", "none");
     d3.select('.linkSelected')
@@ -172,7 +180,7 @@ var showDetails = function(node){
       if (l.source === node || l.target === node) {
         return "black";
       } else {
-        return "#ddd";
+        return "#999";
       }
     })
     .style("stroke-opacity", function(l) {

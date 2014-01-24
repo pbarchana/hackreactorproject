@@ -3,7 +3,9 @@ var bootstrapd3 = function(scope,  element, attrs, d3Service) {
     var d3serve = d3Service.d3().then(function(d3) {
 
  function redraw() {
-          svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
+          svg.attr('transform', 'translate(' +
+            d3.event.translate + ')' +
+          ' scale(' + d3.event.scale + ')');
         }
 
 
