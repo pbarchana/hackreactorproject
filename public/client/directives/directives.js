@@ -122,7 +122,8 @@ app.directive('helloMaps', ['d3Service', function(d3Service) {
 
         mapOptions = {
           zoom: 8,
-          center: new google.maps.LatLng(latitude, longitude)
+          center: new google.maps.LatLng(37.76487, -122.41948),
+          mapTypeId: google.maps.MapTypeId.TERRAIN
         };
 
         map = new google.maps.Map(elem[0], mapOptions);
