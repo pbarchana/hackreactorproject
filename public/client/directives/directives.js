@@ -4,21 +4,21 @@ var bootstrapd3 = function(scope,  element, attrs, d3Service) {
 
  function redraw() {
           svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
-        };
+        }
 
-      
+
       console.log("Inside directive");
       //View window width and height
       var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
       var viewHeight = window.innerHeight;
       var linkDirectory = {};
-      var selected_link = null; 
+      var selected_link = null;
       var link;
       var node;
 
-      d3.select(window)
+      d3.select('link')
         .on('keydown', keydown);
-        
+
       var force = d3.layout.force()
         .charge(-2000)
         .linkStrength(0.2)
@@ -62,15 +62,15 @@ var bootstrapd3 = function(scope,  element, attrs, d3Service) {
 
         link = svg.append('g').selectAll(".link");
         drawLinks(link, force);
-    
+
         node = svg.append('g').selectAll(".node");
         drawNodes(node, link, force, scope);
-        
+
         scope.$apply(function() {
           scope.loading = false;
         });
 
-       
+
 
       }, 500);
 

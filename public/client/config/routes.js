@@ -8,5 +8,5 @@ angular.module('app')
 	.when('/zoomIn', {
 		controller: 'zoomInController',
 		templateUrl: 'client/views/zoomIn.html'
-	})
-})
+	});
+});
