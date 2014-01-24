@@ -1,59 +1,61 @@
 var drawLinks = function(link, force){
-	link.data(force.links())
-	.enter().append("path")
-	.attr('d', function(d){
-	var dx = d.target.x - d.source.x,
-	     dy = d.target.y - d.source.y,
-	     dr = Math.sqrt(dx * dx + dy * dy);
-	 return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-	})
-	.attr('fill', 'none')
-	.attr("class", "link")
-	.on('click', selectLink);
+  link.data(force.links())
+  .enter().append("path")
+  .attr('d', function(d){
+  var dx = d.target.x - d.source.x,
+       dy = d.target.y - d.source.y,
+       dr = Math.sqrt(dx * dx + dy * dy);
+   return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+  })
+  .attr('fill', 'none')
+  .attr("class", "link")
+  .on('click', selectLink)
+  .on('mouseover', showLinkDetails)
+  .on('mouseout', hideLinkDetails);
 };
 
 var drawNodes = function(node, link, force, scope){
-	node.data(force.nodes())
-	  .enter().append("circle")
-	  .attr("class", "node")
-	  .attr("cx", function(d) { return d.x; })
-	  .attr("cy", function(d) { return d.y; })
-	  .attr("r", 15)
-		.attr('nodeSelected', 'false')
+  node.data(force.nodes())
+    .enter().append("circle")
+    .attr("class", "node")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", 15)
+    .attr('nodeSelected', 'false')
     .on('click.selectNode', selectNode)
     .on("click", function(d){
-			scope.$apply(function () {
-		    scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-		    scope.$parent.selectedNode =d ;
+      scope.$apply(function () {
+        scope.$parent.selectedNode1 = scope.$parent.selectedNode;
+        scope.$parent.selectedNode =d ;
         scope.$parent.$parent.selectedNode  = d;
-		    if (scope.$parent.selectedNode !== undefined &&
-		      scope.$parent.selectedNode1 !== undefined &&
-		      scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
-		      console.log("node", scope.$parent.selectedNode);
-		      console.log("node1", scope.$parent.selectedNode1);
+        if (scope.$parent.selectedNode !== undefined &&
+          scope.$parent.selectedNode1 !== undefined &&
+          scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
+          console.log("node", scope.$parent.selectedNode);
+          console.log("node1", scope.$parent.selectedNode1);
 
-		      var testLink = {};
-		      var testLinkArray = [];
-		      testLink.source = scope.$parent.selectedNode1;
-		      testLink.target = scope.$parent.selectedNode;
-		      testLinkArray.push(testLink);
-		      force.links().push(testLink);
+          var testLink = {};
+          var testLinkArray = [];
+          testLink.source = scope.$parent.selectedNode1;
+          testLink.target = scope.$parent.selectedNode;
+          testLinkArray.push(testLink);
+          force.links().push(testLink);
 
-		      link
-		        .data(testLinkArray)
-		        .enter().insert("path", ".node")
-		        .attr('d', function(d){
-		          var dx = d.target.x - d.source.x,
-		               dy = d.target.y - d.source.y,
-		               dr = Math.sqrt(dx * dx + dy * dy);
-		           return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-		        })
-				    .attr('fill', 'none')
-				    .attr("class", "link");
-			    showDetails(d);
-			  }
-			});
-		})
+          link
+            .data(testLinkArray)
+            .enter().insert("path", ".node")
+            .attr('d', function(d){
+              var dx = d.target.x - d.source.x,
+                   dy = d.target.y - d.source.y,
+                   dr = Math.sqrt(dx * dx + dy * dy);
+               return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+            })
+            .attr('fill', 'none')
+            .attr("class", "link");
+          showDetails(d);
+        }
+      });
+    })
     .attr("fill", function(d, i){
       if (d.type === 'server') {
         return "#444";
@@ -65,16 +67,17 @@ var drawNodes = function(node, link, force, scope){
     .on('mouseout', hideDetails)
     .append("title").text(function(d, i) {
       var retString =
-        "Vendor: " + d.attributes["vendor"] + "\n" +
-        "UUID: "   + d.attributes["UUID"];
+        "Vendor: " + d.attributes.vendor + "\n" +
+        "Platform: " + d.attributes.platform + "\n" +
+        "UUID: "   + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
       return retString;
     });
 };
 
 //adds stringified link to directory
 var addLink = function(a, b, linkDirectory){
-	linkDirectory[a + "," + b] = 1;
-	linkDirectory[b + "," + a] = 1;
+  linkDirectory[a + "," + b] = 1;
+  linkDirectory[b + "," + a] = 1;
 };
 
  //find all nodes connected to selected node  -- NOT USED
@@ -86,6 +89,12 @@ var neighbors = function(target, source, linkDirectory){
 var resetSelection = function(svg){
   console.log('BOOM!');
 };
+
+var showLinkDetails = function(link){
+
+};
+
+var hideLinkDetails = function(link){};
 
 var selectNode = function(node, i){
   d3.selectAll('.node').attr('nodeSelected', false)
@@ -104,6 +113,7 @@ var selectLink = function(link, i, selected_link){
     d3.select(".linkSelected")
     .transition()
     .style("stroke", "#ddd")
+    .style("stroke-width", '2px')
     .style("stroke-opacity", 0.3)
     .style("stroke-dasharray", "none");
     d3.select('.linkSelected')
@@ -112,12 +122,12 @@ var selectLink = function(link, i, selected_link){
   else if(selected_link === link){
     selected_link = null;
     return;
-  } else { 
+  } else {
     selected_link = link;
   }
 
   d3.select(this)
-  .attr('class', 'linkSelected')
+  .classed('linkSelected', true)
   .transition()
   .style('stroke', 'black')
   .style("stroke-dasharray", ("3, 3"))
@@ -185,7 +195,7 @@ var hideDetails = function(node){
   .style("stroke-opacity", '0.3');
 };
 
-      
+
 //function to map MAC address of nic to containing host
 var mapMac = function(nodes) {
   var tempNode;
