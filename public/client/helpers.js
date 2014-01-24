@@ -56,7 +56,7 @@ var drawNodes = function(node, link, force, scope){
             })
             .attr('fill', 'none')
             .attr("class", "link");
-          showDetails(d);
+          showNodeDetails(d);
         }
       });
     })
@@ -67,13 +67,13 @@ var drawNodes = function(node, link, force, scope){
       return "#888";
       }
     })
-    .on('mouseover', showDetails)
-    .on('mouseout', hideDetails)
+    .on('mouseover', showNodeDetails)
+    .on('mouseout', hideNodeDetails)
     .append("title").text(function(d, i) {
       var retString =
         "Vendor: " + d.attributes.vendor + "\n" +
         "Platform: " + d.attributes.platform + "\n" +
-        "UUID: "   + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
+        "UUID: " + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
       return retString;
     });
 };
@@ -90,14 +90,16 @@ var neighbors = function(target, source, linkDirectory){
     linkDirectory[source + "," + target];
 };
 
+//Called on edge hover
 var showLinkDetails = function(link){
-  console.log('link hovered');
+  console.log('d target ', link.target);
 
   d3.select(this)
     .style('stroke-opacity', 1)
     .style('stroke', 'black');
 };
 
+//Called on edge mouse out
 var hideLinkDetails = function(link){
   d3.select(this)
     .style('stroke-opacity', 0.3)
@@ -168,7 +170,7 @@ var keydown = function (d, selected_link) {
   }
 };
 
-var showDetails = function(node){
+var showNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
 
   if(selected === 'false'){
@@ -192,7 +194,7 @@ var showDetails = function(node){
   });
 };
 
-var hideDetails = function(node){
+var hideNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
   if(selected === 'false'){
     d3.select(this)
