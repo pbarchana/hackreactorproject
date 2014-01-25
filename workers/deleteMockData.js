@@ -17,4 +17,5 @@ var deleteFiles = function(pathToDir) {
 deleteFiles(rootDir + 'servers/');
 deleteFiles(rootDir + 'switches/');
 deleteFiles(rootDir + 'connectivity/');
+deleteFiles(rootDir + 'datacenters/');
 

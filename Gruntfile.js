@@ -62,6 +62,22 @@ module.exports = function(grunt) {
           }
         }
       },
+      generateDataCenters: {
+        command: 'node mockDataCenter.js ' + 5,
+        options: {
+          execOptions: {
+            cwd: 'workers'
+          }
+        }
+      },
+      generateDataCenterConnections: {
+        command: 'node connectDataCentersInDB.js',
+        options: {
+          execOptions: {
+            cwd: 'workers'
+          }
+        }
+      },
       saveFilesToDB: {
         command: 'node saveFilesToDB.js',
         options: {
@@ -91,10 +107,12 @@ module.exports = function(grunt) {
   grunt.registerTask('generate', [
     'shell:checkForDirectories',
     'shell:deleteMockData',
+    'shell:generateDataCenters',
+    // 'shell:generateDataCenterConnections',
     'shell:generateNodes',
     'shell:generateSwitches',
     'shell:generateConnectivity',
-    'shell:saveFilesToDB'
+    'shell:saveFilesToDB',
   ]);
 
   // The tasks that get executed when typing 'grunt'

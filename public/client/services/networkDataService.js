@@ -56,6 +56,31 @@ app.factory('NetworkDataService', function($q, $http/* DI */) {
       return d.promise;
     },
 
+    getAllDataCenters: function() {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/datacenter'
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
+    },
+    getAllDataCenterConnections: function() {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/dataCenterConnections'
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
+    },
+
     getAllSwitches: function() {
       var d = $q.defer();
       $http({

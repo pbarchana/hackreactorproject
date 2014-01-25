@@ -4,14 +4,20 @@
   <meta charset="UTF-8">
   <title>NodePrime Network Visualizer</title>
   <link rel="icon" type="image/png" href="img/favicon.png">
+
+  <!-- Google maps API -->
+  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular-route/angular-route.js"></script>
   <!-- TODO: find a way to permanently edit panel in here -->
   <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
+
+
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap-theme.min.css">
 
   <!-- Our styles -->
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
@@ -27,15 +33,19 @@
   <script src="client/controllers/accordionController.js"></script>
   <script src="client/controllers/mainController.js"></script>
   <script src="client/controllers/zoomInController.js"></script>
+  <script src="client/controllers/dataCenterController.js"></script>
 
   <!-- Directives -->
+
   <script src="client/directives/directives.js"></script>
   <!-- Routes -->
-  <script src="client/config/routes.js"></script>  
+  <script src="client/config/routes.js"></script>
   <script src="client/helpers.js"></script>
   <script src="client/filters.js"></script>
 </head>
 <body ng-app="app">
+
+
 
   <!-- Tree Display Template for Accordian -->
   <script type="text/ng-template"  id="tree_item_renderer.html">
@@ -46,7 +56,7 @@
       </accordion-group>
     </div>
     <!-- Leaves -->
-    <div ng-if="isPrimitive(value)">
+    <div ng-if="isPrimitive(value, key)">
       <table class="table table-bordered table-striped dropdown-table">
         <tr>
           <td class="key"> {{key}} </td> <td> {{ value }} </td>
@@ -55,76 +65,41 @@
     </div>
   </script>
 
-  <!-- Main application -->
+
     <!-- Loading gif -->
 <!--     <div ng-show="loading" class="loading">
       <img src="img/ajax-loader.gif"></img>
     </div> -->
     <nav role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <a class="navbar-brand" href="http://www.nodeprime.com"><img src="img/nodeprime-logo2.png"></img></a>
-        </div>
-<!--         <div class="input-group search">
-          <input type="text" ng-model="liveSearch" class="form-control">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
-          </span>
-        </div>
-      </div> -->
-      
-    </nav>
-
-    <div class="view-container">
-      <div ng-view="" class="view-animate"></div>
-    </div>
-
-      <!-- Search Bar -->
-<!--     <form class="navbar-form" role="search">
-      <div class="input-group">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://www.nodeprime.com"><img src="img/nodeprime-logo3.png"></img></a>
+      </div>
+<!--       <div class="input-group search">
         <input type="text" ng-model="liveSearch" class="form-control">
         <span class="input-group-btn">
-          <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+          <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
         </span>
-      </div>
-    </form> -->
+      </div> -->
+    </nav>
 
-    <div class="side-panel top-buffer" style="overflow-y: scroll">
-      <div ng-controller="accordionController">
-        <accordion close-others="oneAtATime">
-          <!-- Title -->
-          <h4>{{ selectedNode.type.toUpperCase() }}</h4>
-          <!-- Attributes -->
-<!--           <div class="divider">NODE INFO</div>
- -->          <accordion-group heading="Attributes" is-open="false">
-            <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
-          </accordion-group>
-          <!-- Components -->
-          <accordion-group heading="Components" is-open="false">
-            <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
-          </accordion-group>
-
-<!--           <div class="divider">CONNECTIONS</div>
- -->        </accordion>
-      </div><!-- /.AccordianDemoCtrl -->
+    <div ng-view="" class="content top-buffer"></div>
     </div>
 
-
-
-
-    <div class="results">
+<!--     <div class="results">
       <div class="result" ng-click="select(node)" ng-show="liveSearch" style="cursor:hand" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
         <div>{{ node.type }}</div>
         <div class="info">Vendor: {{ node.attributes.vendor }}</div>
         <div class="info">UUID: {{ node.attributes.UUID }}</div>
       </div>
-    </div><!-- /.results -->
+    </div> -->
+    <!-- /.results -->
 
 
     <!-- Angular Directive -->
-    
+
   </div>
- 
+
 
 
 </body>

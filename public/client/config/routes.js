@@ -5,12 +5,12 @@ angular.module('app')
 		controller: 'mainController',
 		templateUrl: 'client/views/main.html'
 	})
-  .when('/zoomIn', {
-    controller: 'zoomInController',
-    templateUrl: 'client/views/zoomIn.html'
-  })
   .when('/dataCenter', {
 		controller: 'dataCenterController',
 		templateUrl: 'client/views/dataCenter.html'
+  })
+	.when('/zoomIn', {
+		controller: 'zoomInController',
+		templateUrl: 'client/views/zoomIn.html'
 	});
 });
