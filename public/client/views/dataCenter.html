@@ -5,15 +5,7 @@
 
 <!-- Side Panel -->
 <div class="side-panel" style="overflow-y: scroll">
-  <!-- List view -->
-  <div ng-hide="selectedNode">
-    <div class="summary" ng-repeat="node in ctldata">
-      <div class="header">{{ node.name }}</div>
-      <div>Data Center</div>
-      <div>{{ node.location }}
-    </div>
-  </div>
-
+  
   <!-- Node View -->
   <div ng-show="selectedNode" ng-controller="accordionController">
     <accordion close-others="oneAtATime">
@@ -30,5 +22,15 @@
       <!-- Connections -->
       <div class="divider">CONNECTIONS</div>
     </accordion>
-  </div><!-- /.AccordianDemoCtrl -->
+  </div><!-- /accordianCtrl -->
+
+  <!-- List view -->
+  <div ng-hide="selectedNode">
+    <div class="summary" ng-repeat="node in ctldata">
+      <div class="header">{{ node.name }}</div>
+      <div>Data Center</div>
+      <div>{{ node.location }}
+    </div>
+  </div>
+
 </div><!-- /.sidePanel
