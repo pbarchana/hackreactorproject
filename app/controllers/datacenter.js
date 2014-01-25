@@ -34,7 +34,7 @@ module.exports.getAll = function(req, res) {
           }
         ], function(err, dataCenters) {
           var originCoord = [dataCenters[0].latitude, dataCenters[0].longitude];
-          var connectionCoord = [dataCenters[0].latitude, dataCenters[0].longitude];
+          var connectionCoord = [dataCenters[1].latitude, dataCenters[1].longitude];
           connections.push([originCoord, connectionCoord]);
           mainCallback();
         });

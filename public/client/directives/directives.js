@@ -150,38 +150,21 @@ app.directive('helloMaps', [function() {
           });
         });
 
-        // scope.connections.forEach(function(connection) {
-        //   var link = new google.maps.LatLng(37.772323, -122.214897);
-        // });
-
-        // // Draw lines between data centers
-        // var flightPlanCoordinates = [
-        //     new google.maps.LatLng(37.772323, -122.214897),
-        //     new google.maps.LatLng(21.291982, -157.821856),
-        //     new google.maps.LatLng(-18.142599, 178.431),
-        //     new google.maps.LatLng(-27.46758, 153.027892)
-        //   ];
-        // var flightPath = new google.maps.Polyline({
-        //   path: flightPlanCoordinates,
-        //   geodesic: true,
-        //   strokeColor: '#FF0000',
-        //   strokeOpacity: 1.0,
-        //   strokeWeight: 2
-        // });
-
-        // flightPath.setMap(map);
-
-        function attachData(data) {
-          
-          var message = ["This","is","the","secret","message"];
-          var infowindow = new google.maps.InfoWindow(
-              { content: message[number],
-                size: new google.maps.Size(50,50)
-              });
-          google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map,marker);
+        scope.connections.forEach(function(connection) {
+          debugger;
+          var coordinates = [
+            new google.maps.LatLng(connection[0][0], connection[0][1]),
+            new google.maps.LatLng(connection[1][0], connection[1][1])
+          ];
+          new google.maps.Polyline({
+            path: coordinates,
+            map: map,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
           });
-        }
+        });
 
         function getCircle() {
           var circle = {
@@ -194,23 +177,6 @@ app.directive('helloMaps', [function() {
           };
           return circle;
         }
-
-        var coordinates = [
-          new google.maps.LatLng(37.76, -121.16),
-          new google.maps.LatLng(37.05, -120.19),
-        ];
-        var path = new google.maps.Polyline({
-          path: coordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-
-        path.setMap(map);
-
-        
-        // overlay.setMap(map);
       }, 1000);
      
     }
