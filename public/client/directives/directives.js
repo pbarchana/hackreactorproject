@@ -11,7 +11,7 @@ var bootstrapd3 = function(scope,  element, attrs, d3Service) {
 
       console.log("Inside directive");
       //View window width and height
-      var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
+      var viewWidth = window.innerWidth;
       var viewHeight = window.innerHeight;
       var linkDirectory = {};
       var selected_link = null;
@@ -48,21 +48,51 @@ var bootstrapd3 = function(scope,  element, attrs, d3Service) {
         l.target = map.get(l.target);
       });
 
-      // Start the force physics
+      // This function is an attempt to set a fixed position on all
+      // switch nodes ... not yet working. It should take the node array
+      // and return an array with only the switch nodes value 'fixed'
+      // set to true. It will be passed into the force.nodes method below
+      var allNodes = function(){
+        console.log(scope.nwdata.nodes);
+        var nodes = scope.nwdata.nodes;
+        var result = [];
+        var switches = [];
+        // nodes.forEach(function(node, i){
+        //   if(node.type === 'switch'){
+        //     switches.push(node);
+        //   }
+        // });
 
+        // switches.forEach(function(s, i){
+        //   console.log(s, i);
+        //   node.fixed = true;
+        //   node.cx = viewWidth / 2;
+        //   node.cy = (viewHeight / nodes.length) * i;
+        //   console.log('PYPYPY ',node.cy);
+        //   result.push(s);
+        // });
+
+        nodes.forEach(function(n){
+          result.push(n);
+        });
+        console.log('result ------ ', result);
+        return result;
+      };
+
+      // Start the force physics
       force
         .links(scope.nwdata.links)
         .nodes(scope.nwdata.nodes)
         .start();
 
-      for(var i = scope.nwdata.nodes * scope.nwdata.nodes; i > 0; --i) {
+      for(var i = scope.nwdata.nodes + scope.nwdata.nodes; i > 0; --i) {
         force.tick();
       }
       // use a timeout to allow the rest of the page to load first
       setTimeout(function(){
         force.stop();
 
-        link = svg.append('g').selectAll(".link");
+        link = svg.append('g').selectAll(".link")
         drawLinks(link, force);
 
         node = svg.append('g').selectAll(".node");

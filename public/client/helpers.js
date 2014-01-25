@@ -6,11 +6,13 @@ var drawLinks = function(link, force){
   link.data(force.links())
   .enter().append("path")
   .attr('d', function(d){
-  var dx = d.target.x - d.source.x,
-       dy = d.target.y - d.source.y,
-       dr = Math.sqrt(dx * dx + dy * dy);
-   return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+    var dx = d.target.x - d.source.x,
+      dy = d.target.y - d.source.y,
+      dr = Math.sqrt(dx * dx + dy * dy),
+      rdr = -(dr);
+    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
   })
+  .attr('pointer-events', 'stroke')
   .attr('fill', 'none')
   .attr("class", "link")
   .on('click', selectLink)
@@ -30,7 +32,7 @@ var drawNodes = function(node, link, force, scope){
     .on("click", function(d){
       scope.$apply(function () {
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        scope.$parent.selectedNode =d ;
+        scope.$parent.selectedNode = d;
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
@@ -51,7 +53,8 @@ var drawNodes = function(node, link, force, scope){
             .attr('d', function(d){
               var dx = d.target.x - d.source.x,
                    dy = d.target.y - d.source.y,
-                   dr = Math.sqrt(dx * dx + dy * dy);
+                   dr = Math.sqrt(dx * dx + dy * dy),
+                   rdr = -(dr);
                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
             })
             .attr('fill', 'none')
@@ -124,7 +127,7 @@ var selectLink = function(link, i, selected_link){
     d3.select(".linkSelected")
     .transition()
     .style("stroke", "#999")
-    .style("stroke-width", '1px')
+    .style("stroke-width", '2px')
     .style("stroke-opacity", 0.3)
     .style("stroke-dasharray", "none");
     d3.select('.linkSelected')
