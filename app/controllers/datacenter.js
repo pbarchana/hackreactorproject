@@ -1,12 +1,21 @@
 var mongoose = require('mongoose');
 var DataCenter = mongoose.model('DataCenter');
+var DataCenterConnection = mongoose.model('DataCenterConnection');
 
 module.exports.getAll = function(req, res) {
-  DataCenter.find(function (err, dataCenters) {
-    if (err) console.log(err);// TODO handle err
-    console.log('RETRIEVED:' + dataCenters);
-    res.set("Content-Type", "application/json");
-    res.send(dataCenters);
+  DataCenter.find(function(err, dataCenters) {
+    DataCenterConnection.find(function(err, dataCenterConnections) {
+      console.log(dataCenterConnections);
+      var json = {};
+      json.dataCenters = dataCenters;
+      var connections = [];
+      dataCenterConnections.forEach(function(connection) {
+        connections.push([connection.origin, connection.connection]);
+      });
+      json.connections = connections;
+      res.set("Content-Type", "application/json");
+      res.send(json);
+    });
   });
 };
 

@@ -70,6 +70,14 @@ module.exports = function(grunt) {
           }
         }
       },
+      generateDataCenterConnections: {
+        command: 'node connectDataCentersInDB.js',
+        options: {
+          execOptions: {
+            cwd: 'workers'
+          }
+        }
+      },
       saveFilesToDB: {
         command: 'node saveFilesToDB.js',
         options: {
@@ -100,10 +108,11 @@ module.exports = function(grunt) {
     'shell:checkForDirectories',
     'shell:deleteMockData',
     'shell:generateDataCenters',
+    // 'shell:generateDataCenterConnections',
     'shell:generateNodes',
     'shell:generateSwitches',
     'shell:generateConnectivity',
-    'shell:saveFilesToDB'
+    'shell:saveFilesToDB',
   ]);
 
   // The tasks that get executed when typing 'grunt'

@@ -26,6 +26,7 @@ var Server = mongoose.model('Server');
 var Switch = mongoose.model('Switch');
 var Connection = mongoose.model('Connection');
 var DataCenter = mongoose.model('DataCenter');
+var DataCenterConnection = mongoose.model('DataCenterConnection');
 
 // Helpers
 var clearDatabase = function(Model) {
@@ -51,7 +52,6 @@ var clearAndSave = function(Model, pathToDir) {
     files.forEach(function(file){
       fs.readFile(pathToDir + file, 'utf-8', function(err, json) {
         if (err) throw err;
-        debugger;
         saveToDB(Model, json);
       });
     });
@@ -68,4 +68,6 @@ db.once('open', function () {
   clearAndSave(Switch, rootDir + "switches/");
   clearAndSave(Connection, rootDir + "connectivity/");
   clearAndSave(DataCenter, rootDir + "datacenters/");
+  clearDatabase(DataCenterConnection);
 });
+

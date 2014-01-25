@@ -4,6 +4,7 @@ var serverCtrl = require('../app/controllers/server.js');
 var switchCtrl = require('../app/controllers/switch.js');
 var connectionCtrl = require('../app/controllers/connection.js');
 var datacenterCtrl = require('../app/controllers/datacenter.js');
+var dataCenterConnectionCtrl = require('../app/controllers/dataCenterConnection.js');
 
 // Routes
 module.exports = function(app) {
@@ -16,6 +17,7 @@ module.exports = function(app) {
   // get datacenter data
   app.get('/datacenter', datacenterCtrl.getAll);
   app.get('/datacenter/:id', datacenterCtrl.getById);
+  app.get('/dataCenterConnection', dataCenterConnectionCtrl.getAll)
   
   // get server data
   app.get('/server', serverCtrl.getAll);
