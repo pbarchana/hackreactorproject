@@ -1,12 +1,19 @@
+
+// Due to D3's inability to interpolate 'classed' values on transition()
+// the .style() method must be used and each value set individually after
+// using transition() :(
+
 var drawLinks = function(link, force){
   link.data(force.links())
   .enter().append("path")
   .attr('d', function(d){
-  var dx = d.target.x - d.source.x,
-       dy = d.target.y - d.source.y,
-       dr = Math.sqrt(dx * dx + dy * dy);
-   return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+    var dx = d.target.x - d.source.x,
+      dy = d.target.y - d.source.y,
+      dr = Math.sqrt(dx * dx + dy * dy),
+      rdr = -(dr);
+    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
   })
+  .attr('pointer-events', 'stroke')
   .attr('fill', 'none')
   .attr("class", "link")
   .on('click', selectLink)
@@ -26,7 +33,7 @@ var drawNodes = function(node, link, force, scope){
     .on("click", function(d){
       scope.$apply(function () {
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        scope.$parent.selectedNode =d ;
+        scope.$parent.selectedNode = d;
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
@@ -47,12 +54,13 @@ var drawNodes = function(node, link, force, scope){
             .attr('d', function(d){
               var dx = d.target.x - d.source.x,
                    dy = d.target.y - d.source.y,
-                   dr = Math.sqrt(dx * dx + dy * dy);
+                   dr = Math.sqrt(dx * dx + dy * dy),
+                   rdr = -(dr);
                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
             })
             .attr('fill', 'none')
             .attr("class", "link");
-          showDetails(d);
+          showNodeDetails(d);
         }
       });
     })
@@ -63,13 +71,13 @@ var drawNodes = function(node, link, force, scope){
       return "#888";
       }
     })
-    .on('mouseover', showDetails)
-    .on('mouseout', hideDetails)
+    .on('mouseover', showNodeDetails)
+    .on('mouseout', hideNodeDetails)
     .append("title").text(function(d, i) {
       var retString =
         "Vendor: " + d.attributes.vendor + "\n" +
         "Platform: " + d.attributes.platform + "\n" +
-        "UUID: "   + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
+        "UUID: " + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
       return retString;
     });
 };
@@ -86,18 +94,25 @@ var neighbors = function(target, source, linkDirectory){
     linkDirectory[source + "," + target];
 };
 
-var resetSelection = function(svg){
-  console.log('BOOM!');
-};
-
+//Called on edge hover
 var showLinkDetails = function(link){
+  console.log('d target ', link.target);
 
+  d3.select(this)
+    .style('stroke-opacity', 1)
+    .style('stroke', 'black');
 };
 
-var hideLinkDetails = function(link){};
+//Called on edge mouse out
+var hideLinkDetails = function(link){
+  d3.select(this)
+    .style('stroke-opacity', 0.3)
+    .style('stroke', '#999');
+};
 
 var selectNode = function(node, i){
-  d3.selectAll('.node').attr('nodeSelected', false)
+  d3.selectAll('.node')
+  .attr('nodeSelected', false)
   .style('stroke', 'white')
   .style('stroke-width', '3px');
 
@@ -112,7 +127,7 @@ var selectLink = function(link, i, selected_link){
   if (selected_link !== null) {
     d3.select(".linkSelected")
     .transition()
-    .style("stroke", "#ddd")
+    .style("stroke", "#999")
     .style("stroke-width", '2px')
     .style("stroke-opacity", 0.3)
     .style("stroke-dasharray", "none");
@@ -159,7 +174,7 @@ var keydown = function (d, selected_link) {
   }
 };
 
-var showDetails = function(node){
+var showNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
 
   if(selected === 'false'){
@@ -171,7 +186,7 @@ var showDetails = function(node){
       if (l.source === node || l.target === node) {
         return "black";
       } else {
-        return "#ddd";
+        return "#999";
       }
     })
     .style("stroke-opacity", function(l) {
@@ -183,7 +198,7 @@ var showDetails = function(node){
   });
 };
 
-var hideDetails = function(node){
+var hideNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
   if(selected === 'false'){
     d3.select(this)
