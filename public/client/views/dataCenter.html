@@ -32,4 +32,48 @@
       <div class="divider">CONNECTIONS</div>
     </accordion>
   </div><!-- /.AccordianDemoCtrl -->
-</div><!-- /.sidePanel
+</div><!-- /.sidePanel -->
+
+
+
+
+
+
+
+
+
+<div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294" loading="loading" nwdata="ctldata" selected-node="selectedNode" connections="connections"></div>
+
+<div class="side-panel top-buffer" style="overflow-y: scroll">
+  <!-- List View -->
+
+
+  <!-- Node View -->
+  <div ng-controller="accordionController">
+
+
+    <accordion ng-show="selectedNode" close-others="oneAtATime">
+      <!-- Title -->
+      <div class="summary">
+        <div class="header">{{ selectedNode.name }}</div>
+        <div>Data Center</div>
+        <div>{{ selectedNode.location }}</div>
+      </div>
+      <!-- Attributes -->
+      <div class="divider">NODE INFO</div>
+      <accordion-group heading="Data Center" is-open="true">
+        <div ng-repeat="(key, value) in selectedNode" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group>
+
+      <div class="divider">CONNECTIONS</div>
+    </accordion>
+
+    <div ng-hide="selectedNode">
+      <div class="summary" ng-repeat="node in ctldata">
+        <div class="header">{{ node.name }}</div>
+        <div>Data Center</div>
+        <div>{{ node.location }}
+      </div>
+    </div>
+  </div><!-- /.AccordianDemoCtrl -->
+</div><!-- /.sidePanel -->

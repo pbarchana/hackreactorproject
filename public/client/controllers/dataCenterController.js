@@ -4,7 +4,7 @@ angular.module('app')
 
   NetworkDataService.getAllDataCenters()
   .then(function(data) {
-    $scope.selectedNode = data.dataCenters[0];
+    // $scope.selectedNode = data.dataCenters[0];
     $scope.ctldata = data.dataCenters;
     debugger;
     $scope.connections = data.connections;
