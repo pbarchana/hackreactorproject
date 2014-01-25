@@ -5,6 +5,7 @@ angular.module('app')
   NetworkDataService.getAllDataCenters()
   .then(function(data) {
     $scope.ctldata = data.dataCenters;
+    debugger;
     $scope.connections = data.connections;
   }, function errorFunction(reason) {
     $scope.error = reason;
