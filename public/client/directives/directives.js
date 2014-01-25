@@ -6,7 +6,6 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
           svg.attr('transform', 'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
         }
 
-
       console.log("Inside directive");
       //View window width and height
       var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
@@ -122,7 +121,7 @@ app.directive('helloMaps', [function() {
       // generate map overlay
       setTimeout(function() {
         debugger;
-
+        var selectedMarker;
         var data = scope.nwdata;
         data.forEach(function(node, i) {
           var marker = new google.maps.Marker({
@@ -133,6 +132,9 @@ app.directive('helloMaps', [function() {
           marker.setTitle(node.name);
           // attachSecretMessage(marker, i);
           google.maps.event.addListener(marker, 'click', function(data) {
+            if (selectedMarker) selectedMarker.setIcon(getCircle());
+            selectedMarker = marker;
+            marker.setIcon(getBlueCircle());
             scope.$apply(function() {
               scope.selectedNode = node;
             });
@@ -156,12 +158,12 @@ app.directive('helloMaps', [function() {
             new google.maps.LatLng(connection[0][0], connection[0][1]),
             new google.maps.LatLng(connection[1][0], connection[1][1])
           ];
-          new google.maps.Polyline({
+          var line = new google.maps.Polyline({
             path: coordinates,
             map: map,
             geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
+            strokeColor: '#7555DA',
+            strokeOpacity: 0.6,
             strokeWeight: 2
           });
         });
@@ -171,7 +173,18 @@ app.directive('helloMaps', [function() {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 10,
             fillOpacity: 1,
-            fillColor: 'red',
+            fillColor: '#7555DA',
+            strokeColor: 'black',
+            strokeWeight: 1.5
+          };
+          return circle;
+        }
+        function getBlueCircle() {
+          var circle = {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 10,
+            fillOpacity: 1,
+            fillColor: 'BADA55',
             strokeColor: 'black',
             strokeWeight: 1.5
           };

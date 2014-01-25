@@ -47,20 +47,24 @@ var generateConnections = function(dataCenters, maxNumOfConnections) {
   var randomIndex = function() {
     return Math.floor(Math.random() * dataCenters.length);
   };
-  var connect = function(originId) {
+  var connect = function(dataCenter) {
     var linkNum = Math.ceil(Math.random() * max);
+    var connectionIds = [];
     for (var i = 0; i < linkNum; i++) {
-      saveToDB(DataCenterConnection, {
-        origin: originId,
-        connection: dataCenters[randomIndex()]._id
-      });
+      connectionIds.push(dataCenters[i]._id);
+
+      // save in separate connection table
+      // saveToDB(DataCenterConnection, {
+      //   origin: dataCenter._id,
+      //   connection: dataCenters[randomIndex()]._id
+      // });
     }
+    dataCenter.connectionIds = connectionIds;
+    // save new dataCenter with references to connections
+    saveToDB(DataCenter, dataCenter);
   };
   // generate connections
-  dataCenters.forEach(function(dataCenter) {
-    var originId = dataCenter._id;
-    connect(originId);
-  });
+  connect(dataCenters[0]);
   json.connections = connections;
   return json;
 };

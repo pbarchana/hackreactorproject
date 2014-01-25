@@ -8,6 +8,7 @@ var dataCenterSchema = new Schema ({
   location: String,
   longitude: Number,
   latitude: Number
+  // _connectionIds: [{type: Schema.Types.ObjectId, ref: 'DataCenter'}]
 });
 
 mongoose.model('DataCenter', dataCenterSchema);
