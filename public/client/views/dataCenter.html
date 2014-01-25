@@ -69,7 +69,7 @@
     </accordion>
 
     <div ng-hide="selectedNode">
-      <div class="summary" ng-repeat="node in ctldata">
+      <div class="summary" ng-repeat="node in ctldata" ng-click="select(node)">
         <div class="header">{{ node.name }}</div>
         <div>Data Center</div>
         <div>{{ node.location }}

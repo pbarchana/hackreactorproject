@@ -6,9 +6,12 @@ angular.module('app')
   .then(function(data) {
     // $scope.selectedNode = data.dataCenters[0];
     $scope.ctldata = data.dataCenters;
-    debugger;
     $scope.connections = data.connections;
   }, function errorFunction(reason) {
     $scope.error = reason;
   });
+
+  $scope.select = function(node) {
+    $scope.selectedNode = node;
+  };
 });
