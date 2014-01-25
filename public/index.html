@@ -70,21 +70,21 @@
 <!--     <div ng-show="loading" class="loading">
       <img src="img/ajax-loader.gif"></img>
     </div> -->
-    <nav role="navigation">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="http://www.nodeprime.com"><img src="img/nodeprime-logo3.png"></img></a>
-      </div>
-<!--       <div class="input-group search">
-        <input type="text" ng-model="liveSearch" class="form-control">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
-      </div> -->
-    </nav>
-
-    <div ng-view="" class="content top-buffer"></div>
+  <nav role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.nodeprime.com"><img src="img/nodeprime-logo3.png"></img></a>
     </div>
+  </nav>
+
+  <div ng-view="" class="top-buffer"></div>
+
+    <!--       <div class="input-group search">
+            <input type="text" ng-model="liveSearch" class="form-control">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+          </div> -->
 
 <!--     <div class="results">
       <div class="result" ng-click="select(node)" ng-show="liveSearch" style="cursor:hand" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
@@ -97,10 +97,6 @@
 
 
     <!-- Angular Directive -->
-
-  </div>
-
-
 
 </body>
 </html>

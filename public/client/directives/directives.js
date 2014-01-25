@@ -131,7 +131,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   };
 }]);
 
-app.directive('helloMaps', [function() {
+app.directive('map', [function() {
   return {
     restrict: 'EA',
     scope: {
@@ -205,7 +205,7 @@ app.directive('helloMaps', [function() {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 10,
             fillOpacity: 1,
-            fillColor: '#7555DA',
+            fillColor: 'grey',
             strokeColor: 'black',
             strokeWeight: 1.5
           };

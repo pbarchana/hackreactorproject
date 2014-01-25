@@ -21,36 +21,6 @@ $sidePanelWidth = 300px
     font-size 16px
     font-weight 500
 
-.labels {
-  color: red;
-  background-color: white;
-  font-family: "Lucida Grande", "Arial", sans-serif;
-  font-size: 10px;
-  font-weight: bold;
-  text-align: center;
-  width: 40px;     
-  border: 2px solid black;
-  white-space: nowrap;
-}
-
-.stations, .stations svg {
-  position: absolute;
-}
-
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 100px;
-  font: 10px sans-serif;
-}
-
-.stations circle {
-  fill: brown;
-  stroke: black;
-  stroke-width: 1.5px;
-}
-
-
 .map-control
   background-color: white
   margin:1em
@@ -69,8 +39,8 @@ html, body
   padding: 0px
   overflow-x: hidden
 
-html, body, .dataCtrl, .content, .side-panel
-  height 100%
+// html, body, .dataCtrl, .content, .side-panel
+//   height 100%
 
 // Loading popover
 // ===============
@@ -81,6 +51,7 @@ html, body, .dataCtrl, .content, .side-panel
   margin auto
   background: rgba(255,255,255,0.6)
   z-index 100
+
   img
     position absolute
     top: 0; left: 0; bottom: 0; right: 0;
@@ -137,10 +108,16 @@ svg
   font-weight 500
 
 .content
-  position relative
-  float left
-  margin-right: $sidePanelWidth
-  width: 100%
+  position absolute
+  top 55px
+  left 0px
+  bottom 0px
+  right $sidePanelWidth
+  // width 100%
+  // margin auto
+  // float left
+  // margin-right: $sidePanelWidth
+  // width: 100%
   // margin-right: 240px
 
 .search
@@ -159,7 +136,8 @@ nav
 
 .side-panel
   position absolute
-  top 0px
+  top 55px
+  bottom 0px
   right 0px
   padding 10px
   // position relative
@@ -219,14 +197,14 @@ nav
 
 // To make columns float above the svg panel
 // Don't put this on rows! It will mess up the svg functionality
-.hover
-  z-index: 50
+// .hover
+//   z-index: 50
 
-.float-right
-  float right
+// .float-right
+//   float right
 
-.top-buffer
-  padding-top: 55px
+// .top-buffer
+//   padding-top: 55px
 
 
 
