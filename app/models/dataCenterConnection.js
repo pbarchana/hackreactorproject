@@ -4,9 +4,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // connect by data center IDs
+// var connectionSchema = new Schema ({
+//   origin: Schema.Types.ObjectId,
+//   connection: Schema.Types.ObjectId
+// });
+
 var connectionSchema = new Schema ({
-  origin: Schema.Types.ObjectId,
-  connection: Schema.Types.ObjectId
+  origin: {type: Schema.ObjectId, ref: 'DataCenter'},
+  connection: {type: Schema.ObjectId, ref: 'DataCenter'}
 });
 
 mongoose.model('DataCenterConnection', connectionSchema);

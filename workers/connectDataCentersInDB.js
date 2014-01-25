@@ -52,13 +52,13 @@ var generateConnections = function(dataCenters, maxNumOfConnections) {
     for (var i = 0; i < linkNum; i++) {
       saveToDB(DataCenterConnection, {
         origin: originId,
-        connection: dataCenters[randomIndex()]._id.toHexString()
+        connection: dataCenters[randomIndex()]._id
       });
     }
   };
   // generate connections
   dataCenters.forEach(function(dataCenter) {
-    var originId = dataCenter._id.toHexString();
+    var originId = dataCenter._id;
     connect(originId);
   });
   json.connections = connections;

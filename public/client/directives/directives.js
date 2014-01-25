@@ -133,6 +133,7 @@ app.directive('helloMaps', [function() {
           marker.setTitle(node.name);
           // attachSecretMessage(marker, i);
           google.maps.event.addListener(marker, 'click', function(data) {
+            alert('clicked')
             scope.$apply(function() {
               scope.selectedNode = node;
             });

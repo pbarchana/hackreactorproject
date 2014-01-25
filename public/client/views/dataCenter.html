@@ -1,12 +1,18 @@
-<!-- <div class="content top-buffer">
-  <div datacenter-graph class="background" loading="loading" nwdata="ctldata">
-  </div>
-</div> -->
-
 <div class="google-map content top-buffer" hello-maps="" latitude="43.074688" longitude="-89.384294" loading="loading" nwdata="ctldata" selected-node="selectedNode" connections="connections"></div>
 
 <div class="side-panel top-buffer" style="overflow-y: scroll">
-  <div ng-controller="accordionController">
+  <!-- List view -->
+  <div ng-hide="selectedNode">
+    <div class="summary" ng-repeat="node in ctldata">
+      <div class="header">{{ node.name }}</div>
+      <div>Data Center</div>
+      <div>{{ node.location }}
+    </div>
+  </div>
+
+
+  <!-- Node View -->
+  <div ng-show="selectedNode" ng-controller="accordionController">
     <accordion close-others="oneAtATime">
       <!-- Title -->
       <div class="summary">
@@ -26,4 +32,4 @@
       <div class="divider">CONNECTIONS</div>
     </accordion>
   </div><!-- /.AccordianDemoCtrl -->
-</div><!-- /.sidePanel -->
+</div><!-- /.sidePanel
