@@ -10,8 +10,9 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
 
       console.log("Inside directive");
       //View window width and height
-      var viewWidth = window.innerWidth;
-      var viewHeight = window.innerHeight;
+      debugger;
+      var viewWidth = element[0].offsetWidth;
+      var viewHeight = element[0].offsetHeight;
       var linkDirectory = {};
       var selected_link = null;
       var link;

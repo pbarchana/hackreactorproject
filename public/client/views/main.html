@@ -1,21 +1,38 @@
-<div network-graph class="background" loading="loading" nwdata="ctldata"></div>
+Content -->
+<div network-graph class="content" loading="loading" nwdata="ctldata"></div>
 
-<div class="side-panel top-buffer" style="overflow-y: scroll">
-  <div ng-controller="accordionController">
+<!-- Side Panel -->
+<div class="side-panel" style="overflow-y: scroll">
+  
+  <!-- Node View -->
+  <div ng-show="selectedNode" ng-controller="accordionController">
     <accordion close-others="oneAtATime">
-      <!-- Title -->
-      <h4>{{ selectedNode.type.toUpperCase() }}</h4>
-      <!-- Attributes -->
-<!--           <div class="divider">NODE INFO</div>
--->          <accordion-group heading="Attributes" is-open="true">
+      <!-- Summary -->
+      <div class="summary">
+        <div class="header">{{ selectedNode.type }}</div>
+        <div>Platform: {{ selectedNode.attributes.platform }}</div>
+        <div>Vendor: {{ selectedNode.attributes.cVendor }}</div>
+        <div>UUID: {{ formatUUID(selectedNode.attributes.UUID) }}</div>
+      </div>
+      <!-- Node Info -->
+      <div class="divider">NODE INFO</div>
+      <accordion-group heading="Attributes" is-open="false">
         <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
       </accordion-group>
-      <!-- Components -->
-      <accordion-group heading="Components" is-open="true">
+      <accordion-group heading="Components" is-open="false">
         <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
       </accordion-group>
+      <!-- Connections -->
+      <div class="divider">NODE INFO</div>
+    </accordion>
+  </div><!-- /.AccordianCtrl -->
+  
+  <!-- List View -->
+  <div ng-hide="selectedNode">
+    <div class="summary" ng-repeat="node in ctldata.nodes">
+      <div class="header">{{ node.type }}</div>
+      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
+    </div>
+  </div>
 
-<!--           <div class="divider">CONNECTIONS</div>
--->        </accordion>
-  </div><!-- /.AccordianDemoCtrl -->
-</div><!-- /.sidePanel -->
+</div><!-- /.sidePanel

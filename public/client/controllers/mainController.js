@@ -4,7 +4,6 @@ angular.module('app')
 
   NetworkDataService.getAllFlattened()
   .then(function(data) {
-    debugger;
     $scope.ctldata = data;
     console.log(data);
     $scope.nodes = data.nodes;
@@ -12,6 +11,10 @@ angular.module('app')
   }, function errorFunction(reason) {
     $scope.error = reason;
   });
+
+  $scope.formatUUID = function(UUID) {
+    return UUID.split('-')[0];
+  };
 
   $scope.select = function(node) {
     $scope.selectedNode = node;

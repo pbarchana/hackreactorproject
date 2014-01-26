@@ -11,12 +11,13 @@
     <accordion close-others="oneAtATime">
       <!-- Title -->
       <div class="summary">
-        <div class="header">{{ selectedNode.location }}</div>
+        <div class="header">{{ selectedNode.name }}</div>
         <div>Data Center</div>
+        <div>{{ selectedNode.location }}</div>
       </div>
       <!-- Info -->
       <div class="divider">NODE INFO</div>
-      <accordion-group heading="Data Center" is-open="true">
+      <accordion-group heading="Attributes" is-open="true">
         <div ng-repeat="(key, value) in selectedNode" ng-include="'tree_item_renderer.html'"></div>
       </accordion-group>
       <!-- Connections -->
@@ -25,12 +26,12 @@
   </div><!-- /accordianCtrl -->
 
   <!-- List view -->
-  <div ng-hide="selectedNode">
+<!--   <div ng-hide="selectedNode">
     <div class="summary" ng-repeat="node in ctldata">
       <div class="header">{{ node.name }}</div>
       <div>Data Center</div>
       <div>{{ node.location }}
     </div>
-  </div>
+  </div> -->
 
 </div><!-- /.sidePanel
