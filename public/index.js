@@ -1,3 +1,8 @@
+// angular setup
+require('angular');
+require('angular-route/angular-route');
+require('angular-animate/angular-animate');
+require('angular-bootstrap/ui-bootstrap-tpls');
 
 require("./client/app.js");
 
