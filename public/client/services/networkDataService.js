@@ -1,7 +1,6 @@
 var angular = require('angular');
 
 var app = angular.module('app');
-
 module.exports = app.factory('NetworkDataService', function($q, $http/* DI */) {
   var service = {
     

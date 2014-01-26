@@ -3,7 +3,8 @@
 // the .style() method must be used and each value set individually after
 // using transition() :(
 
-var drawLinks = function(link, force){
+
+module.exports.drawLinks = function(link, force){
   link.data(force.links())
   .enter().append("path")
   .attr('d', function(d){
@@ -21,7 +22,7 @@ var drawLinks = function(link, force){
   .on('mouseout', hideLinkDetails);
 };
 
-var drawNodes = function(node, link, force, scope){
+module.exports.drawNodes = function(node, link, force, scope){
   node.data(force.nodes())
     .enter().append("circle")
     .attr("class", "node")
@@ -83,7 +84,7 @@ var drawNodes = function(node, link, force, scope){
 };
 
 //adds stringified link to directory
-var addLink = function(a, b, linkDirectory){
+module.exports.addLink = function(a, b, linkDirectory){
   linkDirectory[a + "," + b] = 1;
   linkDirectory[b + "," + a] = 1;
 };
@@ -149,7 +150,7 @@ var selectLink = function(link, i, selected_link){
   .style('stroke-width', '6px');
 };
 
-var keydown = function (d, selected_link) {
+module.exports.keydown = function (d, selected_link) {
   d3.event.preventDefault();
   console.log("Inside keydown");
   // ctrl
@@ -212,7 +213,7 @@ var hideNodeDetails = function(node){
 
 
 //function to map MAC address of nic to containing host
-var mapMac = function(nodes) {
+module.exports.mapMac = function(nodes) {
   var tempNode;
   var nics;
   var nodesMap = d3.map();

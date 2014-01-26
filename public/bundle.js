@@ -349,144 +349,239 @@ module.exports = angular.module('app')
 	alert("Inside zoomInController");
 });
 },{"angular":1}],10:[function(require,module,exports){
-var angular = require('angular');
 
-var app = angular.module('app');
+// Due to D3's inability to interpolate 'classed' values on transition()
+// the .style() method must be used and each value set individually after
+// using transition() :(
 
-var bootstrapd3 = function(scope, element, attrs, d3Service) {
-  setTimeout(function(){
-    var d3serve = d3Service.d3().then(function(d3) {
 
- function redraw() {
-          svg.attr('transform', 'translate(' +
-            d3.event.translate + ')' +
-          ' scale(' + d3.event.scale + ')');
+module.exports.drawLinks = function(link, force){
+  link.data(force.links())
+  .enter().append("path")
+  .attr('d', function(d){
+    var dx = d.target.x - d.source.x,
+      dy = d.target.y - d.source.y,
+      dr = Math.sqrt(dx * dx + dy * dy),
+      rdr = -(dr);
+    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+  })
+  .attr('pointer-events', 'stroke')
+  .attr('fill', 'none')
+  .attr("class", "link")
+  .on('click', selectLink)
+  .on('mouseover', showLinkDetails)
+  .on('mouseout', hideLinkDetails);
+};
+
+module.exports.drawNodes = function(node, link, force, scope){
+  node.data(force.nodes())
+    .enter().append("circle")
+    .attr("class", "node")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", 15)
+    .attr('nodeSelected', 'false')
+    .on('click.selectNode', selectNode)
+    .on("click", function(d){
+      scope.$apply(function () {
+        scope.$parent.selectedNode1 = scope.$parent.selectedNode;
+        scope.$parent.selectedNode = d;
+        scope.$parent.$parent.selectedNode  = d;
+        if (scope.$parent.selectedNode !== undefined &&
+          scope.$parent.selectedNode1 !== undefined &&
+          scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
+          console.log("node", scope.$parent.selectedNode);
+          console.log("node1", scope.$parent.selectedNode1);
+
+          var testLink = {};
+          var testLinkArray = [];
+          testLink.source = scope.$parent.selectedNode1;
+          testLink.target = scope.$parent.selectedNode;
+          testLinkArray.push(testLink);
+          force.links().push(testLink);
+
+          link
+            .data(testLinkArray)
+            .enter().insert("path", ".node")
+            .attr('d', function(d){
+              var dx = d.target.x - d.source.x,
+                   dy = d.target.y - d.source.y,
+                   dr = Math.sqrt(dx * dx + dy * dy),
+                   rdr = -(dr);
+               return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+            })
+            .attr('fill', 'none')
+            .attr("class", "link");
+          showNodeDetails(d);
         }
-
-      console.log("Inside directive");
-      //View window width and height
-      debugger;
-      var viewWidth = element[0].offsetWidth;
-      var viewHeight = element[0].offsetHeight;
-      var linkDirectory = {};
-      var selected_link = null;
-      var link;
-      var node;
-
-      d3.select('link')
-        .on('keydown', keydown);
-
-      var force = d3.layout.force()
-        .charge(-2000)
-        .linkStrength(0.2)
-        .linkDistance(200)
-        .size([viewWidth, viewHeight]);
-
-      //Create view window SVG
-      var svg =  d3.select(element[0])
-        .append('svg')
-        .attr('width', viewWidth)
-        .attr('height', viewHeight)
-        .attr("pointer-events", "all")
-        .append('g')
-        .call(d3.behavior.zoom().on("zoom", redraw))
-        .append('g');
-
-
-      //map mac addresses to nodes
-      var map = mapMac(scope.nwdata.nodes);
-
-      //set link source and target to node instead of mac address
-      scope.nwdata.links.forEach(function(l){
-        addLink(l.source, l.target, linkDirectory);
-        l.source = map.get(l.source);
-        l.target = map.get(l.target);
       });
-
-      // This function is an attempt to set a fixed position on all
-      // switch nodes ... not yet working. It should take the node array
-      // and return an array with only the switch nodes value 'fixed'
-      // set to true. It will be passed into the force.nodes method below
-      var allNodes = function(){
-        console.log(scope.nwdata.nodes);
-        var nodes = scope.nwdata.nodes;
-        var result = [];
-        var switches = [];
-        // nodes.forEach(function(node, i){
-        //   if(node.type === 'switch'){
-        //     switches.push(node);
-        //   }
-        // });
-
-        // switches.forEach(function(s, i){
-        //   console.log(s, i);
-        //   node.fixed = true;
-        //   node.cx = viewWidth / 2;
-        //   node.cy = (viewHeight / nodes.length) * i;
-        //   console.log('PYPYPY ',node.cy);
-        //   result.push(s);
-        // });
-
-        nodes.forEach(function(n){
-          result.push(n);
-        });
-        console.log('result ------ ', result);
-        return result;
-      };
-
-      // Start the force physics
-      force
-        .links(scope.nwdata.links)
-        .nodes(scope.nwdata.nodes)
-        .start();
-
-      for(var i = scope.nwdata.nodes + scope.nwdata.nodes; i > 0; --i) {
-        force.tick();
+    })
+    .attr("fill", function(d, i){
+      if (d.type === 'server') {
+        return "#444";
+      } else {
+      return "#888";
       }
-      // use a timeout to allow the rest of the page to load first
-      setTimeout(function(){
-        force.stop();
-
-        link = svg.append('g').selectAll(".link")
-        drawLinks(link, force);
-
-        node = svg.append('g').selectAll(".node");
-        drawNodes(node, link, force, scope);
-
-        scope.$apply(function() {
-          scope.loading = false;
-        });
-
-      }, 500);
-
-      // Browser onresize event
-      window.onresize = function() {
-        scope.$apply();
-      };
+    })
+    .on('mouseover', showNodeDetails)
+    .on('mouseout', hideNodeDetails)
+    .append("title").text(function(d, i) {
+      var retString =
+        "Vendor: " + d.attributes.vendor + "\n" +
+        "Platform: " + d.attributes.platform + "\n" +
+        "UUID: " + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
+      return retString;
     });
+};
 
-  }, 300);
+//adds stringified link to directory
+module.exports.addLink = function(a, b, linkDirectory){
+  linkDirectory[a + "," + b] = 1;
+  linkDirectory[b + "," + a] = 1;
+};
 
+ //find all nodes connected to selected node  -- NOT USED
+var neighbors = function(target, source, linkDirectory){
+  return linkDirectory[target + "," + source] ||
+    linkDirectory[source + "," + target];
+};
+
+//Called on edge hover
+var showLinkDetails = function(link){
+  console.log('d target ', link.target);
+
+  d3.select(this)
+    .style('stroke-opacity', 1)
+    .style('stroke', 'black');
+};
+
+//Called on edge mouse out
+var hideLinkDetails = function(link){
+  d3.select(this)
+    .style('stroke-opacity', 0.3)
+    .style('stroke', '#999');
+};
+
+var selectNode = function(node, i){
+  d3.selectAll('.node')
+  .attr('nodeSelected', false)
+  .style('stroke', 'white')
+  .style('stroke-width', '3px');
+
+  d3.select(this)
+  .attr('nodeSelected', true)
+  .transition()
+  .style('stroke', '#bada55')
+  .style('stroke-width', '5px');
+};
+
+var selectLink = function(link, i, selected_link){
+  if (selected_link !== null) {
+    d3.select(".linkSelected")
+    .transition()
+    .style("stroke", "#999")
+    .style("stroke-width", '2px')
+    .style("stroke-opacity", 0.3)
+    .style("stroke-dasharray", "none");
+    d3.select('.linkSelected')
+    .classed('linkSelected', false);
+  }
+  else if(selected_link === link){
+    selected_link = null;
+    return;
+  } else {
+    selected_link = link;
+  }
+
+  d3.select(this)
+  .classed('linkSelected', true)
+  .transition()
+  .style('stroke', 'black')
+  .style("stroke-dasharray", ("3, 3"))
+  .style('stroke-width', '6px');
+};
+
+module.exports.keydown = function (d, selected_link) {
+  d3.event.preventDefault();
+  console.log("Inside keydown");
+  // ctrl
+  if(d3.event.keyCode === 17) {
+  circle.call(force.drag);
+  svg.classed('ctrl', true);
+  }
+
+  if(!selected_link) return;
+  switch(d3.event.keyCode) {
+    case 8: // backspace
+    case 46: // delete
+      if(selected_link) {
+        var n = force.links().indexOf(selected_link);
+        if(n >= 0) {
+          force.links().splice(n, 1);
+          d3.select(".linkSelected").remove();
+        }
+      }
+      selected_link = null;
+      break;
+  }
+};
+
+var showNodeDetails = function(node){
+  var selected = d3.select(this).attr('nodeSelected');
+
+  if(selected === 'false'){
+    d3.select(this).style('stroke', '#bada55');
+  }
+
+  d3.selectAll(".link").transition()
+    .style("stroke", function(l) {
+      if (l.source === node || l.target === node) {
+        return "black";
+      } else {
+        return "#999";
+      }
+    })
+    .style("stroke-opacity", function(l) {
+      if (l.source === node || l.target === node) {
+        return 1.0;
+      } else {
+        return 0.1;
+      }
+  });
+};
+
+var hideNodeDetails = function(node){
+  var selected = d3.select(this).attr('nodeSelected');
+  if(selected === 'false'){
+    d3.select(this)
+    .transition()
+    .style('stroke', 'white');
+  }
+  d3.selectAll(".link").transition()
+  .style("stroke", "#999")
+  .style("stroke-opacity", '0.3');
 };
 
 
+//function to map MAC address of nic to containing host
+module.exports.mapMac = function(nodes) {
+  var tempNode;
+  var nics;
+  var nodesMap = d3.map();
+  nodes.forEach(function(n){
+    tempNode = n;
+    nics = n.components.nics;
+    nics.forEach(function(n){
+      nodesMap.set(n.mac, tempNode);
+    });
+  });
+  return nodesMap;
+};
 
-app.directive('networkGraph', ['d3Service', function(d3Service) {
-  return {
-    restrict: 'EA',
-    scope: {
-      nwdata: '=',
-      loading: '='
-    },
-    link: function(scope, element, attrs) {
-      setTimeout(function() {
-        bootstrapd3(scope, element, attrs, d3Service);
-      }, 1000);
-      // bootstrapd3(scope, element, attrs, d3Service);
-    }
-  };
-}]);
+},{}],11:[function(require,module,exports){
+var angular = require('angular');
 
+var app = angular.module('app');
 module.exports = app.directive('map', [function() {
   return {
     restrict: 'EA',
@@ -587,240 +682,146 @@ module.exports = app.directive('map', [function() {
   };
 }]);
 
-},{"angular":1}],11:[function(require,module,exports){
+},{"angular":1}],12:[function(require,module,exports){
+var angular = require('angular');
+var helpers = require('./helpers.js');
 
-// Due to D3's inability to interpolate 'classed' values on transition()
-// the .style() method must be used and each value set individually after
-// using transition() :(
+var app = angular.module('app');
+var bootstrapd3 = function(scope, element, attrs, d3Service) {
+  setTimeout(function(){
+    var d3serve = d3Service.d3().then(function(d3) {
 
-var drawLinks = function(link, force){
-  link.data(force.links())
-  .enter().append("path")
-  .attr('d', function(d){
-    var dx = d.target.x - d.source.x,
-      dy = d.target.y - d.source.y,
-      dr = Math.sqrt(dx * dx + dy * dy),
-      rdr = -(dr);
-    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-  })
-  .attr('pointer-events', 'stroke')
-  .attr('fill', 'none')
-  .attr("class", "link")
-  .on('click', selectLink)
-  .on('mouseover', showLinkDetails)
-  .on('mouseout', hideLinkDetails);
-};
-
-var drawNodes = function(node, link, force, scope){
-  node.data(force.nodes())
-    .enter().append("circle")
-    .attr("class", "node")
-    .attr("cx", function(d) { return d.x; })
-    .attr("cy", function(d) { return d.y; })
-    .attr("r", 15)
-    .attr('nodeSelected', 'false')
-    .on('click.selectNode', selectNode)
-    .on("click", function(d){
-      scope.$apply(function () {
-        scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        scope.$parent.selectedNode = d;
-        scope.$parent.$parent.selectedNode  = d;
-        if (scope.$parent.selectedNode !== undefined &&
-          scope.$parent.selectedNode1 !== undefined &&
-          scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
-          console.log("node", scope.$parent.selectedNode);
-          console.log("node1", scope.$parent.selectedNode1);
-
-          var testLink = {};
-          var testLinkArray = [];
-          testLink.source = scope.$parent.selectedNode1;
-          testLink.target = scope.$parent.selectedNode;
-          testLinkArray.push(testLink);
-          force.links().push(testLink);
-
-          link
-            .data(testLinkArray)
-            .enter().insert("path", ".node")
-            .attr('d', function(d){
-              var dx = d.target.x - d.source.x,
-                   dy = d.target.y - d.source.y,
-                   dr = Math.sqrt(dx * dx + dy * dy),
-                   rdr = -(dr);
-               return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-            })
-            .attr('fill', 'none')
-            .attr("class", "link");
-          showNodeDetails(d);
+ function redraw() {
+          svg.attr('transform', 'translate(' +
+            d3.event.translate + ')' +
+          ' scale(' + d3.event.scale + ')');
         }
+
+      //View window width and height
+      var viewWidth = element[0].offsetWidth;
+      var viewHeight = element[0].offsetHeight;
+      var linkDirectory = {};
+      var selected_link = null;
+      var link;
+      var node;
+
+      d3.select('link')
+        .on('keydown', helpers.keydown);
+
+      var force = d3.layout.force()
+        .charge(-2000)
+        .linkStrength(0.2)
+        .linkDistance(200)
+        .size([viewWidth, viewHeight]);
+
+      //Create view window SVG
+      var svg =  d3.select(element[0])
+        .append('svg')
+        .attr('width', viewWidth)
+        .attr('height', viewHeight)
+        .attr("pointer-events", "all")
+        .append('g')
+        .call(d3.behavior.zoom().on("zoom", redraw))
+        .append('g');
+
+
+      //map mac addresses to nodes
+      var map = helpers.mapMac(scope.nwdata.nodes);
+
+      //set link source and target to node instead of mac address
+      scope.nwdata.links.forEach(function(l){
+        helpers.addLink(l.source, l.target, linkDirectory);
+        l.source = map.get(l.source);
+        l.target = map.get(l.target);
       });
-    })
-    .attr("fill", function(d, i){
-      if (d.type === 'server') {
-        return "#444";
-      } else {
-      return "#888";
+
+      // This function is an attempt to set a fixed position on all
+      // switch nodes ... not yet working. It should take the node array
+      // and return an array with only the switch nodes value 'fixed'
+      // set to true. It will be passed into the force.nodes method below
+      var allNodes = function(){
+        console.log(scope.nwdata.nodes);
+        var nodes = scope.nwdata.nodes;
+        var result = [];
+        var switches = [];
+        // nodes.forEach(function(node, i){
+        //   if(node.type === 'switch'){
+        //     switches.push(node);
+        //   }
+        // });
+
+        // switches.forEach(function(s, i){
+        //   console.log(s, i);
+        //   node.fixed = true;
+        //   node.cx = viewWidth / 2;
+        //   node.cy = (viewHeight / nodes.length) * i;
+        //   console.log('PYPYPY ',node.cy);
+        //   result.push(s);
+        // });
+
+        nodes.forEach(function(n){
+          result.push(n);
+        });
+        console.log('result ------ ', result);
+        return result;
+      };
+
+      // Start the force physics
+      force
+        .links(scope.nwdata.links)
+        .nodes(scope.nwdata.nodes)
+        .start();
+
+      for(var i = scope.nwdata.nodes + scope.nwdata.nodes; i > 0; --i) {
+        force.tick();
       }
-    })
-    .on('mouseover', showNodeDetails)
-    .on('mouseout', hideNodeDetails)
-    .append("title").text(function(d, i) {
-      var retString =
-        "Vendor: " + d.attributes.vendor + "\n" +
-        "Platform: " + d.attributes.platform + "\n" +
-        "UUID: " + (d.attributes.UUID.slice(0, 4)) + " ... " + (d.attributes.UUID.slice(-4));
-      return retString;
+      // use a timeout to allow the rest of the page to load first
+      setTimeout(function(){
+        force.stop();
+
+        link = svg.append('g').selectAll(".link")
+        helpers.drawLinks(link, force);
+
+        node = svg.append('g').selectAll(".node");
+        helpers.drawNodes(node, link, force, scope);
+
+        scope.$apply(function() {
+          scope.loading = false;
+        });
+
+      }, 500);
+
+      // Browser onresize event
+      window.onresize = function() {
+        scope.$apply();
+      };
     });
-};
 
-//adds stringified link to directory
-var addLink = function(a, b, linkDirectory){
-  linkDirectory[a + "," + b] = 1;
-  linkDirectory[b + "," + a] = 1;
-};
+  }, 300);
 
- //find all nodes connected to selected node  -- NOT USED
-var neighbors = function(target, source, linkDirectory){
-  return linkDirectory[target + "," + source] ||
-    linkDirectory[source + "," + target];
-};
-
-//Called on edge hover
-var showLinkDetails = function(link){
-  console.log('d target ', link.target);
-
-  d3.select(this)
-    .style('stroke-opacity', 1)
-    .style('stroke', 'black');
-};
-
-//Called on edge mouse out
-var hideLinkDetails = function(link){
-  d3.select(this)
-    .style('stroke-opacity', 0.3)
-    .style('stroke', '#999');
-};
-
-var selectNode = function(node, i){
-  d3.selectAll('.node')
-  .attr('nodeSelected', false)
-  .style('stroke', 'white')
-  .style('stroke-width', '3px');
-
-  d3.select(this)
-  .attr('nodeSelected', true)
-  .transition()
-  .style('stroke', '#bada55')
-  .style('stroke-width', '5px');
-};
-
-var selectLink = function(link, i, selected_link){
-  if (selected_link !== null) {
-    d3.select(".linkSelected")
-    .transition()
-    .style("stroke", "#999")
-    .style("stroke-width", '2px')
-    .style("stroke-opacity", 0.3)
-    .style("stroke-dasharray", "none");
-    d3.select('.linkSelected')
-    .classed('linkSelected', false);
-  }
-  else if(selected_link === link){
-    selected_link = null;
-    return;
-  } else {
-    selected_link = link;
-  }
-
-  d3.select(this)
-  .classed('linkSelected', true)
-  .transition()
-  .style('stroke', 'black')
-  .style("stroke-dasharray", ("3, 3"))
-  .style('stroke-width', '6px');
-};
-
-var keydown = function (d, selected_link) {
-  d3.event.preventDefault();
-  console.log("Inside keydown");
-  // ctrl
-  if(d3.event.keyCode === 17) {
-  circle.call(force.drag);
-  svg.classed('ctrl', true);
-  }
-
-  if(!selected_link) return;
-  switch(d3.event.keyCode) {
-    case 8: // backspace
-    case 46: // delete
-      if(selected_link) {
-        var n = force.links().indexOf(selected_link);
-        if(n >= 0) {
-          force.links().splice(n, 1);
-          d3.select(".linkSelected").remove();
-        }
-      }
-      selected_link = null;
-      break;
-  }
-};
-
-var showNodeDetails = function(node){
-  var selected = d3.select(this).attr('nodeSelected');
-
-  if(selected === 'false'){
-    d3.select(this).style('stroke', '#bada55');
-  }
-
-  d3.selectAll(".link").transition()
-    .style("stroke", function(l) {
-      if (l.source === node || l.target === node) {
-        return "black";
-      } else {
-        return "#999";
-      }
-    })
-    .style("stroke-opacity", function(l) {
-      if (l.source === node || l.target === node) {
-        return 1.0;
-      } else {
-        return 0.1;
-      }
-  });
-};
-
-var hideNodeDetails = function(node){
-  var selected = d3.select(this).attr('nodeSelected');
-  if(selected === 'false'){
-    d3.select(this)
-    .transition()
-    .style('stroke', 'white');
-  }
-  d3.selectAll(".link").transition()
-  .style("stroke", "#999")
-  .style("stroke-opacity", '0.3');
 };
 
 
-//function to map MAC address of nic to containing host
-var mapMac = function(nodes) {
-  var tempNode;
-  var nics;
-  var nodesMap = d3.map();
-  nodes.forEach(function(n){
-    tempNode = n;
-    nics = n.components.nics;
-    nics.forEach(function(n){
-      nodesMap.set(n.mac, tempNode);
-    });
-  });
-  return nodesMap;
-};
 
-},{}],12:[function(require,module,exports){
+app.directive('networkGraph', ['d3Service', function(d3Service) {
+  return {
+    restrict: 'EA',
+    scope: {
+      nwdata: '=',
+      loading: '='
+    },
+    link: function(scope, element, attrs) {
+      setTimeout(function() {
+        bootstrapd3(scope, element, attrs, d3Service);
+      }, 1000);
+      // bootstrapd3(scope, element, attrs, d3Service);
+    }
+  };
+}]);
+},{"./helpers.js":10,"angular":1}],13:[function(require,module,exports){
 var angular = require('angular');
 
 var app = angular.module('app');
-
 module.exports = app.factory('NetworkDataService', function($q, $http/* DI */) {
   var service = {
     
@@ -959,7 +960,7 @@ module.exports = app.factory('NetworkDataService', function($q, $http/* DI */) {
 
 
 
-},{"angular":1}],13:[function(require,module,exports){
+},{"angular":1}],14:[function(require,module,exports){
 
 require("./client/app.js");
 
@@ -971,9 +972,8 @@ require("./client/controllers/mainController.js");
 require("./client/controllers/zoomInController.js");
 require("./client/controllers/dataCenterController.js");
 
-require("./client/directives/directives.js");
+require("./client/directives/map.js");
+require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
-require("./client/helpers.js");
-
-},{"./client/app.js":3,"./client/config/routes.js":4,"./client/controllers/accordionController.js":5,"./client/controllers/d3Controller.js":6,"./client/controllers/dataCenterController.js":7,"./client/controllers/mainController.js":8,"./client/controllers/zoomInController.js":9,"./client/directives/directives.js":10,"./client/helpers.js":11,"./client/services/networkDataService.js":12}]},{},[13])
+},{"./client/app.js":3,"./client/config/routes.js":4,"./client/controllers/accordionController.js":5,"./client/controllers/d3Controller.js":6,"./client/controllers/dataCenterController.js":7,"./client/controllers/mainController.js":8,"./client/controllers/zoomInController.js":9,"./client/directives/map.js":11,"./client/directives/networkGraph.js":12,"./client/services/networkDataService.js":13}]},{},[14])

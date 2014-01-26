@@ -9,7 +9,7 @@ require("./client/controllers/mainController.js");
 require("./client/controllers/zoomInController.js");
 require("./client/controllers/dataCenterController.js");
 
-require("./client/directives/directives.js");
+require("./client/directives/map.js");
+require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
-require("./client/helpers.js");
