@@ -11,8 +11,17 @@
 <!-- Side Panel -->
 <div class="side-panel" style="overflow-y: scroll">
   
+  <!-- Search -->
+  <!-- <div ng-include="'search.html'"></div>  -->
+  <div class="input-group search">
+    <input placeholder="search for node" type="text" ng-model="liveSearch" class="form-control">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+    </span>
+  </div>
+
   <!-- Node View -->
-  <div ng-show="selectedNode" ng-controller="accordionController">
+  <div ng-show="selectedNode && !liveSearch" ng-controller="accordionController">
     <accordion close-others="oneAtATime">
       <!-- Title -->
       <div class="summary">
@@ -31,8 +40,8 @@
   </div><!-- /accordianCtrl -->
 
   <!-- List view -->
-  <div ng-hide="selectedNode">
-    <div class="summary" ng-repeat="node in ctldata">
+  <div ng-show="liveSearch || !selectedNode">
+    <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata | filter:liveSearch">
       <div class="header">{{ node.name }}</div>
       <div>Data Center</div>
       <div>{{ node.location }}
