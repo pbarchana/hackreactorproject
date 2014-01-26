@@ -17,12 +17,24 @@
     "glob": "~3.2.8",
     "async": "~0.2.10",
     "twitter-bootstrap": "~2.1.1",
-    "angular": "~1.2.7"
+    "d3": "~3.4.1",
+    "angular": "~1.2.7",
+    "npm-css": "~0.2.3"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-nodemon": "latest",
     "grunt-shell-spawn": "latest",
-    "grunt-execute": "~0.1.5"
+    "grunt-execute": "~0.1.5",
+    "napa": "~0.3.0"
+  },
+  "scripts": {
+    "install": "napa"
+  },
+  "napa": {
+    "angular-route": "angular/bower-angular-route",
+    "angular-animate": "angular/bower-angular-animate",
+    "angular-bootstrap": "angular-ui/bootstrap-bower",
+    "animate.css": "daneden/animate.css"
   }
 }

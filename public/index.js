@@ -1,3 +1,8 @@
+// angular setup
+require('angular');
+require('angular-route/angular-route');
+require('angular-animate/angular-animate');
+require('angular-bootstrap/ui-bootstrap-tpls');
 
 require("./client/app.js");
 
@@ -13,3 +18,5 @@ require("./client/directives/map.js");
 require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
+
+require("./stylesheets/style.css");
