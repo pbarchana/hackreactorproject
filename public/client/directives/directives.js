@@ -223,6 +223,9 @@ app.directive('map', [function() {
           };
           return circle;
         }
+        scope.$apply(function() {
+          scope.loading = false;
+        });
       }, 1000);
      
     }

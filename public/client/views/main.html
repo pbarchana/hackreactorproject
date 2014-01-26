@@ -1,9 +1,22 @@
-Content -->
+<!-- Loading gif -->
+<div ng-show="loading" class="loading">
+  <img src="img/ajax-loader.gif"></img>
+</div>
+    
+<!-- Content -->
 <div network-graph class="content" loading="loading" nwdata="ctldata"></div>
 
 <!-- Side Panel -->
 <div class="side-panel" style="overflow-y: scroll">
   
+  <!-- List View -->
+  <div ng-hide="selectedNode">
+    <div class="summary" ng-repeat="node in ctldata.nodes">
+      <div class="header">{{ node.type }}</div>
+      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
+    </div>
+  </div>
+
   <!-- Node View -->
   <div ng-show="selectedNode" ng-controller="accordionController">
     <accordion close-others="oneAtATime">
@@ -26,13 +39,6 @@ Content -->
       <div class="divider">NODE INFO</div>
     </accordion>
   </div><!-- /.AccordianCtrl -->
-  
-  <!-- List View -->
-  <div ng-hide="selectedNode">
-    <div class="summary" ng-repeat="node in ctldata.nodes">
-      <div class="header">{{ node.type }}</div>
-      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
-    </div>
-  </div>
+
 
 </div><!-- /.sidePanel

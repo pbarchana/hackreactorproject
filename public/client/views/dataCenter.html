@@ -1,3 +1,8 @@
+<!-- Loading gif -->
+<div ng-show="loading" class="loading">
+  <img src="img/ajax-loader.gif"></img>
+</div>
+
 <!-- Content -->
 <div class="content">
   <div map class="google-map" latitude="43.074688" longitude="-89.384294" loading="loading" nwdata="ctldata" selected-node="selectedNode" connections="connections"></div>
@@ -26,12 +31,12 @@
   </div><!-- /accordianCtrl -->
 
   <!-- List view -->
-<!--   <div ng-hide="selectedNode">
+  <div ng-hide="selectedNode">
     <div class="summary" ng-repeat="node in ctldata">
       <div class="header">{{ node.name }}</div>
       <div>Data Center</div>
       <div>{{ node.location }}
     </div>
-  </div> -->
+  </div>
 
 </div><!-- /.sidePanel
