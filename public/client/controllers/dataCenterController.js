@@ -13,5 +13,6 @@ angular.module('app')
 
   $scope.select = function(node) {
     $scope.selectedNode = node;
+    $scope.liveSearch = '';
   };
 });
