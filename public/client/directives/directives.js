@@ -1,3 +1,7 @@
+var angular = require('angular');
+
+var app = angular.module('app');
+
 var bootstrapd3 = function(scope, element, attrs, d3Service) {
   setTimeout(function(){
     var d3serve = d3Service.d3().then(function(d3) {
@@ -132,7 +136,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
   };
 }]);
 
-app.directive('map', [function() {
+module.exports = app.directive('map', [function() {
   return {
     restrict: 'EA',
     scope: {

@@ -1,6 +1,8 @@
+var angular = require('angular');
 
-app.factory('NetworkDataService', function($q, $http/* DI */) {
+var app = angular.module('app');
 
+module.exports = app.factory('NetworkDataService', function($q, $http/* DI */) {
   var service = {
     
     getAll: function() {
@@ -14,7 +16,7 @@ app.factory('NetworkDataService', function($q, $http/* DI */) {
         d.reject(reason);
       });
       return d.promise;
-    },  
+    },
 
     getAllFlattened: function() {
       var d = $q.defer();

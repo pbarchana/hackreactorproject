@@ -1,14 +1,11 @@
-// TODO: change strict = false in models (and make more specify schema)
-// TODO: pull out all the paths and save them separately in config
-
 // Dependencies
-var express = require('express');
-var mongoose = require('mongoose');
-var config = require('./config/config');
-var path = require('path');
-var stylus = require('stylus');
-var nib = require('nib');
-var fs = require('fs');
+var express   = require('express'),
+    mongoose  = require('mongoose'),
+    config    = require('./config/config'),
+    path      = require('path'),
+    stylus    = require('stylus'),
+    nib       = require('nib'),
+    fs        = require('fs');
 
 var app = express();
 

@@ -1,3 +1,5 @@
+var angular = require('angular');
+
 angular.module('d3', [])
 
 .factory('d3Service', ['$document', '$q', '$rootScope',
@@ -28,5 +30,5 @@ angular.module('d3', [])
   }
 ]);
 
-var app = angular.module('app', ['ngRoute', 'd3', 'ui.bootstrap', 'ngAnimate']);
+module.exports = angular.module('app', ['ngRoute', 'd3', 'ui.bootstrap', 'ngAnimate']);
 

@@ -15,7 +15,9 @@
     "grunt": "latest",
     "grunt-cli": "latest",
     "glob": "~3.2.8",
-    "async": "~0.2.10"
+    "async": "~0.2.10",
+    "twitter-bootstrap": "~2.1.1",
+    "angular": "~1.2.7"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

@@ -1,4 +1,6 @@
-angular.module('app')
+var angular = require('angular');
+
+module.exports = angular.module('app')
 .controller('accordionController', function($scope, $rootScope) {
   $scope.oneAtATime = false;
 

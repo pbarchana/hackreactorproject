@@ -25,25 +25,8 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 
   <!-- Scripts -->
-  <script src="client/app.js"></script>
+  <script src="bundle.js"></script>
 
-  <!-- Services -->
-  <script src="client/services/networkDataService.js"></script>
-
-  <!-- Controllers -->
-  <script src="client/controllers/d3Controller.js"></script>
-  <script src="client/controllers/accordionController.js"></script>
-  <script src="client/controllers/mainController.js"></script>
-  <script src="client/controllers/zoomInController.js"></script>
-  <script src="client/controllers/dataCenterController.js"></script>
-
-  <!-- Directives -->
-
-  <script src="client/directives/directives.js"></script>
-  <!-- Routes -->
-  <script src="client/config/routes.js"></script>
-  <script src="client/helpers.js"></script>
-  <script src="client/filters.js"></script>
 </head>
 <body ng-app="app">
 
@@ -91,22 +74,6 @@
   </nav>
 
   <ng-view></ng-view>
-
-    <!--       <div class="input-group search">
-            <input type="text" ng-model="liveSearch" class="form-control">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
-          </div> -->
-
-<!--     <div class="results">
-      <div class="result" ng-click="select(node)" ng-show="liveSearch" style="cursor:hand" class="results" ng-repeat="node in nodes | filter:liveSearch | limitTo:5">
-        <div>{{ node.type }}</div>
-        <div class="info">Vendor: {{ node.attributes.vendor }}</div>
-        <div class="info">UUID: {{ node.attributes.UUID }}</div>
-      </div>
-    </div> -->
-    <!-- /.results -->
 
 </body>
 </html>
