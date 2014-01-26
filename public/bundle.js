@@ -355,6 +355,105 @@ module.exports = angular.module('app')
 // using transition() :(
 
 
+ //find all nodes connected to selected node  -- NOT USED
+var neighbors = function(target, source, linkDirectory){
+  return linkDirectory[target + "," + source] ||
+    linkDirectory[source + "," + target];
+};
+
+//Called on edge hover
+var showLinkDetails = function(link){
+  console.log('d target ', link.target);
+
+  d3.select(this)
+    .style('stroke-opacity', 1)
+    .style('stroke', 'black');
+};
+
+//Called on edge mouse out
+var hideLinkDetails = function(link){
+  d3.select(this)
+    .style('stroke-opacity', 0.3)
+    .style('stroke', '#999');
+};
+
+var selectNode = function(node, i){
+  d3.selectAll('.node')
+  .attr('nodeSelected', false)
+  .style('stroke', 'white')
+  .style('stroke-width', '3px');
+
+  d3.select(this)
+  .attr('nodeSelected', true)
+  .transition()
+  .style('stroke', '#bada55')
+  .style('stroke-width', '5px');
+};
+
+var selectLink = function(link, i, selected_link){
+  if (selected_link !== null) {
+    d3.select(".linkSelected")
+    .transition()
+    .style("stroke", "#999")
+    .style("stroke-width", '2px')
+    .style("stroke-opacity", 0.3)
+    .style("stroke-dasharray", "none");
+    d3.select('.linkSelected')
+    .classed('linkSelected', false);
+  }
+  else if(selected_link === link){
+    selected_link = null;
+    return;
+  } else {
+    selected_link = link;
+  }
+
+  d3.select(this)
+  .classed('linkSelected', true)
+  .transition()
+  .style('stroke', 'black')
+  .style("stroke-dasharray", ("3, 3"))
+  .style('stroke-width', '6px');
+};
+
+var showNodeDetails = function(node){
+  var selected = d3.select(this).attr('nodeSelected');
+
+  if(selected === 'false'){
+    d3.select(this).style('stroke', '#bada55');
+  }
+
+  d3.selectAll(".link").transition()
+    .style("stroke", function(l) {
+      if (l.source === node || l.target === node) {
+        return "black";
+      } else {
+        return "#999";
+      }
+    })
+    .style("stroke-opacity", function(l) {
+      if (l.source === node || l.target === node) {
+        return 1.0;
+      } else {
+        return 0.1;
+      }
+  });
+};
+
+var hideNodeDetails = function(node){
+  var selected = d3.select(this).attr('nodeSelected');
+  if(selected === 'false'){
+    d3.select(this)
+    .transition()
+    .style('stroke', 'white');
+  }
+  d3.selectAll(".link").transition()
+  .style("stroke", "#999")
+  .style("stroke-opacity", '0.3');
+};
+
+
+
 module.exports.drawLinks = function(link, force){
   link.data(force.links())
   .enter().append("path")
@@ -440,66 +539,6 @@ module.exports.addLink = function(a, b, linkDirectory){
   linkDirectory[b + "," + a] = 1;
 };
 
- //find all nodes connected to selected node  -- NOT USED
-var neighbors = function(target, source, linkDirectory){
-  return linkDirectory[target + "," + source] ||
-    linkDirectory[source + "," + target];
-};
-
-//Called on edge hover
-var showLinkDetails = function(link){
-  console.log('d target ', link.target);
-
-  d3.select(this)
-    .style('stroke-opacity', 1)
-    .style('stroke', 'black');
-};
-
-//Called on edge mouse out
-var hideLinkDetails = function(link){
-  d3.select(this)
-    .style('stroke-opacity', 0.3)
-    .style('stroke', '#999');
-};
-
-var selectNode = function(node, i){
-  d3.selectAll('.node')
-  .attr('nodeSelected', false)
-  .style('stroke', 'white')
-  .style('stroke-width', '3px');
-
-  d3.select(this)
-  .attr('nodeSelected', true)
-  .transition()
-  .style('stroke', '#bada55')
-  .style('stroke-width', '5px');
-};
-
-var selectLink = function(link, i, selected_link){
-  if (selected_link !== null) {
-    d3.select(".linkSelected")
-    .transition()
-    .style("stroke", "#999")
-    .style("stroke-width", '2px')
-    .style("stroke-opacity", 0.3)
-    .style("stroke-dasharray", "none");
-    d3.select('.linkSelected')
-    .classed('linkSelected', false);
-  }
-  else if(selected_link === link){
-    selected_link = null;
-    return;
-  } else {
-    selected_link = link;
-  }
-
-  d3.select(this)
-  .classed('linkSelected', true)
-  .transition()
-  .style('stroke', 'black')
-  .style("stroke-dasharray", ("3, 3"))
-  .style('stroke-width', '6px');
-};
 
 module.exports.keydown = function (d, selected_link) {
   d3.event.preventDefault();
@@ -526,41 +565,6 @@ module.exports.keydown = function (d, selected_link) {
   }
 };
 
-var showNodeDetails = function(node){
-  var selected = d3.select(this).attr('nodeSelected');
-
-  if(selected === 'false'){
-    d3.select(this).style('stroke', '#bada55');
-  }
-
-  d3.selectAll(".link").transition()
-    .style("stroke", function(l) {
-      if (l.source === node || l.target === node) {
-        return "black";
-      } else {
-        return "#999";
-      }
-    })
-    .style("stroke-opacity", function(l) {
-      if (l.source === node || l.target === node) {
-        return 1.0;
-      } else {
-        return 0.1;
-      }
-  });
-};
-
-var hideNodeDetails = function(node){
-  var selected = d3.select(this).attr('nodeSelected');
-  if(selected === 'false'){
-    d3.select(this)
-    .transition()
-    .style('stroke', 'white');
-  }
-  d3.selectAll(".link").transition()
-  .style("stroke", "#999")
-  .style("stroke-opacity", '0.3');
-};
 
 
 //function to map MAC address of nic to containing host
