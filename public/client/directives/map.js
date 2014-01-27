@@ -2,7 +2,6 @@ var angular = require('angular');
 
 var createMap = function (scope, elem, attrs) {
   // generate map
-  debugger;
   var mapOptions, map;
   mapOptions = {
     zoom: 8,
@@ -91,7 +90,6 @@ var createMap = function (scope, elem, attrs) {
 
 var app = angular.module('app');
 module.exports = app.directive('map', [function() {
-  debugger;
   return {
     restrict: 'EA',
     scope: {
