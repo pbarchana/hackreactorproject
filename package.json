@@ -19,7 +19,8 @@
     "twitter-bootstrap": "~2.1.1",
     "d3": "~3.4.1",
     "angular": "~1.2.7",
-    "npm-css": "~0.2.3"
+    "npm-css": "~0.2.3",
+    "gulp-browserify": "~0.3.4"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
