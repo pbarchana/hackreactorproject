@@ -15574,11 +15574,14 @@ A(Q).ready(function(){Sc(Q,Yb)})})(window,document);!angular.$$csp()&&angular.el
 }();
 },{}],7:[function(require,module,exports){
 var angular = require('angular');
+require('angular-route/angular-route');
+require('angular-animate/angular-animate');
+require('angular-bootstrap/ui-bootstrap-tpls');
 
 module.exports = angular.module('app', ['ngRoute', 'ui.bootstrap', 'ngAnimate']);
 
 
-},{"angular":4}],8:[function(require,module,exports){
+},{"angular":4,"angular-animate/angular-animate":1,"angular-bootstrap/ui-bootstrap-tpls":2,"angular-route/angular-route":3}],8:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular.module('app')
@@ -16303,11 +16306,6 @@ module.exports = app.factory('NetworkDataService', function($q, $http/* DI */) {
 
 },{"angular":4}],18:[function(require,module,exports){
 // angular setup
-require('angular');
-require('angular-route/angular-route');
-require('angular-animate/angular-animate');
-require('angular-bootstrap/ui-bootstrap-tpls');
-
 require("./client/app.js");
 
 require("./client/services/networkDataService.js");
@@ -16323,4 +16321,4 @@ require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
 
-},{"./client/app.js":7,"./client/config/routes.js":8,"./client/controllers/accordionController.js":9,"./client/controllers/d3Controller.js":10,"./client/controllers/dataCenterController.js":11,"./client/controllers/mainController.js":12,"./client/controllers/zoomInController.js":13,"./client/directives/map.js":15,"./client/directives/networkGraph.js":16,"./client/services/networkDataService.js":17,"angular":4,"angular-animate/angular-animate":1,"angular-bootstrap/ui-bootstrap-tpls":2,"angular-route/angular-route":3}]},{},[18])
+},{"./client/app.js":7,"./client/config/routes.js":8,"./client/controllers/accordionController.js":9,"./client/controllers/d3Controller.js":10,"./client/controllers/dataCenterController.js":11,"./client/controllers/mainController.js":12,"./client/controllers/zoomInController.js":13,"./client/directives/map.js":15,"./client/directives/networkGraph.js":16,"./client/services/networkDataService.js":17}]},{},[18])
