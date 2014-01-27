@@ -13,3 +13,5 @@ require("./client/directives/map.js");
 require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
+
+require("./client/templates.js");

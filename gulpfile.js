@@ -31,6 +31,18 @@ gulp.task('generate', function() {
   exec('node' + __dirname + '/workers/saveFilesToDB', callback);
 });
 
+// angular templates
+gulp.task('templates', function () {
+  // return es.concat(
+  gulp.src('public/client/views/*.html')
+    .pipe(templateCache('templates.js', {
+      root: 'client/views/',
+      module: 'app'
+    }))
+    .pipe(gulp.dest('./public/client'));
+});
+
+
 gulp.task('scripts', function() {
   // Single entry point to browserify
   var stream = gulp.src('public/index.js')
