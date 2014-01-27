@@ -1,10 +1,12 @@
 var angular = require('angular');
 var helpers = require('./helpers.js');
+var d3 = require('d3');
 
 var app = angular.module('app');
-var bootstrapd3 = function(scope, element, attrs, d3Service) {
+var bootstrapd3 = function(scope, element, attrs) {
   setTimeout(function(){
-    var d3serve = d3Service.d3().then(function(d3) {
+    // var d3serve = d3Service.d3().then(function(d3) {
+      debugger;
 
  function redraw() {
           svg.attr('transform', 'translate(' +
@@ -110,7 +112,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
       window.onresize = function() {
         scope.$apply();
       };
-    });
+    // });
 
   }, 300);
 
@@ -118,7 +120,7 @@ var bootstrapd3 = function(scope, element, attrs, d3Service) {
 
 
 
-app.directive('networkGraph', ['d3Service', function(d3Service) {
+module.exports = app.directive('networkGraph', [function() {
   return {
     restrict: 'EA',
     scope: {
@@ -127,7 +129,7 @@ app.directive('networkGraph', ['d3Service', function(d3Service) {
     },
     link: function(scope, element, attrs) {
       setTimeout(function() {
-        bootstrapd3(scope, element, attrs, d3Service);
+        bootstrapd3(scope, element, attrs);
       }, 1000);
       // bootstrapd3(scope, element, attrs, d3Service);
     }

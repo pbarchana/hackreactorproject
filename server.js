@@ -3,7 +3,6 @@ var express   = require('express'),
     mongoose  = require('mongoose'),
     config    = require('./config/config'),
     path      = require('path'),
-    stylus    = require('stylus'),
     nib       = require('nib'),
     fs        = require('fs');
 
@@ -15,16 +14,16 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(stylus.middleware({
-  src: __dirname + '/public', // .styl files are located in `stylesheets`
-  dest: __dirname + '/public', // .styl resources are compiled `public/stylesheets/*.css`
-  compile: function (str, path) {
-    return stylus(str)
-      .set('filename', path)
-      .set('compress', true)
-      .use(nib());
-  }
-}));
+// app.use(stylus.middleware({
+//   src: __dirname + '/public', // .styl files are located in `stylesheets`
+//   dest: __dirname + '/public', // .styl resources are compiled `public/stylesheets/*.css`
+//   compile: function (str, path) {
+//     return stylus(str)
+//       .set('filename', path)
+//       .set('compress', true)
+//       .use(nib());
+//   }
+// }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Bootstrap models

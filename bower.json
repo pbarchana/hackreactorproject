@@ -1,8 +1,0 @@
-{
-  "name": "hackreactorproject",
-  "version": "0.0.0",
-  "dependencies": {
-    "bootstrap": "~3.0.3",
-    "animate.css": "~3.0.0"
-  }
-}

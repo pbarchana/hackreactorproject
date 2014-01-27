@@ -4,3 +4,5 @@ node_modules
 public/lib
 !public/lib/angular-bootstrap/ui-bootstrap-tpls.js
 public/stylesheets/*.css
+dist
+public/*.css
