@@ -1,6 +1,5 @@
 var gulp          = require('gulp'),
     exec          = require('child_process').exec,
-    async         = require('async'),
     browserify    = require('gulp-browserify'),
     rename        = require("gulp-rename"),
     stylus        = require('gulp-stylus'),
@@ -85,7 +84,7 @@ gulp.task('copy', ['copyIndex', 'copyImg']);
 gulp.task('nodemon', ['scripts', 'css', 'copy'], function () {
   nodemon({ script: 'server/server.js', options: '--debug' });
 });
-gulp.task('watch', ['scripts', 'css'], function () {
+gulp.task('watch', ['scripts', 'css', 'copy'], function () {
   gulp.watch('public/client/**', ['scripts']);
   gulp.watch('public/stylesheets/**', ['css']);
 });

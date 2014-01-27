@@ -12,33 +12,21 @@
     "mongoose": "~3.8.4",
     "stylus": "*",
     "nib": "*",
-    "grunt": "latest",
-    "grunt-cli": "latest",
     "glob": "~3.2.8",
     "async": "~0.2.10",
-    "twitter-bootstrap": "~2.1.1",
     "d3": "~3.4.1",
-    "angular": "~1.2.7",
-    "npm-css": "~0.2.3",
-    "gulp-browserify": "~0.3.4",
-    "gulp-rename": "~0.2.2",
-    "gulp-livereload": "~0.2.0",
-    "tiny-lr": "0.0.5",
-    "connect-livereload": "~0.3.2",
-    "livereload": "~0.3.2",
-    "gulp-stylus": "0.0.11",
-    "gulp-concat": "~2.1.7",
-    "gulp-minify-css": "~0.2.0"
+    "angular": "~1.2.7"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-nodemon": "latest",
-    "grunt-shell-spawn": "latest",
-    "grunt-execute": "~0.1.5",
     "napa": "~0.3.0",
     "gulp": "~3.5.0",
-    "gulp-styl": "~0.1.3",
-    "gulp-angular-templatecache": "~1.0.3"
+    "gulp-browserify": "~0.3.4",
+    "gulp-rename": "~0.2.2",
+    "gulp-stylus": "0.0.11",
+    "gulp-concat": "~2.1.7",
+    "gulp-minify-css": "~0.2.0",
+    "gulp-angular-templatecache": "~1.0.3",
+    "gulp-nodemon": "~0.1.2"
   },
   "scripts": {
     "install": "napa"
