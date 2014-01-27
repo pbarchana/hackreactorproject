@@ -26,7 +26,8 @@
     "grunt-nodemon": "latest",
     "grunt-shell-spawn": "latest",
     "grunt-execute": "~0.1.5",
-    "napa": "~0.3.0"
+    "napa": "~0.3.0",
+    "gulp": "~3.5.0"
   },
   "scripts": {
     "install": "napa"
