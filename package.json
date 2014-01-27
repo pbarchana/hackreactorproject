@@ -20,7 +20,8 @@
     "d3": "~3.4.1",
     "angular": "~1.2.7",
     "npm-css": "~0.2.3",
-    "gulp-browserify": "~0.3.4"
+    "gulp-browserify": "~0.3.4",
+    "gulp-rename": "~0.2.2"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
