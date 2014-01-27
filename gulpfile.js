@@ -7,6 +7,7 @@ var gulp       = require('gulp'),
     stylus     = require('gulp-stylus'),
     concat     = require('gulp-concat'),
     nodemon    = require('gulp-nodemon');
+    templateCache = require('gulp-angular-templatecache');
 
 // Generate configurations
 var serverNum = 20;
@@ -74,8 +75,8 @@ gulp.task('nodemon', ['scripts', 'css'], function () {
 });
 
 gulp.task('watch', ['scripts', 'css'], function () {
-  gulp.watch('public/client/**', ['scripts']);
-  gulp.watch('public/stylesheets/**', ['css']);
+  gulp.watch('public/client/**/*.js', ['scripts']);
+  gulp.watch('public/stylesheets/**/*.css', ['css']);
 });
 
 
