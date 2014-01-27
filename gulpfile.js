@@ -7,6 +7,7 @@ var gulp       = require('gulp'),
     stylus     = require('gulp-stylus');
     npmcss     = require('npm-css');
     concat     = require('gulp-concat');
+    nodemon    = require('gulp-nodemon')
 
 // Generate configurations
 var serverNum = 20;
@@ -32,44 +33,54 @@ gulp.task('generate', function() {
 
 gulp.task('scripts', function() {
   // Single entry point to browserify
-  gulp.src('public/index.js')
+  var stream = gulp.src('public/index.js')
     .pipe(browserify({
       insertGlobals : false,
     }))
     .pipe(rename("bundle.js"))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./public'));
+  return stream;
 });
 
 // Get and render all .styl files recursively 
 gulp.task('stylus', function () {
-  gulp.src('./public/stylesheets/style.styl')
+  var stream = gulp.src('./public/stylesheets/style.styl')
     .pipe(stylus({
         use: ['nib'],
         set:['compress']
       }))
-    .pipe(gulp.dest('./dist/stylesheets'));
+    .pipe(gulp.dest('./public'));
+  return stream;
 });
 
-gulp.task('css', function() {
-  gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css', 'node_modules/animate.css/animate.min.css', 'public/stylesheets/style.css'])
+gulp.task('css', ['stylus'], function() {
+  var stream = gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css', 'node_modules/animate.css/animate.min.css', 'public/stylesheets/style.css'])
     .pipe(concat("bundle.css"))
     .pipe(gulp.dest('./public'));
+  return stream;
 });
 
 // watch for changes
-gulp.task('copyIndex', function() {
-  return gulp.src('./public/index.html')
-    .pipe(gulp.dest('./dist'));
+// gulp.task('copyIndex', function() {
+//   return gulp.src('./public/index.html')
+//     .pipe(gulp.dest('./dist'));
+// });
+
+// gulp.task('server', function() {
+//   require('./server');
+// });
+
+gulp.task('nodemon', ['scripts', 'css'], function () {
+  nodemon({ script: 'server.js', options: '--debug' });
 });
 
-gulp.task('server', function() {
-  require('./server');
-});
-
-gulp.task('watch', function () {
+gulp.task('watch', ['scripts', 'css'], function () {
   gulp.watch('public/client/**', ['scripts']);
+  gulp.watch('public/client/**', ['stylus', 'css']);
 });
+
+
 
 
 // Default task
-gulp.task('default', ['scripts', 'server', 'watch']);
+gulp.task('default', ['nodemon', 'watch']);
