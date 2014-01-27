@@ -8,13 +8,15 @@ var express   = require('express'),
 
 var app = express();
 
+var dest = 'public';
+
 // set up environments
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', dest)));
 
 // Bootstrap models
 var models_path = __dirname + '/app/models';

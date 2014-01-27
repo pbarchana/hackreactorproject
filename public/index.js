@@ -1,3 +1,4 @@
+require('angular');
 // angular setup
 require("./client/app.js");
 
@@ -14,4 +15,4 @@ require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
 
-require("./client/templates.js");
+// require("./client/templates.js");

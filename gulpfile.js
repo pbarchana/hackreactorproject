@@ -9,6 +9,8 @@ var gulp       = require('gulp'),
     nodemon    = require('gulp-nodemon');
     templateCache = require('gulp-angular-templatecache');
 
+var dest = './public';
+
 // Generate configurations
 var serverNum = 20;
 var switchNum = 5;
@@ -31,64 +33,63 @@ gulp.task('generate', function() {
   exec('node' + __dirname + '/workers/saveFilesToDB', callback);
 });
 
+// TODO: compile templates
 // angular templates
-gulp.task('templates', function () {
-  // return es.concat(
-  gulp.src('public/client/views/*.html')
-    .pipe(templateCache('templates.js', {
-      root: 'client/views/',
-      module: 'app'
-    }))
-    .pipe(gulp.dest('./public/client'));
-});
-
+// gulp.task('templates', function () {
+//   // return es.concat(
+//   return gulp.src('public/client/views/*.html')
+//     .pipe(templateCache('templates.js', {
+//       // root: 'client/views/',
+//       // module: 'app'
+//     }))
+//     .pipe(gulp.dest('./public/client'));
+// });
 
 gulp.task('scripts', function() {
   // Single entry point to browserify
-  var stream = gulp.src('public/index.js')
+  return gulp.src('public/index.js')
     .pipe(browserify({
-      insertGlobals : false,
+      insertGlobals : true,
     }))
     .pipe(rename("bundle.js"))
-    .pipe(gulp.dest('./public'));
-  return stream;
+    .pipe(gulp.dest(dest));
 });
 
 // Get and render all .styl files recursively 
 gulp.task('stylus', function () {
-  var stream = gulp.src('./public/stylesheets/style.styl')
+  return gulp.src('./public/stylesheets/style.styl')
     .pipe(stylus({
         use: ['nib'],
         set:['compress']
       }))
     .pipe(gulp.dest('./public/stylesheets'));
-  return stream;
 });
 
 gulp.task('css', ['stylus'], function() {
-  var stream = gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css', 'node_modules/animate.css/animate.min.css', 'public/stylesheets/style.css'])
+  return gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css', 'node_modules/animate.css/animate.min.css', 'public/stylesheets/style.css'])
     .pipe(concat("bundle.css"))
-    .pipe(gulp.dest('./public'));
-  return stream;
+    .pipe(gulp.dest(dest));
 });
 
-// watch for changes
 // gulp.task('copyIndex', function() {
 //   return gulp.src('./public/index.html')
-//     .pipe(gulp.dest('./dist'));
+//     .pipe(gulp.dest(dest));
 // });
 
-// gulp.task('server', function() {
-//   require('./server/server');
+// gulp.task('copyImg', function() {
+//   return gulp.src('./public/img/**')
+//     .pipe(gulp.dest('./dist/img'));
 // });
+
+// gulp.task('copy', ['copyIndex', 'copyImg']);
 
 gulp.task('nodemon', ['scripts', 'css'], function () {
   nodemon({ script: 'server/server.js', options: '--debug' });
 });
 
 gulp.task('watch', ['scripts', 'css'], function () {
-  gulp.watch('public/client/**/*.js', ['scripts']);
-  gulp.watch('public/stylesheets/**/*.css', ['css']);
+  gulp.watch('public/client/**', ['scripts']);
+  gulp.watch('public/stylesheets/**', ['css']);
 });
 
 
