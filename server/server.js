@@ -8,7 +8,7 @@ var express   = require('express'),
 
 var app = express();
 
-var dest = 'public';
+var dest = 'dist';
 
 // set up environments
 app.use(express.logger('dev'));
