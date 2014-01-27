@@ -3,11 +3,10 @@ var gulp       = require('gulp'),
     exec       = require('child_process').exec,
     async      = require('async'),
     browserify = require('gulp-browserify'),
-    rename     = require("gulp-rename");
-    stylus     = require('gulp-stylus');
-    npmcss     = require('npm-css');
-    concat     = require('gulp-concat');
-    nodemon    = require('gulp-nodemon')
+    rename     = require("gulp-rename"),
+    stylus     = require('gulp-stylus'),
+    concat     = require('gulp-concat'),
+    nodemon    = require('gulp-nodemon');
 
 // Generate configurations
 var serverNum = 20;
@@ -76,7 +75,7 @@ gulp.task('nodemon', ['scripts', 'css'], function () {
 
 gulp.task('watch', ['scripts', 'css'], function () {
   gulp.watch('public/client/**', ['scripts']);
-  gulp.watch('public/client/**', ['stylus', 'css']);
+  gulp.watch('public/stylesheets/**', ['css']);
 });
 
 
