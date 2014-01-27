@@ -5,14 +5,13 @@ var d3 = require('d3');
 var app = angular.module('app');
 var bootstrapd3 = function(scope, element, attrs) {
   setTimeout(function(){
-    // var d3serve = d3Service.d3().then(function(d3) {
-      debugger;
+  
 
- function redraw() {
-          svg.attr('transform', 'translate(' +
-            d3.event.translate + ')' +
-          ' scale(' + d3.event.scale + ')');
-        }
+  function redraw() {
+    svg.attr('transform', 'translate(' +
+      d3.event.translate + ')' +
+    ' scale(' + d3.event.scale + ')');
+  }
 
       //View window width and height
       var viewWidth = element[0].offsetWidth;

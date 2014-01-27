@@ -7,12 +7,12 @@ module.exports = angular.module('app')
 		controller: 'mainController',
 		templateUrl: 'client/views/main.html'
 	})
-  .when('/dataCenter', {
+  	.when('/dataCenter', {
 		controller: 'dataCenterController',
 		templateUrl: 'client/views/dataCenter.html'
   })
 	.when('/zoomIn', {
 		controller: 'zoomInController',
 		templateUrl: 'client/views/zoomIn.html'
-	});
+	})
 });
