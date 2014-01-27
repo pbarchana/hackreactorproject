@@ -21,7 +21,11 @@
     "angular": "~1.2.7",
     "npm-css": "~0.2.3",
     "gulp-browserify": "~0.3.4",
-    "gulp-rename": "~0.2.2"
+    "gulp-rename": "~0.2.2",
+    "gulp-livereload": "~0.2.0",
+    "tiny-lr": "0.0.5",
+    "connect-livereload": "~0.3.2",
+    "livereload": "~0.3.2"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

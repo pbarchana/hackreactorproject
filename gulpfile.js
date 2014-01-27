@@ -3,7 +3,7 @@ var gulp       = require('gulp'),
     exec       = require('child_process').exec,
     async      = require('async'),
     browserify = require('gulp-browserify'),
-    rename     = require("gulp-rename");
+    rename     = require("gulp-rename"),
 
 // Generate configurations
 var serverNum = 20;
@@ -28,7 +28,7 @@ gulp.task('generate', function() {
 });
 
 // Generate bundle.js from index.js
-gulp.task('browserify', function() {
+gulp.task('scripts', function() {
   // Single entry point to browserify
   gulp.src('public/index.js')
     .pipe(browserify({
@@ -40,7 +40,7 @@ gulp.task('browserify', function() {
 
 // watch for changes
 gulp.task('watch', function () {
-  gulp.watch('public/client/**', ['browserify']);
+  gulp.watch('public/client/**', ['scripts']);
 });
 
 gulp.task('save', function() {
@@ -49,7 +49,14 @@ gulp.task('save', function() {
 gulp.task('connect', function() {
 });
 
+gulp.task('express', function() {
+  require('./server');
+});
 
+
+// Default task
 gulp.task('default', function(){
-  // place code for your default task here
+
+  require('./server');
+
 });
