@@ -1,20 +1,15 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var exec = require('child_process').exec;
-var async = require('async');
-var browserify = require('gulp-browserify');
-var rename = require("gulp-rename");
+var gulp       = require('gulp'),
+    gutil      = require('gulp-util'),
+    exec       = require('child_process').exec,
+    async      = require('async'),
+    browserify = require('gulp-browserify'),
+    rename     = require("gulp-rename");
 
-gulp.task('scripts', function() {
-    // Single entry point to browserify
-    gulp.src('public/index.js')
-        .pipe(browserify({
-          insertGlobals : false,
-        }))
-        .pipe(rename("bundle.js"))
-        .pipe(gulp.dest('./public'));
-});
-
+// Generate configurations
+var serverNum = 20;
+var switchNum = 5;
+var dataCenterNum = 5;
+// Generate mock data
 gulp.task('generate', function() {
   var callback = function (error, stdout, stderr) {
     console.log('stdout: ' + stdout);
@@ -25,11 +20,27 @@ gulp.task('generate', function() {
   };
   exec('node' + __dirname + '/workers/checkForDirectories', callback);
   exec('node' + __dirname + '/workers/deleteMockData', callback);
-  exec('node' + __dirname + '/workers/mockDataCenter 2', callback);
-  exec('python' + __dirname + '/workers/mockNodes.py 2', callback);
-  exec('node' + __dirname + '/workers/mockSwitches 2', callback);
+  exec('node' + __dirname + '/workers/mockDataCenter ' + dataCenterNum, callback);
+  exec('python' + __dirname + '/workers/mockNodes.py ' + serverNum, callback);
+  exec('node' + __dirname + '/workers/mockSwitches ' + switchNum, callback);
   exec('node' + __dirname + '/workers/mockConnectivity', callback);
   exec('node' + __dirname + '/workers/saveFilesToDB', callback);
+});
+
+// Generate bundle.js from index.js
+gulp.task('browserify', function() {
+  // Single entry point to browserify
+  gulp.src('public/index.js')
+    .pipe(browserify({
+      insertGlobals : false,
+    }))
+    .pipe(rename("bundle.js"))
+    .pipe(gulp.dest('./public'));
+});
+
+// watch for changes
+gulp.task('watch', function () {
+  gulp.watch('public/client/**', ['browserify']);
 });
 
 gulp.task('save', function() {
