@@ -1,4 +1,3 @@
-require('angular');
 // angular setup
 require("./client/app.js");
 
