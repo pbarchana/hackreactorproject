@@ -2,6 +2,18 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var exec = require('child_process').exec;
 var async = require('async');
+var browserify = require('gulp-browserify');
+var rename = require("gulp-rename");
+
+gulp.task('scripts', function() {
+    // Single entry point to browserify
+    gulp.src('public/index.js')
+        .pipe(browserify({
+          insertGlobals : false,
+        }))
+        .pipe(rename("bundle.js"))
+        .pipe(gulp.dest('./public'));
+});
 
 gulp.task('generate', function() {
   var callback = function (error, stdout, stderr) {
