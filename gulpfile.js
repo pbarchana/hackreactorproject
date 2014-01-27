@@ -66,11 +66,11 @@ gulp.task('css', ['stylus'], function() {
 // });
 
 // gulp.task('server', function() {
-//   require('./server');
+//   require('./server/server');
 // });
 
 gulp.task('nodemon', ['scripts', 'css'], function () {
-  nodemon({ script: 'server.js', options: '--debug' });
+  nodemon({ script: 'server/server.js', options: '--debug' });
 });
 
 gulp.task('watch', ['scripts', 'css'], function () {
