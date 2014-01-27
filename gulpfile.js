@@ -49,7 +49,7 @@ gulp.task('stylus', function () {
         use: ['nib'],
         set:['compress']
       }))
-    .pipe(gulp.dest('./public'));
+    .pipe(gulp.dest('./public/stylesheets'));
   return stream;
 });
 
