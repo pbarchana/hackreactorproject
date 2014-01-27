@@ -3,7 +3,10 @@ var gulp       = require('gulp'),
     exec       = require('child_process').exec,
     async      = require('async'),
     browserify = require('gulp-browserify'),
-    rename     = require("gulp-rename"),
+    rename     = require("gulp-rename");
+    stylus     = require('gulp-stylus');
+    npmcss     = require('npm-css');
+    concat     = require('gulp-concat');
 
 // Generate configurations
 var serverNum = 20;
@@ -27,7 +30,6 @@ gulp.task('generate', function() {
   exec('node' + __dirname + '/workers/saveFilesToDB', callback);
 });
 
-// Generate bundle.js from index.js
 gulp.task('scripts', function() {
   // Single entry point to browserify
   gulp.src('public/index.js')
@@ -35,28 +37,39 @@ gulp.task('scripts', function() {
       insertGlobals : false,
     }))
     .pipe(rename("bundle.js"))
+    .pipe(gulp.dest('./dist'));
+});
+
+// Get and render all .styl files recursively 
+gulp.task('stylus', function () {
+  gulp.src('./public/stylesheets/style.styl')
+    .pipe(stylus({
+        use: ['nib'],
+        set:['compress']
+      }))
+    .pipe(gulp.dest('./dist/stylesheets'));
+});
+
+gulp.task('css', function() {
+  gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css', 'node_modules/animate.css/animate.min.css', 'public/stylesheets/style.css'])
+    .pipe(concat("bundle.css"))
     .pipe(gulp.dest('./public'));
 });
 
 // watch for changes
+gulp.task('copyIndex', function() {
+  return gulp.src('./public/index.html')
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('server', function() {
+  require('./server');
+});
+
 gulp.task('watch', function () {
   gulp.watch('public/client/**', ['scripts']);
 });
 
-gulp.task('save', function() {
-});
-
-gulp.task('connect', function() {
-});
-
-gulp.task('express', function() {
-  require('./server');
-});
-
 
 // Default task
-gulp.task('default', function(){
-
-  require('./server');
-
-});
+gulp.task('default', ['scripts', 'server', 'watch']);

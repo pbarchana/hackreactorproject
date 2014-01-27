@@ -18,3 +18,6 @@ require("./client/directives/map.js");
 require("./client/directives/networkGraph.js");
 
 require("./client/config/routes.js");
+
+// require("bootstrap/dist/css/bootstrap.css");
+require("./stylesheets/style.css");
