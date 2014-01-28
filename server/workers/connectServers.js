@@ -137,9 +137,23 @@ db.once('open', function () {
     debugger;
     var connections = makeTreeConnections(results.servers, results.switches);
     // save connections
-    Connection.create(connections, function (err, results) {
-      if (err) console.error(err);
-      console.log('documents saved');
+
+    Connection.remove({}, function(err) {
+      console.log('connections removed');
     });
+
+    Connection.collection.insert(connections, null, function(err, results) {
+      console.log(results);
+      mongoose.connection.close();
+    });
+
+    // async.each(connections, Connection.save, function(err, results) {
+    //   debugger;
+    //   console.log('SAVED: ' + results);
+    // });
+    // Connection.create(connections, function (err, results) {
+    //   if (err) console.error(err);
+    //   console.log('documents saved');
+    // });
   });
 });

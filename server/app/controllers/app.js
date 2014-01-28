@@ -1,5 +1,8 @@
 // Load models
 var mongoose = require('mongoose');
+var async = require('async');
+var _ = require('lodash');
+
 var Server = mongoose.model('Server');
 var Switch = mongoose.model('Switch');
 var Connection = mongoose.model('Connection');
@@ -44,7 +47,7 @@ var addToZoomD3Links = function(connections, links) {
         
         link.target.arc = mac;
         link.target.x   = -1;
-        link.target.y   = -1;        
+        link.target.y   = -1;      
         links.push(link);
       });
     });
@@ -71,25 +74,25 @@ module.exports.getAllFlattened = function(req, res) {
   // lean returns a plain javascript object with not mongoose stuff atached to it
   var json = {};
   var nodes = [];
-  var links = [];
-  Server.find(function (err, servers) {
-    Switch.find(function (err, switches) {
-      Connection.find(function (err, connections) {
-        servers.forEach(function(server) {
-          nodes.push(server);
-        });
-        switches.forEach(function(oneSwitch) {
-          nodes.push(oneSwitch);
-        });
-        addToD3Links(connections, links);
-        
-        json.nodes = nodes;
-        json.links = links;
-        res.set("Content-Type", "application/json");
-        res.send(json);
-      });
-    });
+  debugger;
+
+  async.parallel({
+    servers: function(callback){
+      Server.find(callback);
+    },
+    switches: function(callback){
+      Switch.find(callback);
+    },
+    connections: function(callback){
+      Connection.find(callback);
+    }
+  }, function(err, results) {
+    json.nodes = results.servers.concat(results.switches);
+    json.links = results.connections;
+    res.set("Content-Type", "application/json");
+    res.send(json);
   });
+
 };
 
 module.exports.getAllZoomed = function(req, res) {

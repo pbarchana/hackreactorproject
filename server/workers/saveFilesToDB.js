@@ -1,9 +1,13 @@
+
+// =========== Dependencies ===============
+
 var fs = require('fs');
 var path = require('path');
 var mongoose = require('mongoose');
 var config = require('../config/config');
-
 var baseDir = path.join(__dirname, '..', 'mockData/');
+
+// =========== Models ===============
 
 //Bootstrap models
 var models_path = path.join(__dirname, '..', 'app/models');
@@ -21,13 +25,14 @@ var walk = function(path) {
     });
 };
 walk(models_path);
-
 // Save reference to models
 var Server = mongoose.model('Server');
 var Switch = mongoose.model('Switch');
 var Connection = mongoose.model('Connection');
 var DataCenter = mongoose.model('DataCenter');
 var DataCenterConnection = mongoose.model('DataCenterConnection');
+
+// =========== Helpers ===============
 
 // Helpers
 var clearDatabase = function(Model) {
@@ -59,15 +64,18 @@ var clearAndSave = function(Model, pathToDir) {
   });
 };
 
+// =========== Logic ===============
+ 
 // Connect to database and save
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // Save data
+  async.each([Server])
   clearAndSave(Server, baseDir + "servers/");
   clearAndSave(Switch, baseDir + "switches/");
-  clearAndSave(Connection, baseDir + "connectivity/");
+  // clearAndSave(Connection, baseDir + "connectivity/");
   clearAndSave(DataCenter, baseDir + "datacenters/");
   clearDatabase(DataCenterConnection);
 });
