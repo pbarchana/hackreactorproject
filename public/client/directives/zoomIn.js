@@ -22,7 +22,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
     var link;
     var node;
 
-    var radius = 50;
+    var radius = 45;
     var color = d3.scale.category20c();
 
     var pie = d3.layout.pie()
@@ -31,7 +31,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
 
     var arc = d3.svg.arc()
     .outerRadius(radius)
-    .innerRadius(30)
+    .innerRadius(2/3 * radius);
 
     // d3.select('link')
     //   .on('keydown', keydown);
@@ -120,7 +120,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; })
             .attr("class", "link")
-            .style("stroke-width", "5px")
+            .style("stroke-width", "1px")
             .style("stroke", "black")  
           }
           
@@ -188,7 +188,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
         .data(scope.nwdata.links)
         .enter().append("line")
         .attr("class", "link")
-        .style("stroke-width", "5px")
+        .style("stroke-width", "1px")
         .style("stroke", "black")
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
