@@ -100,7 +100,7 @@ gulp.task('copyIndex', function() {
     .pipe(gulp.dest(dest));
 });
 gulp.task('copyFonts', function() {
-  return gulp.src('bootstrap/fonts/**')
+  return gulp.src('node_modules/bootstrap/fonts/**')
     .pipe(gulp.dest('./dist/fonts'));
 });
 gulp.task('copyImg', function() {
