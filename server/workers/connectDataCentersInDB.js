@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var mongoose = require('mongoose');
 var config = require('../config/config');
-var rootDir = path.join(__dirname, '..', 'mockData/');
+var baseDir = path.join(__dirname, '..', 'mockData/');
 
 //Bootstrap models
 var models_path = path.join(__dirname, '..', 'app/models');

@@ -1,6 +1,9 @@
 var fs = require('fs');
+var path = require('path');
 // Random name from the ones listed below
 var dataCenterName;
+var baseDir = path.join(__dirname, '..', 'mockData/');
+
 
 var generateName = function() {
   var names = ['XO San Francisco', 'Cogent', 'Virtustream SF', 'Savvis SN1', 'Colocation America'];
@@ -33,5 +36,5 @@ var generateDataCenter = function() {
 var requiredNrDataCenters = process.argv[2];
 for (var i = 0; i < requiredNrDataCenters; i++) {
   dataCenterName = "datacenter" + i + ".json";
-  fs.writeFileSync("../mockData/datacenters/"+dataCenterName, JSON.stringify(generateDataCenter()));
+  fs.writeFileSync(baseDir + "datacenters/"+dataCenterName, JSON.stringify(generateDataCenter()));
 }

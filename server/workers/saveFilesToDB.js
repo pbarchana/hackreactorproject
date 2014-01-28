@@ -2,7 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var mongoose = require('mongoose');
 var config = require('../config/config');
-var rootDir = path.join(__dirname, '..', 'mockData/');
+
+var baseDir = path.join(__dirname, '..', 'mockData/');
 
 //Bootstrap models
 var models_path = path.join(__dirname, '..', 'app/models');
@@ -64,10 +65,10 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // Save data
-  clearAndSave(Server, rootDir + "servers/");
-  clearAndSave(Switch, rootDir + "switches/");
-  clearAndSave(Connection, rootDir + "connectivity/");
-  clearAndSave(DataCenter, rootDir + "datacenters/");
+  clearAndSave(Server, baseDir + "servers/");
+  clearAndSave(Switch, baseDir + "switches/");
+  clearAndSave(Connection, baseDir + "connectivity/");
+  clearAndSave(DataCenter, baseDir + "datacenters/");
   clearDatabase(DataCenterConnection);
 });
 

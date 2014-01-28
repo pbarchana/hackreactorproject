@@ -1,4 +1,6 @@
 var fs = require('fs');
+var path = require('path');
+var baseDir = path.join(__dirname, '..', 'mockData/');
 
 var generateMAC = function() {
   var mac = "";
@@ -83,7 +85,7 @@ for (var i = 0; i <requiredNrSwitches; i++) {
   switchName += date.getDate() + ".";
   switchName += date.getTime() + ".json";
   console.log(switchName);
-  fs.writeFileSync("../mockData/switches/"+switchName, JSON.stringify(generateSwitch()));
+  fs.writeFileSync(baseDir+"switches/"+switchName, JSON.stringify(generateSwitch()));
   switchName = "";
 }
 

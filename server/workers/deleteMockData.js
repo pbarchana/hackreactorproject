@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var rootDir = path.join(__dirname, '..', 'mockData/');
+var baseDir = path.join(__dirname, '..', 'mockData/');
 
 var deleteFiles = function(pathToDir) {
   fs.readdir(pathToDir, function(err, files){
@@ -14,8 +14,8 @@ var deleteFiles = function(pathToDir) {
   });
 };
 
-deleteFiles(rootDir + 'servers/');
-deleteFiles(rootDir + 'switches/');
-deleteFiles(rootDir + 'connectivity/');
-deleteFiles(rootDir + 'datacenters/');
+deleteFiles(baseDir + 'servers/');
+deleteFiles(baseDir + 'switches/');
+deleteFiles(baseDir + 'connectivity/');
+deleteFiles(baseDir + 'datacenters/');
 

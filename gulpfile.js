@@ -1,11 +1,14 @@
 var gulp          = require('gulp'),
+    gutil = require('gulp-util'),
+    // gulp-util     = require('gulp-util'),
     exec          = require('child_process').exec,
     browserify    = require('gulp-browserify'),
     rename        = require("gulp-rename"),
     stylus        = require('gulp-stylus'),
     concat        = require('gulp-concat'),
-    nodemon       = require('gulp-nodemon');
-    templateCache = require('gulp-angular-templatecache');
+    nodemon       = require('gulp-nodemon'),
+    templateCache = require('gulp-angular-templatecache'),
+    async         = require('async');
 
 // =============== Gulp Config ===============
 var dest = './dist';
@@ -16,25 +19,47 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 20;
-var switchNum = 5;
-var dataCenterNum = 5;
+var serverNum = 10;
+var switchNum = 2;
+var dataCenterNum = 2;
 
 // =============== Generate Data ===============
-gulp.task('generate', function() {
-  var callback = function (error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) console.log('exec error: ' + error);
-  };
-  exec('node' + __dirname + '/workers/checkForDirectories', callback);
-  exec('node' + __dirname + '/workers/deleteMockData', callback);
-  exec('node' + __dirname + '/workers/mockDataCenter ' + dataCenterNum, callback);
-  exec('python' + __dirname + '/workers/mockNodes.py ' + serverNum, callback);
-  exec('node' + __dirname + '/workers/mockSwitches ' + switchNum, callback);
-  exec('node' + __dirname + '/workers/mockConnectivity', callback);
-  exec('node' + __dirname + '/workers/saveFilesToDB', callback);
+var dir = __dirname + '/server/workers/';
+// exec = exec.bind(null, { cwd: 'server/workers' });
+var cwd = { cwd: 'server/workers' };
+
+gulp.task('delete', function(cb) {
+  var commands = [
+    'node ' + dir + 'checkForDirectories.js',
+    'node ' + dir + 'deleteMockData.js'
+  ];
+  async.each(commands, exec, cb);
 });
+// TODO: find a cleaner way to do this with bind/each. Is there any way to change the bind order??
+gulp.task('create', ['delete'], function(cb) {
+  async.series([
+    function(callback) {
+      exec('python mockNodes.py ' + serverNum, cwd, callback);
+    },
+    function(callback) {
+      exec('node mockDataCenter.js ' + dataCenterNum, cwd, callback);
+    },
+    function(callback) {
+      exec('node mockSwitches ' + switchNum, cwd, callback);
+    }
+  ], cb);
+});
+
+gulp.task('connect', ['create'], function(cb) {
+  exec('node mockConnectivity', cwd, cb);
+});
+
+gulp.task('generate', ['connect'], function(cb) {
+  require('./server/workers/saveFilesToDB');
+  // exec('node saveFilesToDB.js', cwd, cb);
+});
+
+// gulp.task('generate', ['save']);
 
 // =============== Scripts ===============
 gulp.task('templates', function () {
@@ -74,11 +99,15 @@ gulp.task('copyIndex', function() {
   return gulp.src('./public/index.html')
     .pipe(gulp.dest(dest));
 });
+gulp.task('copyFonts', function() {
+  return gulp.src('bootstrap/fonts/**')
+    .pipe(gulp.dest('./dist/fonts'));
+});
 gulp.task('copyImg', function() {
   return gulp.src('./public/img/**')
     .pipe(gulp.dest('./dist/img'));
 });
-gulp.task('copy', ['copyIndex', 'copyImg']);
+gulp.task('copy', ['copyIndex', 'copyFonts', 'copyImg']);
 
 // =============== Automatic Reload ===============
 gulp.task('nodemon', ['scripts', 'css', 'copy'], function () {
