@@ -10,25 +10,24 @@
 <div class="side-panel" style="overflow-y: scroll">
   
   <!-- Search -->
-  <div ng-include="'search.html'"></div> 
-
-  <!-- List View -->
-  <div ng-hide="selectedNode">
-    <div class="summary" ng-repeat="node in ctldata.nodes">
-      <div class="header">{{ node.type }}</div>
-      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
-    </div>
+  <div class="input-group search">
+    <input placeholder="search for node" type="text" ng-model="liveSearch" class="form-control">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+    </span>
   </div>
 
+
+
   <!-- Node View -->
-  <div ng-show="selectedNode" ng-controller="accordionController">
+  <div ng-show="selectedNode && !liveSearch" ng-controller="accordionController">
     <accordion close-others="oneAtATime">
       <!-- Summary -->
       <div class="summary">
         <div class="header">{{ selectedNode.type }}</div>
         <div>Platform: {{ selectedNode.attributes.platform }}</div>
         <div>Vendor: {{ selectedNode.attributes.cVendor }}</div>
-        <div>UUID: {{ formatUUID(selectedNode.attributes.UUID) }}</div>
+        <div>UUID: {{ selectedNode.attributes.UUID }}</div>
       </div>
       <!-- Node Info -->
       <div class="divider">NODE INFO</div>
@@ -42,6 +41,14 @@
       <div class="divider">NODE INFO</div>
     </accordion>
   </div><!-- /.AccordianCtrl -->
+
+    <!-- List View -->
+  <div ng-show="liveSearch || !selectedNode">
+    <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
+      <div class="header">{{ node.type }}</div>
+      <div>UUID: {{ node.attributes.UUID }}
+    </div>
+  </div>
 
 
 </div><!-- /.sidePanel

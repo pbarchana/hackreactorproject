@@ -14,9 +14,10 @@ module.exports = angular.module('app')
     $scope.error = reason;
   });
 
-  $scope.formatUUID = function(UUID) {
-    return UUID.split('-')[0];
-  };
+  // $scope.formatUUID = function(UUID) {
+  //   debugger;
+  //   return UUID.split('-')[0];
+  // };
 
   $scope.select = function(node) {
     $scope.selectedNode = node;
