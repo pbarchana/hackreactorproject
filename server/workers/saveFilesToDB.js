@@ -65,14 +65,13 @@ var clearAndSave = function(Model, pathToDir) {
 };
 
 // =========== Logic ===============
- 
+
 // Connect to database and save
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // Save data
-  async.each([Server])
   clearAndSave(Server, baseDir + "servers/");
   clearAndSave(Switch, baseDir + "switches/");
   // clearAndSave(Connection, baseDir + "connectivity/");

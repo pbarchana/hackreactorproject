@@ -49,11 +49,12 @@ gulp.task('create', ['delete'], function(cb) {
 });
 
 gulp.task('connect', ['create'], function(cb) {
+
   exec('node mockConnectivity', cwd, cb);
 });
 
 gulp.task('generate', ['connect'], function(cb) {
-  require('./server/workers/saveFilesToDB');
+  require('./server/workers/connectServers');
   // exec('node saveFilesToDB.js', cwd, cb);
 });
 
