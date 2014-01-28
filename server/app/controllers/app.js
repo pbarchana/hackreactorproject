@@ -35,23 +35,24 @@ var addToD3Links = function(connections, links) {
 };
 
 var addToZoomD3Links = function(connections, links) {
+  debugger;
   connections.forEach(function(connection) {
-    connection.interfaces.forEach(function(interface) {
-      interface.neighbors.forEach(function(mac) {
+    // connection.interfaces.forEach(function(interface) {
+    //   interface.neighbors.forEach(function(mac) {
         link = {};
         link.source = {};
         link.target = {};
-        link.source.arc = interface.mac;
+        link.source.arc = connection.toObject().source;
         link.source.x   = -1;
         link.source.y   = -1;
         
-        link.target.arc = mac;
+        link.target.arc = connection.toObject().target;
         link.target.x   = -1;
         link.target.y   = -1;      
         links.push(link);
       });
-    });
-  });
+  //   });
+  // });
 };
 
 module.exports.getAll = function(req, res) {

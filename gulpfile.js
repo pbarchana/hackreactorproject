@@ -17,9 +17,9 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 10;
-var switchNum = 2;
-var dataCenterNum = 2;
+var serverNum = 30;
+var switchNum = 5;
+var dataCenterNum = 5;
 
 // =============== Generate Data ===============
 var dir = __dirname + '/server/workers/';
@@ -50,7 +50,7 @@ gulp.task('create', ['delete'], function(cb) {
 
 gulp.task('connect', ['create'], function(cb) {
 
-  exec('node mockConnectivity', cwd, cb);
+  exec('node mockConnectivity ', cwd, cb);
 });
 
 gulp.task('generate', ['connect'], function(cb) {

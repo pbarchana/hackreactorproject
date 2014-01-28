@@ -134,7 +134,6 @@ db.once('open', function () {
     }
   }, function(err, results) {
     // make connections
-    debugger;
     var connections = makeTreeConnections(results.servers, results.switches);
     // save connections
 
