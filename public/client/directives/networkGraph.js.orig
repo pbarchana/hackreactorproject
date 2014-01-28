@@ -5,13 +5,21 @@ var d3 = require('d3');
 var app = angular.module('app');
 var bootstrapd3 = function(scope, element, attrs) {
   setTimeout(function(){
+<<<<<<< HEAD
+      function redraw() {
+        svg.attr('transform', 'translate(' +
+          d3.event.translate + ')' +
+        ' scale(' + d3.event.scale + ')');
+      }
+=======
   
+
   function redraw() {
     svg.attr('transform', 'translate(' +
       d3.event.translate + ')' +
     ' scale(' + d3.event.scale + ')');
   }
-
+>>>>>>> 38ef79c857de41e3f740b56c72c8409925685ed3
 
       //View window width and height
       var viewWidth = element[0].offsetWidth;
@@ -28,9 +36,7 @@ var bootstrapd3 = function(scope, element, attrs) {
         .charge(-2000)
         .linkStrength(0.2)
         .linkDistance(200)
-        .size([viewWidth, viewHeight])
-        .gravity(0.5)
-        .size([viewWidth - 300, viewHeight]);
+        .size([viewWidth, viewHeight]);
 
       //Create view window SVG
       var svg =  d3.select(element[0])

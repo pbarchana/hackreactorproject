@@ -1,1 +1,49 @@
 <div>Inside zoomIn view</div>
+
+<!-- Loading gif -->
+<!--div ng-show="loading" class="loading">
+  <img src="img/ajax-loader.gif"></img>
+</div -->
+
+<!-- Content -->
+<div zoom-in class="content" loading="loading" nwdata="ctldata"></div>
+
+<!-- Side Panel -->
+<div class="side-panel" style="overflow-y: scroll">
+  
+  <!-- Search -->
+  <div ng-include="'search.html'"></div> 
+
+  <!-- List View -->
+  <div ng-hide="selectedNode">
+    <div class="summary" ng-repeat="node in ctldata.nodes">
+      <div class="header">{{ node.type }}</div>
+      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
+    </div>
+  </div>
+
+  <!-- Node View -->
+  <div ng-show="selectedNode" ng-controller="accordionController">
+    <accordion close-others="oneAtATime">
+      <!-- Summary -->
+      <div class="summary">
+        <div class="header">{{ selectedNode.type }}</div>
+        <div>Platform: {{ selectedNode.attributes.platform }}</div>
+        <div>Vendor: {{ selectedNode.attributes.cVendor }}</div>
+        <div>UUID: {{ formatUUID(selectedNode.attributes.UUID) }}</div>
+      </div>
+      <!-- Node Info -->
+      <div class="divider">NODE INFO</div>
+      <accordion-group heading="Attributes" is-open="false">
+        <div ng-repeat="(key, value) in selectedNode.attributes" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group>
+      <accordion-group heading="Components" is-open="false">
+        <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
+      </accordion-group>
+      <!-- Connections -->
+      <div class="divider">NODE INFO</div>
+    </accordion>
+  </div><!-- /.AccordianCtrl -->
+
+
+</div><!-- /.sidePanel

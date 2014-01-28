@@ -8,7 +8,6 @@ require("./client/templates.js");
 require("./client/services/networkDataService.js");
 
 // Controllers
-require("./client/controllers/d3Controller.js");
 require("./client/controllers/accordionController.js");
 require("./client/controllers/mainController.js");
 require("./client/controllers/zoomInController.js");
@@ -17,6 +16,7 @@ require("./client/controllers/dataCenterController.js");
 // Directives
 require("./client/directives/map.js");
 require("./client/directives/networkGraph.js");
+require("./client/directives/zoomIn.js");
 
 // Routes
 require("./client/config/routes.js");
