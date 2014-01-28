@@ -1,12 +1,58 @@
+// .node
+//   stroke: #fff
+//   stroke-width: 3px
+
+// .node-highlight
+//   stroke: #bada55
+//   stroke-width: 2px
+
+// .link
+//   stroke-width: 2px
+//   stroke: #999
+//   stroke-opacity: 0.3
+
 .node
   stroke: #fff
   stroke-width: 3px
 
-.node-highlight
+.node-hover
   stroke: #bada55
   stroke-width: 2px
+
+.node-select
+  stroke: #bada55
+  stroke-width: 5px
+
+.node-link-select
+  stroke: #7555DA
 
 .link
   stroke-width: 2px
   stroke: #999
   stroke-opacity: 0.3
+  pointer-events: stroke
+  fill: none
+
+.link-hover
+  stroke: black
+  stroke-opacity: 1
+
+.link-lighter
+  stroke: #999
+  stroke-opacity: 0.05
+
+.link-select
+  stroke: black
+  stroke-dasharray: 3, 1
+  stroke-width: 6
+
+.d3-tip
+  line-height: 1;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  position: absolute
+  width: 200px
+  height: auto
+  pointer-events: none

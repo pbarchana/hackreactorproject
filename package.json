@@ -15,7 +15,8 @@
     "glob": "~3.2.8",
     "async": "~0.2.10",
     "d3": "~3.4.1",
-    "angular": "~1.2.7"
+    "angular": "~1.2.7",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "napa": "~0.3.0",

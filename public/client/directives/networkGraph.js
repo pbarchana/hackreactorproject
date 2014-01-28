@@ -26,7 +26,9 @@ var bootstrapd3 = function(scope, element, attrs) {
         .charge(-2000)
         .linkStrength(0.2)
         .linkDistance(200)
-        .size([viewWidth, viewHeight]);
+        .size([viewWidth, viewHeight])
+        .gravity(0.5)
+        .size([viewWidth - 300, viewHeight]);
 
       //Create view window SVG
       var svg =  d3.select(element[0])

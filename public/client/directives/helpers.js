@@ -10,37 +10,72 @@ var neighbors = function(target, source, linkDirectory){
     linkDirectory[source + "," + target];
 };
 
+var toolTip = function(node){
+  console.log('node ====== ', node);
+  d3.select('body')
+    .append('div')
+    .classed('d3-tip', true)
+    .style('top', (parseInt(node.x) + 13) + 'px')
+    .style('left', (parseInt(node.y) + 13) + 'px');
+};
+
 //Called on edge hover
 var showLinkDetails = function(link){
-  console.log('d target ', link.target);
-
   d3.select(this)
-    .style('stroke-opacity', 1)
-    .style('stroke', 'black');
+    .classed('link-hover', true);
 };
 
 //Called on edge mouse out
 var hideLinkDetails = function(link){
   d3.select(this)
-    .style('stroke-opacity', 0.3)
-    .style('stroke', '#999');
+    .classed('link-hover', false);
 };
 
+//Called on node click
 var selectNode = function(node, i){
-  debugger;
   d3.selectAll('.node')
   .attr('nodeSelected', false)
-  .style('stroke', 'white')
-  .style('stroke-width', '3px');
+  .classed('node-select', false)
+  .classed('node-hover', false);
 
   d3.select(this)
   .attr('nodeSelected', true)
-  .transition()
-  .style('stroke', '#bada55')
-  .style('stroke-width', '5px');
+  .classed('node-select', true);
 };
 
+//Called on edge click
 var selectLink = function(link, i, selected_link){
+  d3.select('body').selectAll('.d3-tip').remove();
+  d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
+  d3.select('body').selectAll('.link').classed('link-select', false);
+
+  var linkTarget = d3.selectAll('.node').filter(function(d,i){
+    return d === link.target ? d : null; });
+
+  // var tarVend = linkTarget.each(function(d){ return d; });
+  // var tarX = linkTarget.attr('cx');
+  // var tarY = linkTarget.attr('cy');
+  // console.log('linkTarget x ------ ', linkTarget.attributes);
+
+  var linkSource = d3.selectAll('.node').filter(function(d,i){
+    return d === link.source ? d : null; });
+
+  // d3.select('body')
+  //   .append('div')
+  //   // .html('Vendor: ' + linkTarget.attributes.vendor)
+  //   .classed('d3-tip', true)
+  //   .style('top', (parseInt(tarY) + 13) + 'px')
+  //   .style('left', (parseInt(tarX) + 13) + 'px');
+
+  toolTip(linkTarget);
+  toolTip(linkSource);
+
+  linkTarget
+    .classed('node-link-select', true);
+
+  linkSource
+    .classed('node-link-select', true);
+
   if (selected_link !== null) {
     d3.select(".linkSelected")
     .transition()
@@ -59,47 +94,33 @@ var selectLink = function(link, i, selected_link){
   }
 
   d3.select(this)
-  .classed('linkSelected', true)
-  .transition()
-  .style('stroke', 'black')
-  .style("stroke-dasharray", ("3, 3"))
-  .style('stroke-width', '6px');
+  .classed('link-select', true);
 };
 
 var showNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
 
   if(selected === 'false'){
-    d3.select(this).style('stroke', '#bada55');
+    d3.select(this).classed('node-hover', true);
   }
 
-  d3.selectAll(".link").transition()
-    .style("stroke", function(l) {
-      if (l.source === node || l.target === node) {
-        return "black";
-      } else {
-        return "#999";
-      }
+  d3.selectAll(".link")
+    .classed('link-hover', function(l){
+      return (l.source === node || l.target === node) ? true : false;
     })
-    .style("stroke-opacity", function(l) {
-      if (l.source === node || l.target === node) {
-        return 1.0;
-      } else {
-        return 0.1;
-      }
-  });
+    .classed('link-lighter', function(l){
+      return (l.source === node || l.target === node) ? false : true;
+    });
 };
 
 var hideNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
   if(selected === 'false'){
-    d3.select(this)
-    .transition()
-    .style('stroke', 'white');
+    d3.select(this).classed('node-hover', false);
   }
-  d3.selectAll(".link").transition()
-  .style("stroke", "#999")
-  .style("stroke-opacity", '0.3');
+  d3.selectAll(".link")
+  .classed('link-lighter', false)
+  .classed('link-hover', false);
 };
 
 
@@ -110,13 +131,10 @@ module.exports.drawLinks = function(link, force){
   .attr('d', function(d){
     var dx = d.target.x - d.source.x,
       dy = d.target.y - d.source.y,
-      dr = Math.sqrt(dx * dx + dy * dy),
-      rdr = -(dr);
+      dr = Math.sqrt(dx * dx + dy * dy);
     return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
   })
-  .attr('pointer-events', 'stroke')
-  .attr('fill', 'none')
-  .attr("class", "link")
+  .classed('link', true)
   .on('click', selectLink)
   .on('mouseover', showLinkDetails)
   .on('mouseout', hideLinkDetails);
@@ -125,7 +143,7 @@ module.exports.drawLinks = function(link, force){
 module.exports.drawNodes = function(node, link, force, scope){
   node.data(force.nodes())
     .enter().append("circle")
-    .attr("class", "node")
+    .classed('node', true)
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; })
     .attr("r", 15)
@@ -133,12 +151,7 @@ module.exports.drawNodes = function(node, link, force, scope){
     .on('click.selectNode', selectNode)
     .on("click", function(d){
       scope.$apply(function () {
-        // Updated selected node in scope
-        debugger;
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        // select and update the side panel
-        scope.$parent.select(d);
-
         scope.$parent.selectedNode = d;
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
@@ -160,12 +173,10 @@ module.exports.drawNodes = function(node, link, force, scope){
             .attr('d', function(d){
               var dx = d.target.x - d.source.x,
                    dy = d.target.y - d.source.y,
-                   dr = Math.sqrt(dx * dx + dy * dy),
-                   rdr = -(dr);
+                   dr = Math.sqrt(dx * dx + dy * dy);
                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
             })
-            .attr('fill', 'none')
-            .attr("class", "link");
+            .classed("link", true);
           showNodeDetails(d);
         }
       });
@@ -219,8 +230,6 @@ module.exports.keydown = function (d, selected_link) {
       break;
   }
 };
-
-
 
 //function to map MAC address of nic to containing host
 module.exports.mapMac = function(nodes) {
