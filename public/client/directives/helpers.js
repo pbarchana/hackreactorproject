@@ -27,6 +27,7 @@ var hideLinkDetails = function(link){
 };
 
 var selectNode = function(node, i){
+  debugger;
   d3.selectAll('.node')
   .attr('nodeSelected', false)
   .style('stroke', 'white')
@@ -132,7 +133,12 @@ module.exports.drawNodes = function(node, link, force, scope){
     .on('click.selectNode', selectNode)
     .on("click", function(d){
       scope.$apply(function () {
+        // Updated selected node in scope
+        debugger;
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
+        // select and update the side panel
+        scope.$parent.select(d);
+
         scope.$parent.selectedNode = d;
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&

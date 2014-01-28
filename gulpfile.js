@@ -1,6 +1,4 @@
 var gulp          = require('gulp'),
-    gutil = require('gulp-util'),
-    // gulp-util     = require('gulp-util'),
     exec          = require('child_process').exec,
     browserify    = require('gulp-browserify'),
     rename        = require("gulp-rename"),
