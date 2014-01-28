@@ -30,6 +30,20 @@ module.exports = app.factory('NetworkDataService', function($q, $http/* DI */) {
       return d.promise;
     },
    
+    getAllZoomed: function() {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/all-zoomed'
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
+    },
+
+
    // Information required for drawing the network
     getInitialDrawData: function() {
       var d = $q.defer();

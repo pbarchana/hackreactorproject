@@ -5,7 +5,7 @@ var angular = require('angular');
 	//alert("Inside zoomInController");
 	$scope.loading = true;
 
-  NetworkDataService.getAllFlattened()
+  NetworkDataService.getAllZoomed()
   .then(function(data) {
     $scope.ctldata = data;
   

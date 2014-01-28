@@ -111,10 +111,7 @@ var bootstrapd3 = function(scope, element, attrs) {
       window.onresize = function() {
         scope.$apply();
       };
-    // });
-
   }, 300);
-
 };
 
 
