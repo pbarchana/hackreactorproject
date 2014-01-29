@@ -17,9 +17,9 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 10;
-var switchNum = 5;
-var dataCenterNum = 5;
+var serverNum = 400;
+var switchNum = 200;
+var dataCenterNum = 30;
 
 // =============== Generate Data ===============
 var db = require('./server/workers/database');

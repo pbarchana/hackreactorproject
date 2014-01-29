@@ -31,7 +31,7 @@ helpers.selectRandomMac = function(macs) {
   var macIdx = Math.floor(Math.random(macs.length));
   var mac = macs[macIdx];
   // Remove mac so we can't access it again
-  macs.splice(macIdx, 1);
+  // macs.splice(macIdx, 1);
   return mac;
 };
 
