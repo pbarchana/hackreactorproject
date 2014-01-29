@@ -88,6 +88,7 @@ module.exports.getAllMinimized= function(req, res) {
   var json = {};
   async.parallel({
     servers: function(callback){
+      // specifies which attributes to select
       Server.find({}, 'type attributes.UUID attributes.cVendor attributes.platform components.nics.mac', callback);
     },
     switches: function(callback){

@@ -19,8 +19,26 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
   // Searches all links for ones containing the selected id
   // Choose the ones that are not the selected id
   $scope.select = function(node) {
-    $scope.selectedNode = node;
-    $scope.liveSearch = "";
+    if (node.type === 'server') {
+      NetworkDataService.getServer(node._id)
+      .then(function(data) {
+        $scope.selectedNode = data;
+        $scope.liveSearch = "";
+      }, function errorFunction(reason) {
+        $scope.error = reason;
+      });
+    }
+    if (node.type === 'switch') {
+      NetworkDataService.getSwitch(node._id)
+      .then(function(data) {
+        $scope.selectedNode = data;
+        $scope.liveSearch = "";
+      }, function errorFunction(reason) {
+        $scope.error = reason;
+      });
+    }
+
+
   };
 
   $scope.$watch('changeToZoomInView', function(newValue, oldValue) {

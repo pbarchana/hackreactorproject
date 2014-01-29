@@ -148,7 +148,7 @@ module.exports = app.factory('NetworkDataService', ['$q', '$http', function($q, 
       return d.promise;
     },
 
-    getTheSwitchInfo: function(id) {
+    getSwitch: function(id) {
       var d = $q.defer();
       $http({
         method: 'GET',

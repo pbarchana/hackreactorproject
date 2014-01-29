@@ -145,15 +145,16 @@ module.exports.drawNodes = function(node, link, force, scope){
     .attr("r", 15)
     .attr('nodeSelected', 'false')
     .on('dblclick', function(d) {
-        scope.$apply(function() {
-          scope.$parent.changeToZoomInView = true;
-      })
+      scope.$apply(function() {
+        scope.$parent.changeToZoomInView = true;
+      });
     })
     .on('click.selectNode', selectNode)
     .on("click", function(d){
       scope.$apply(function () {
+        debugger;
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        scope.$parent.selectedNode = d;
+        scope.$parent.select(d);
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
