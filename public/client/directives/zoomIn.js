@@ -7,7 +7,6 @@ var app = angular.module('app');
 
 var bootstrapd3 = function(scope,  element, attrs) {
   setTimeout(function(){
-    debugger;
 
     function redraw() {
       svg.attr('transform', 'translate(' + d3.event.translate + ')' 

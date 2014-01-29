@@ -148,6 +148,11 @@ module.exports.drawNodes = function(node, link, force, scope){
     .attr("cy", function(d) { return d.y; })
     .attr("r", 15)
     .attr('nodeSelected', 'false')
+    .on('dblclick', function(d) {
+        scope.$apply(function() {
+          scope.$parent.changeToZoomInView = true;
+      })
+    })
     .on('click.selectNode', selectNode)
     .on("click", function(d){
       scope.$apply(function () {
