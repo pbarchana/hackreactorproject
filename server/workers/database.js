@@ -14,25 +14,40 @@ var models = require('./bootstrapModels');
 
 // ============== Helpers ===============
 
-var saveJSONToDB = function(Model, json) {
+var saveJSONToDB = function(Model, json, callback) {
   var model = new Model(JSON.parse(json));
   model.save(function (err, Model) {
     if (err) console.log(err);
     console.log('saved file to db');
+    callback();
   });
 };
 
 // Save all files in a directory to a database model
-var saveFilesToDb = function(Model, pathToDir, cb) {
+var saveFilesToDb = function(Model, pathToDir, callback) {
   // TODO: figure out a way to do this asynchronously
   var json = [];
   var files = fs.readdirSync(pathToDir);
-  files = _.map(files, function(file) { return pathToDir + file; });
-  files.forEach(function(file) {
-    json.push(fs.readFileSync(file));
-    console.log('file saved!');
+  modelSaveFunctions = _.map(files, function(file) {
+    var json = fs.readFileSync(pathToDir + file);
+    var model = new Model(JSON.parse(json));
+    return function(cb) { model.save(cb); };
   });
-  cb();
+
+  async.parallel(modelSaveFunctions, function() {
+    console.log('models saved to DB');
+    callback();
+  });
+
+
+  // files.forEach(function(file) {
+  //   json.push(fs.readFileSync(file));
+  // });
+  // // To large to do it this way
+  // Model.collection.insert(json, null, function(err, results) {
+  //   console.log(results);
+  //   cb();
+  // });
 };
 
 // =========== Exports ===============
@@ -70,3 +85,5 @@ module.exports.saveFiles = function(callback) {
     callback();
   });
 };
+
+// module.exports.saveFiles(function() {});
