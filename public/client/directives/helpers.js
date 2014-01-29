@@ -1,7 +1,5 @@
 
-// Due to D3's inability to interpolate 'classed' values on transition()
-// the .style() method must be used and each value set individually after
-// using transition() :(
+
 var d3 = require('d3');
 
  //find all nodes connected to selected node  -- NOT USED

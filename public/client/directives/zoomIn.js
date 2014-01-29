@@ -1,9 +1,11 @@
+var zoomHelpers = require('./zoomHelpers.js');
 var angular = require('angular');
 //var helpers = require('./helpers.js');
-var zoomHelpers = require('./zoomHelpers.js');
+
 var d3 = require('d3');
 
 var app = angular.module('app');
+
 
 var bootstrapd3 = function(scope,  element, attrs) {
   setTimeout(function(){
@@ -83,15 +85,13 @@ var bootstrapd3 = function(scope,  element, attrs) {
           var centerY = d3.select(this.parentNode).node().transform.animVal.getItem(0).matrix.f;
           var centroidX = arc.centroid(d)[0];
           var centroidY = arc.centroid(d)[1];
-
-          console.log("Centroid X", centroidX);
-          console.log("Centroid X", centroidY);
-          console.log("Center X", centerX);
-          console.log("Center Y", centerY);
+          // console.log("Centroid X", centroidX);
+          // console.log("Centroid X", centroidY);
+          // console.log("Center X", centerX);
+          // console.log("Center Y", centerY);
 
           point1.x = point.x;
           point1.y = point.y;
-
           point.x = centerX + centroidX;
           point.y = centerY + centroidY;
 
@@ -99,7 +99,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
           selectedArc  = d;
 
           if (selectedArc !== undefined && selectedArc1 !== undefined && selectedArc1 !== selectedArc) {
-            console.log("Here");
+          
             var testLink = {};
             var testLinkArray = [];
             testLink.source = selectedArc1
@@ -110,16 +110,16 @@ var bootstrapd3 = function(scope,  element, attrs) {
             testLink.target.x = point.x;
             testLink.target.y = point.y;
 
-            console.log("Testlink", testLink);
+            //console.log("Testlink", testLink);
 
             testLinkArray.push(testLink);
             force.links().push(testLink);
-            console.log(testLinkArray);
+            //console.log(testLinkArray);
 
             svg.append('g').selectAll(".link")
             .data(testLinkArray)
             .enter().insert("line", ".node")
-            .attr("x1", function(d) { console.log("D", d); return d.source.x; })
+            .attr("x1", function(d) { return d.source.x; })
             .attr("y1", function(d) { return d.source.y; })
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; })
@@ -139,46 +139,15 @@ var bootstrapd3 = function(scope,  element, attrs) {
           linkDirectory[b + "," + a] = 1;
         };
 
-      var macToArcMapping = function(nodes) {
-          var arcMap = d3.map();
-          var allNodes = d3.selectAll(".node");
-          var node;
-          allNodes[0].forEach(function(n){
-            node = d3.select(n);
-
-            var centerX = d3.select(n)[0][0].__data__.x;
-            var centerY = d3.select(n)[0][0].__data__.y;
-            var centroidX;
-            var centroidY;
-            var ptX;
-            var ptY;
-
-            for (var i = 0; i < n.childNodes.length; i++) {
-              var segment = d3.select(n.childNodes[i]);
-              var seg = segment[0][0].__data__;
-              centroidX = arc.centroid(seg)[0];
-              centroidY = arc.centroid(seg)[1];
-
-              ptX = centroidX + centerX;
-              ptY = centroidY + centerY;
-
-              arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
-                         {arc: d3.select(n.childNodes[i]).datum(),
-                          x: ptX,
-                          y: ptY
-                        });
-            }
-          });
-          return arcMap;
-      };
-      var map = macToArcMapping();
+      
+      var map = zoomHelpers.macToArcMapping(arc);
       var tempNode;
 
       for (var k = 0;  k < scope.nwdata.links.length; k++) {
         var l = scope.nwdata.links[k];
-        console.log("l = ",l.source);
+        // console.log("l = ",l.source);
         tempNode = l.source.arc;
-        console.log(" map = ",map," temp = ", tempNode);
+        //console.log(" map = ",map," temp = ", tempNode);
         l.source["arc"] = map.get(tempNode).arc;
         l.source.x   = map.get(tempNode).x;
         l.source.y   = map.get(tempNode).y;
@@ -188,7 +157,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
         l.target.x   = map.get(tempNode).x;
         l.target.y   = map.get(tempNode).y;
       }
-      console.log("s", scope.nwdata.links[0]);
+      // console.log("s", scope.nwdata.links[0]);
       var link = svg.selectAll(".link")
         .data(scope.nwdata.links)
         .enter().append("line")
