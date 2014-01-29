@@ -49,10 +49,10 @@ helpers.selectRandomSwitch = function(switches) {
   return mySwitch;
 };
 
-var makeConnection = function(server, mySwitch) {
+helpers.makeConnection = function(server, mySwitch) {
   return {
-    source: selectRandomMac(server.macs),
-    target: selectRandomMac(mySwitch.macs),
+    source: helpers.selectRandomMac(server.macs),
+    target: helpers.selectRandomMac(mySwitch.macs),
     sourceId: server._id,
     targetId: mySwitch._id
   };
@@ -69,17 +69,13 @@ var makeTreeConnections = function(origServers, origSwitches) {
     // Connect switch to servers
     for (var i = 0; i < avgNum; i++) {
       if (!servers.length) return;
-      connections.push(helpers.makeConnection(helpers.selectRandomServer(), mySwitch));
+      connections.push(helpers.makeConnection(helpers.selectRandomServer(servers), mySwitch));
     }
     // Connect switch to one other random switch
-    connections.push(helpers.makeConnection(helpers.selectRandomSwitch(), mySwitch));
+    connections.push(helpers.makeConnection(helpers.selectRandomSwitch(switches), mySwitch));
   });
   return connections;
 };
-
-// var makeRandomConnections = function(origServers, origSwitches) {
-
-// };
 
 // ================ Exports =====================
 

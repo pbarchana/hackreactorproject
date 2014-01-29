@@ -26,7 +26,6 @@ var saveJSONToDB = function(Model, json, callback) {
 // Save all files in a directory to a database model
 var saveFilesToDb = function(Model, pathToDir, callback) {
   // TODO: figure out a way to do this asynchronously
-  var json = [];
   var files = fs.readdirSync(pathToDir);
   modelSaveFunctions = _.map(files, function(file) {
     var json = fs.readFileSync(pathToDir + file);
