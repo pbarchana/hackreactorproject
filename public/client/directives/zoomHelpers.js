@@ -33,3 +33,17 @@ module.exports.macToArcMapping = function(arc) {
           });
           return arcMap;
       };
+
+module.exports.definePie = function(){
+  var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return 1; });
+    return pie;
+}
+
+module.exports.defineArc = function(radius){
+  var arc = d3.svg.arc()
+    .outerRadius(radius)
+    .innerRadius(2/3 * radius);
+    return arc;
+}

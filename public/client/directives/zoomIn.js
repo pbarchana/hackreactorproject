@@ -26,14 +26,10 @@ var bootstrapd3 = function(scope,  element, attrs) {
     var radius = 45;
     var color = d3.scale.category20c();
 
-    var pie = d3.layout.pie()
-    .sort(null)
-    .value(function(d) { return 1; });
+    var pie = zoomHelpers.definePie();
+    var arc = zoomHelpers.defineArc(radius);
 
-    var arc = d3.svg.arc()
-    .outerRadius(radius)
-    .innerRadius(2/3 * radius);
-
+    
     // d3.select('link')
     //   .on('keydown', keydown);
 
