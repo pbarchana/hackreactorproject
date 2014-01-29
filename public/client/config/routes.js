@@ -1,11 +1,5 @@
 var angular = require('angular');
 
-resolve = {
-  data: function(NetworkDataService) { 
-    return NetworkDataService.getAllFlattened();
-  }
-};
-
 module.exports = angular.module('app')
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider

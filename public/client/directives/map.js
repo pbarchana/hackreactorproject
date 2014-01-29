@@ -80,9 +80,7 @@ var createMap = function (scope, elem, attrs) {
     };
     return circle;
   }
-  scope.$apply(function() {
-    scope.loading = false;
-  });
+  scope.loading = false;
  
 };
 
