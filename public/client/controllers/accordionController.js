@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('app')
-.controller('accordionController', function($scope, $rootScope) {
+.controller('accordionController', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.oneAtATime = false;
 
   $scope.isPrimitive = function(value, key) {
@@ -13,5 +13,5 @@ module.exports = angular.module('app')
     return true;
   };
 
-});
+}]);
 

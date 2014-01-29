@@ -1,5 +1,3 @@
-
-
 var d3 = require('d3');
 
  //find all nodes connected to selected node  -- NOT USED

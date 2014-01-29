@@ -84,6 +84,25 @@ module.exports.getAllFlattened = function(req, res) {
     res.send(json);
   });
 };
+module.exports.getAllMinimized= function(req, res) {
+  var json = {};
+  async.parallel({
+    servers: function(callback){
+      Server.find({}, 'type attributes.UUID attributes.cVendor attributes.platform components.nics.mac', callback);
+    },
+    switches: function(callback){
+      Switch.find(callback);
+    },
+    connections: function(callback){
+      Connection.find(callback);
+    }
+  }, function(err, results) {
+    json.nodes = results.servers.concat(results.switches);
+    json.links = results.connections;
+    res.set("Content-Type", "application/json");
+    res.send(json);
+  });
+};
 
 module.exports.getAllZoomed = function(req, res) {
   var json = {};

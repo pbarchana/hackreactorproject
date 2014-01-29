@@ -29,6 +29,19 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
       });
       return d.promise;
     },
+
+    getAllMinimized: function() {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/all-minimized'
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
+    },
    
     getAllZoomed: function() {
       var d = $q.defer();

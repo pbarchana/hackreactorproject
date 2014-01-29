@@ -12,13 +12,14 @@ module.exports = function(app) {
   app.get('/all', appCtrl.getAll);
   app.get('/all-flattened', appCtrl.getAllFlattened);
   app.get('/all-zoomed', appCtrl.getAllZoomed);
+  app.get('/all-minimized', appCtrl.getAllMinimized);
   // get D3 data
   app.get('/d3data', appCtrl.getD3Data);
 
   // get datacenter data
   app.get('/datacenter', datacenterCtrl.getAll);
   app.get('/datacenter/:id', datacenterCtrl.getById);
-  app.get('/dataCenterConnection', dataCenterConnectionCtrl.getAll)
+  app.get('/dataCenterConnection', dataCenterConnectionCtrl.getAll);
   
   // get server data
   app.get('/server', serverCtrl.getAll);
