@@ -21,6 +21,7 @@ var serverNum = 400;
 var switchNum = 200;
 var dataCenterNum = 30;
 
+
 // =============== Generate Data ===============
 var db = require('./server/workers/database');
 var connect = require('./server/workers/connectServers');
@@ -72,6 +73,7 @@ gulp.task('connect', ['open', 'saveFiles'], function(cb) {
 
 gulp.task('generate', ['checkDirectories', 'deleteFiles', 'createFiles', 'open', 'delete', 'createFiles', 'saveFiles', 'connect'], function() {
   db.close();
+
 });
 
 // gulp.task('generate', ['save']);
