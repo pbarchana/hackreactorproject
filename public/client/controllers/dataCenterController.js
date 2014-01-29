@@ -11,4 +11,11 @@ module.exports = angular.module('app')
     $scope.selectedNode = node;
     $scope.liveSearch = '';
   };
+
+  $scope.zoomIn = function(nodeId) {
+    debugger;
+    $location.path('/?id=' + nodeId);
+    // window.location = '/?id=' + id;
+  };
+
 });
