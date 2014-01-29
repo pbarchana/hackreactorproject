@@ -97,27 +97,6 @@ var makeTreeConnections = function(origServers, origSwitches) {
   return connections;
 };
 
-
-// var makeRandomConnections = function(servers, switches) {
-//   // go through each server, and connect with a random switch
-//   // map all servers with all switches
-
-//   _.object(_.map(servers))
-
-//   var randomSwitch = function() {
-//     return Math.floor(Math.random(switches.length));
-//   };
-
-//   servers.forEach(function(server) {
-
-//   });
-// };
-// Tree like structure
-
-// var makeConnections = function(servers, switches) {
-
-// };
-
 // ================ Main Logic =====================
 
 // retrieve and save connections
@@ -133,10 +112,7 @@ db.once('open', function () {
       Switch.find(callback);
     }
   }, function(err, results) {
-    // make connections
-    debugger;
     var connections = makeTreeConnections(results.servers, results.switches);
-    // save connections
 
     Connection.remove({}, function(err) {
       console.log('connections removed');
@@ -147,13 +123,5 @@ db.once('open', function () {
       mongoose.connection.close();
     });
 
-    // async.each(connections, Connection.save, function(err, results) {
-    //   debugger;
-    //   console.log('SAVED: ' + results);
-    // });
-    // Connection.create(connections, function (err, results) {
-    //   if (err) console.error(err);
-    //   console.log('documents saved');
-    // });
   });
 });
