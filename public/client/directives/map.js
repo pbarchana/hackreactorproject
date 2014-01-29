@@ -11,80 +11,78 @@ var createMap = function (scope, elem, attrs) {
   map = new google.maps.Map(elem[0], mapOptions);
 
   // generate map overlay
-  setTimeout(function() {
-    var selectedMarker;
-    var data = scope.nwdata;
-    data.forEach(function(node, i) {
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(node.latitude, node.longitude),
-        map: map,
-        icon: getCircle(),
-      });
-      marker.setTitle(node.name);
-      // attachSecretMessage(marker, i);
-      google.maps.event.addListener(marker, 'click', function(data) {
-        if (selectedMarker) selectedMarker.setIcon(getCircle());
-        selectedMarker = marker;
-        marker.setIcon(getBlueCircle());
-        scope.$apply(function() {
-          scope.selectedNode = node;
-        });
-
-        // var infowindow = new google.maps.InfoWindow({
-        //   content: node.name,
-        //   size: new google.maps.Size(50,50)
-        // });
-        // infowindow.open(map, marker);
+  var selectedMarker;
+  var data = scope.nwdata;
+  data.forEach(function(node, i) {
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(node.latitude, node.longitude),
+      map: map,
+      icon: getCircle(),
+    });
+    marker.setTitle(node.name);
+    // attachSecretMessage(marker, i);
+    google.maps.event.addListener(marker, 'click', function(data) {
+      if (selectedMarker) selectedMarker.setIcon(getCircle());
+      selectedMarker = marker;
+      marker.setIcon(getBlueCircle());
+      scope.$apply(function() {
+        scope.selectedNode = node;
       });
 
-      google.maps.event.addListener(marker, 'dblclick', function() {
-        window.location = '/?id=' + node._id;
-        // alert(JSON.stringify(node._id));
-      });
+      // var infowindow = new google.maps.InfoWindow({
+      //   content: node.name,
+      //   size: new google.maps.Size(50,50)
+      // });
+      // infowindow.open(map, marker);
     });
 
-    scope.connections.forEach(function(connection) {
-      debugger;
-      var coordinates = [
-        new google.maps.LatLng(connection[0][0], connection[0][1]),
-        new google.maps.LatLng(connection[1][0], connection[1][1])
-      ];
-      var line = new google.maps.Polyline({
-        path: coordinates,
-        map: map,
-        geodesic: true,
-        strokeColor: '#7555DA',
-        strokeOpacity: 0.6,
-        strokeWeight: 2
-      });
+    google.maps.event.addListener(marker, 'dblclick', function() {
+      window.location = '/?id=' + node._id;
+      // alert(JSON.stringify(node._id));
     });
+  });
 
-    function getCircle() {
-      var circle = {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 10,
-        fillOpacity: 1,
-        fillColor: 'grey',
-        strokeColor: 'black',
-        strokeWeight: 1.5
-      };
-      return circle;
-    }
-    function getBlueCircle() {
-      var circle = {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 10,
-        fillOpacity: 1,
-        fillColor: 'BADA55',
-        strokeColor: 'black',
-        strokeWeight: 1.5
-      };
-      return circle;
-    }
-    scope.$apply(function() {
-      scope.loading = false;
+  scope.connections.forEach(function(connection) {
+    debugger;
+    var coordinates = [
+      new google.maps.LatLng(connection[0][0], connection[0][1]),
+      new google.maps.LatLng(connection[1][0], connection[1][1])
+    ];
+    var line = new google.maps.Polyline({
+      path: coordinates,
+      map: map,
+      geodesic: true,
+      strokeColor: '#7555DA',
+      strokeOpacity: 0.6,
+      strokeWeight: 2
     });
-  }, 1000);
+  });
+
+  function getCircle() {
+    var circle = {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 10,
+      fillOpacity: 1,
+      fillColor: 'grey',
+      strokeColor: 'black',
+      strokeWeight: 1.5
+    };
+    return circle;
+  }
+  function getBlueCircle() {
+    var circle = {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 10,
+      fillOpacity: 1,
+      fillColor: 'BADA55',
+      strokeColor: 'black',
+      strokeWeight: 1.5
+    };
+    return circle;
+  }
+  scope.$apply(function() {
+    scope.loading = false;
+  });
  
 };
 

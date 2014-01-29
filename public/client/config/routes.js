@@ -1,6 +1,10 @@
 var angular = require('angular');
-var mainController = require('../controllers/mainController').mainController;
-debugger;
+
+resolve = {
+  data: function(NetworkDataService) { 
+    return NetworkDataService.getAllFlattened();
+  }
+};
 
 module.exports = angular.module('app')
 .config(['$routeProvider', function($routeProvider) {
@@ -8,14 +12,28 @@ module.exports = angular.module('app')
 	.when('/', {
 		controller: 'mainController',
 		templateUrl: 'client/views/main.html',
-		resolve: mainController.resolve
+		resolve: {
+      data: function(NetworkDataService) {
+        return NetworkDataService.getAllFlattened();
+      }
+    }
 	})
 	.when('/dataCenter', {
 		controller: 'dataCenterController',
-		templateUrl: 'client/views/dataCenter.html'
+		templateUrl: 'client/views/dataCenter.html',
+		resolve: {
+      data: function(NetworkDataService) {
+        return NetworkDataService.getAllDataCenters();
+      }
+    }
   })
 	.when('/zoomIn', {
 		controller: 'zoomInController',
-		templateUrl: 'client/views/zoomIn.html'
+		templateUrl: 'client/views/zoomIn.html',
+		resolve: {
+      data: function(NetworkDataService) {
+        return NetworkDataService.getAllZoomed();
+      }
+    }
 	});
 }]);
