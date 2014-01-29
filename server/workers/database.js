@@ -48,8 +48,15 @@ module.exports.close = function(callback) {
   mongoose.connection.close(callback);
 };
 
-module.exports.drop = function() {
-  mongoose.connection.db.dropDatabase();
+module.exports.delete = function(callback) {
+  var collections = _.keys(mongoose.connection.collections);
+  async.each(collections, function(collectionName, cb) {
+    var collection = mongoose.connection.collections[collectionName];
+    collection.drop(function(err) {
+      if (err && err.message != 'ns not found') cb(err);
+      cb();
+    });
+  }, callback);
 };
 
 module.exports.saveFiles = function(callback) {
