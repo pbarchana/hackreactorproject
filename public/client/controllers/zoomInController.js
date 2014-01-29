@@ -1,17 +1,11 @@
 var angular = require('angular');
 
  module.exports = angular.module('app')
-.controller('zoomInController', function($scope, $location, NetworkDataService){
+.controller('zoomInController', function($scope, $location, data){
 	//alert("Inside zoomInController");
 	$scope.loading = true;
 
-  NetworkDataService.getAllZoomed()
-  .then(function(data) {
-    $scope.ctldata = data;
-  
-  }, function errorFunction(reason) {
-    $scope.error = reason;
-  });
+  $scope.ctldata = data;
 
   $scope.formatUUID = function(UUID) {
     return UUID.split('-')[0];
