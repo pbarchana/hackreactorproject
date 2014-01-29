@@ -9,6 +9,7 @@ var gulp          = require('gulp'),
     async         = require('async');
 
 // =============== Gulp Config ===============
+
 var dest = './dist';
 
 var stylesheets = [
@@ -17,18 +18,18 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 50;
-var switchNum = 20;
-var dataCenterNum = 30;
-
+var serverNum = 10;
+var switchNum = 5;
+var dataCenterNum = 5;
 
 // =============== Generate Data ===============
+
 var db = require('./server/workers/database');
 var connect = require('./server/workers/connectServers');
 var dir = __dirname + '/server/workers/';
 var cwd = { cwd: 'server/workers' };
 
-// -------------- Prepare Files -----------------
+// -------------- Create Files -----------------
 
 gulp.task('checkDirectories', function(cb) {
   exec('node checkForDirectories.js', cwd, cb);
@@ -53,7 +54,7 @@ gulp.task('createFiles', ['deleteFiles'], function(cb) {
   ], cb);
 });
 
-// -------------- Prepare DB -----------------
+// -------------- Save To DB -----------------
 
 gulp.task('open', function(cb) {
   db.connect(cb);
@@ -73,12 +74,10 @@ gulp.task('connect', ['open', 'saveFiles'], function(cb) {
 
 gulp.task('generate', ['checkDirectories', 'deleteFiles', 'createFiles', 'open', 'delete', 'createFiles', 'saveFiles', 'connect'], function() {
   db.close();
-
 });
 
-// gulp.task('generate', ['save']);
-
 // =============== Scripts ===============
+
 gulp.task('templates', function () {
   return gulp.src('public/client/views/*.html')
     .pipe(templateCache('templates.js', {
@@ -97,6 +96,7 @@ gulp.task('scripts', ['templates'], function() {
 });
 
 // =============== CSS ===============
+
 gulp.task('stylus', function () {
   return gulp.src('./public/stylesheets/style.styl')
     .pipe(stylus({
@@ -112,6 +112,7 @@ gulp.task('css', ['stylus'], function() {
 });
 
 // =============== Copy Files ===============
+
 gulp.task('copyIndex', function() {
   return gulp.src('./public/index.html')
     .pipe(gulp.dest(dest));
@@ -126,7 +127,8 @@ gulp.task('copyImg', function() {
 });
 gulp.task('copy', ['copyIndex', 'copyFonts', 'copyImg']);
 
-// =============== Automatic Reload ===============
+// =============== Watch ===============
+
 gulp.task('nodemon', ['scripts', 'css', 'copy'], function () {
   nodemon({ script: 'server/server.js', options: '--debug' });
 });
@@ -136,4 +138,5 @@ gulp.task('watch', ['scripts', 'css', 'copy'], function () {
 });
 
 // =============== Default ===============
+
 gulp.task('default', ['nodemon', 'watch']);

@@ -35,28 +35,22 @@ var addToD3Links = function(connections, links) {
 };
 
 var addToZoomD3Links = function(connections, links) {
-  debugger;
   connections.forEach(function(connection) {
-    // connection.interfaces.forEach(function(interface) {
-    //   interface.neighbors.forEach(function(mac) {
-        link = {};
-        link.source = {};
-        link.target = {};
-        link.source.arc = connection.toObject().source;
-        link.source.x   = -1;
-        link.source.y   = -1;
-        
-        link.target.arc = connection.toObject().target;
-        link.target.x   = -1;
-        link.target.y   = -1;      
-        links.push(link);
-      });
-  //   });
-  // });
+    link = {};
+    link.source = {};
+    link.target = {};
+    link.source.arc = connection.toObject().source;
+    link.source.x   = -1;
+    link.source.y   = -1;
+    
+    link.target.arc = connection.toObject().target;
+    link.target.x   = -1;
+    link.target.y   = -1;
+    links.push(link);
+  });
 };
 
 module.exports.getAll = function(req, res) {
-  // lean returns a plain javascript object with not mongoose stuff atached to it
   var json = {"results": {}};
   Server.find(function (err, servers) {
     Switch.find(function (err, switches) {
@@ -72,11 +66,7 @@ module.exports.getAll = function(req, res) {
 };
 
 module.exports.getAllFlattened = function(req, res) {
-  // lean returns a plain javascript object with not mongoose stuff atached to it
   var json = {};
-  var nodes = [];
-  debugger;
-
   async.parallel({
     servers: function(callback){
       Server.find(callback);
@@ -93,11 +83,9 @@ module.exports.getAllFlattened = function(req, res) {
     res.set("Content-Type", "application/json");
     res.send(json);
   });
-
 };
 
 module.exports.getAllZoomed = function(req, res) {
-  // lean returns a plain javascript object with not mongoose stuff atached to it
   var json = {};
   var nodes = [];
   var links = [];
@@ -139,3 +127,23 @@ module.exports.getD3Data = function(req, res) {
     });
   });
 };
+
+// module.exports.getConnectingNodes = function(req, res) {
+//   var json = {};
+//   async.parallel({
+//     servers: function(callback){
+//       Server.find(callback);
+//     },
+//     switches: function(callback){
+//       Switch.find(callback);
+//     },
+//     connections: function(callback){
+//       Connection.find(callback);
+//     }
+//   }, function(err, results) {
+//     json.nodes = results.servers.concat(results.switches);
+//     json.links = results.connections;
+//     res.set("Content-Type", "application/json");
+//     res.send(json);
+//   });
+// };
