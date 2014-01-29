@@ -188,7 +188,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
     var addLink = function(a, b){
         linkDirectory[a + "," + b] = 1;
         linkDirectory[b + "," + a] = 1;
-      };
+    };
 
 
     var map = zoomHelpers.macToArcMapping(arc);
@@ -216,8 +216,6 @@ var bootstrapd3 = function(scope,  element, attrs) {
       .on('mouseover', zoomHelpers.showLinkDetails)
       .on('mouseout', zoomHelpers.hideLinkDetails)
       .on('click', zoomHelpers.selectLink)
-      // .style("stroke-width", "1px")
-      // .style("stroke", "black")
       .attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
@@ -242,67 +240,3 @@ app.directive('zoomIn', [function() {
     link: bootstrapd3
   };
 }]);
-
-//Called on edge hover
-var showLinkDetails = function(link){
-  d3.select(this)
-    .classed('link-hover', true);
-};
-
-//Called on edge mouse out
-var hideLinkDetails = function(link){
-  d3.select(this)
-    .classed('link-hover', false);
-};
-
-//Called on edge click
-var selectLink = function(link, i, selected_link){
-  d3.select('body').selectAll('.d3-tip').remove();
-  d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
-  d3.select('body').selectAll('.link').classed('link-select', false);
-
-  console.log('link link link source ', link.source);
-  console.log('link link link target ', link.target);
-
-  var linkTarget = d3.selectAll('.node').selectAll('path').filter(function(d,i){
-    if(i < 2){ console.log( d ); }
-    return d === link.target ? d : null; });
-
-  // var tarVend = linkTarget.each(function(d){ return d; });
-  // var tarX = linkTarget.attr('cx');
-  // var tarY = linkTarget.attr('cy');
-  // console.log('linkTarget x ------ ', linkTarget.attributes);
-
-  var linkSource = d3.selectAll('.node').filter(function(d,i){
-    return d === link.source ? d : null; });
-
-  // d3.select('body')
-  //   .append('div')
-  //   // .html('Vendor: ' + linkTarget.attributes.vendor)
-  //   .classed('d3-tip', true)
-  //   .style('top', (parseInt(tarY) + 13) + 'px')
-  //   .style('left', (parseInt(tarX) + 13) + 'px');
-
-  // toolTip(linkTarget);
-  // toolTip(linkSource);
-
-  linkTarget
-    .classed('arc-select', true);
-
-  linkSource
-    .classed('arc-select', true);
-
-  if (selected_link !== null) {
-    d3.select('.linkSelected')
-    .classed('linkSelected', false);
-  }
-  else if(selected_link === link){
-    selected_link = null;
-    return;
-  } else {
-    selected_link = link;
-  }
-
-  d3.select(this)
-  .classed('link-select', true);
-};

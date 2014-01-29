@@ -85,18 +85,21 @@ module.exports.selectLink = function(link, i, selected_link){
 
   console.log('link link link source ', link.source);
   console.log('link link link target ', link.target);
+  console.log('selected_link ------ ', selected_link)
 
-  var linkTarget = d3.selectAll('.node').selectAll('path').filter(function(d,i){
-    if(i < 2){ console.log( d ); }
-    return d === link.target ? d : null; });
+  // console.log('lt lt lt lt ', lt)
+
+  var linkSource = d3.selectAll('path').filter(function(d,i){
+    return (link.source.arc.data.mac === d.data.mac) ? d : null; });
+
 
   // var tarVend = linkTarget.each(function(d){ return d; });
   // var tarX = linkTarget.attr('cx');
   // var tarY = linkTarget.attr('cy');
   // console.log('linkTarget x ------ ', linkTarget.attributes);
 
-  var linkSource = d3.selectAll('.node').filter(function(d,i){
-    return d === link.source ? d : null; });
+  var linkTarget = d3.selectAll('path').filter(function(d,i){
+    return (link.target.arc.data.mac === d.data.mac) ? d : null; });
 
   // d3.select('body')
   //   .append('div')
