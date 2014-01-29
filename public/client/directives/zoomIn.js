@@ -1,6 +1,6 @@
 var angular = require('angular');
 //var helpers = require('./helpers.js');
-//var zoomhelpers = require('./zoomHelpers.js');
+var zoomHelpers = require('./zoomHelpers.js');
 var d3 = require('d3');
 
 var app = angular.module('app');
@@ -9,13 +9,13 @@ var bootstrapd3 = function(scope,  element, attrs) {
   setTimeout(function(){
 
     function redraw() {
-      svg.attr('transform', 'translate(' + d3.event.translate + ')' 
+      svg.attr('transform', 'translate(' + d3.event.translate + ')'
         + ' scale(' + d3.event.scale + ')');
     }
 
     //View window width and height
-    var viewWidth = window.innerWidth; //set to a percentage for dynamic resizing
-    var viewHeight = window.innerHeight;
+    var viewWidth = element[0].offsetWidth;
+    var viewHeight = element[0].offsetHeight;
     var linkDirectory = {};
     var selected_link = null;
     var link;
@@ -37,9 +37,10 @@ var bootstrapd3 = function(scope,  element, attrs) {
 
     var force = d3.layout.force()
       .charge(-2000)
-      .linkStrength(0.2)
-      .linkDistance(200)
-      .size([viewWidth, viewHeight]);
+      .linkStrength(0.1)
+      .linkDistance(70)
+      .gravity(0.3)
+      .size([viewWidth - 200, viewHeight - 200]);
 
     //Create view window SVG
     var svg =  d3.select(element[0])
@@ -53,21 +54,25 @@ var bootstrapd3 = function(scope,  element, attrs) {
 
     var selectedArc;
     var selectedArc1;
-    setTimeout(function(){
 
-      force
-      .links(scope.nwdata.links)
-      .nodes(scope.nwdata.nodes)
-      .start();
-      for(var i = scope.nwdata.nodes * scope.nwdata.links; i > 0; --i) {
-         force.tick();
-      }
+    force
+    .links(scope.nwdata.links)
+    .nodes(scope.nwdata.nodes)
+    .start();
+
+    for(var i = scope.nwdata.nodes * scope.nwdata.nodes; i > 0; --i) {
+       force.tick();
+    }
+
+    setTimeout(function(){
+      force.stop()
+
       var point = {};
       var point1 = {};
       var node = svg.selectAll(".node")
         .data(scope.nwdata.nodes)
         .enter().append("g")
-        .attr("class", "node");
+        .classed('node', true);
 
       node.selectAll("path")
         .data(function(d) {return pie(d.components.nics); })
@@ -89,10 +94,10 @@ var bootstrapd3 = function(scope,  element, attrs) {
 
           point.x = centerX + centroidX;
           point.y = centerY + centroidY;
-                              
+
           selectedArc1 = selectedArc;
           selectedArc  = d;
-          
+
           if (selectedArc !== undefined && selectedArc1 !== undefined && selectedArc1 !== selectedArc) {
             console.log("Here");
             var testLink = {};
@@ -105,33 +110,34 @@ var bootstrapd3 = function(scope,  element, attrs) {
             testLink.target.x = point.x;
             testLink.target.y = point.y;
 
-            console.log("Testlink", testLink);  
+            console.log("Testlink", testLink);
 
             testLinkArray.push(testLink);
             force.links().push(testLink);
             console.log(testLinkArray);
 
-            svg.append('g').selectAll(".link")  
+            svg.append('g').selectAll(".link")
             .data(testLinkArray)
             .enter().insert("line", ".node")
             .attr("x1", function(d) { console.log("D", d); return d.source.x; })
             .attr("y1", function(d) { return d.source.y; })
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; })
-            .attr("class", "link")
-            .style("stroke-width", "1px")
-            .style("stroke", "black")  
+            .classed('link', true)
+            // .attr("class", "link")
+            // .style("stroke-width", "1px")
+            // .style("stroke", "black")
           }
-          
+
       })
       .style("fill", function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
-      
-      node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; }); 
+
+      node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 
       var addLink = function(a, b){
           linkDirectory[a + "," + b] = 1;
           linkDirectory[b + "," + a] = 1;
-        };  
+        };
 
       var macToArcMapping = function(nodes) {
           var arcMap = d3.map();
@@ -156,8 +162,8 @@ var bootstrapd3 = function(scope,  element, attrs) {
               ptX = centroidX + centerX;
               ptY = centroidY + centerY;
 
-              arcMap.set(d3.select(n.childNodes[i]).datum().data.mac, 
-                         {arc: d3.select(n.childNodes[i]).datum(), 
+              arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
+                         {arc: d3.select(n.childNodes[i]).datum(),
                           x: ptX,
                           y: ptY
                         });
@@ -182,11 +188,11 @@ var bootstrapd3 = function(scope,  element, attrs) {
         l.target.x   = map.get(tempNode).x;
         l.target.y   = map.get(tempNode).y;
       }
-      console.log("s", scope.nwdata.links[0]);      
+      console.log("s", scope.nwdata.links[0]);
       var link = svg.selectAll(".link")
         .data(scope.nwdata.links)
         .enter().append("line")
-        .attr("class", "link")
+        .classed('link', true)
         .style("stroke-width", "1px")
         .style("stroke", "black")
         .attr("x1", function(d) { return d.source.x; })
