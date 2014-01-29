@@ -17,13 +17,6 @@
     </span>
   </div>
 
-  <!-- List View -->
-  <div ng-show="liveSearch || !selectedNode">
-    <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
-      <div class="header">{{ node.type }}</div>
-      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
-    </div>
-  </div>
 
   <!-- Node View -->
   <div ng-show="selectedNode && !liveSearch" ng-controller="accordionController">
@@ -44,12 +37,21 @@
         <div ng-repeat="(key, value) in selectedNode.components" ng-include="'tree_item_renderer.html'"></div>
       </accordion-group>
       <!-- Connections -->
-      <div class="divider">NODE INFO</div>
-      <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
+      <div class="divider">Connections</div>
+<!--       <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch | limitTo:20">
         <div class="header">{{ node.type }}</div>
         <div>UUID: {{ formatUUID(node.attributes.UUID) }}
-      </div>
+      </div> -->
     </accordion>
   </div><!-- /.AccordianCtrl -->
+
+
+  <!-- List View -->
+  <div ng-show="liveSearch || !selectedNode">
+    <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
+      <div class="header">{{ node.type }}</div>
+      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
+    </div>
+  </div>
  
 </div><!-- /.sidePanel

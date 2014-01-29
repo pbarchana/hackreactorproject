@@ -29,7 +29,7 @@ var connect = require('./server/workers/connectServers');
 var dir = __dirname + '/server/workers/';
 var cwd = { cwd: 'server/workers' };
 
-// -------------- Prepare Files -----------------
+// -------------- Create Files -----------------
 
 gulp.task('checkDirectories', function(cb) {
   exec('node checkForDirectories.js', cwd, cb);
@@ -54,7 +54,7 @@ gulp.task('createFiles', ['deleteFiles'], function(cb) {
   ], cb);
 });
 
-// -------------- Prepare DB -----------------
+// -------------- Save To DB -----------------
 
 gulp.task('open', function(cb) {
   db.connect(cb);
