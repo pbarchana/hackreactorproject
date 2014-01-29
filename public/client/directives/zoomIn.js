@@ -36,9 +36,9 @@ var bootstrapd3 = function(scope,  element, attrs) {
     //   .on('keydown', keydown);
 
     var force = d3.layout.force()
-      .charge(-2000)
+      .charge(-10000)
       .linkStrength(0.1)
-      .linkDistance(70)
+      .linkDistance(400)
       .gravity(0.3)
       .size([viewWidth - 200, viewHeight - 200]);
 

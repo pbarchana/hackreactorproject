@@ -39,6 +39,10 @@
       </accordion-group>
       <!-- Connections -->
       <div class="divider">NODE INFO</div>
+      <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
+        <div class="header">{{ node.type }}</div>
+        <div>UUID: {{ formatUUID(node.attributes.UUID) }}
+      </div>
     </accordion>
   </div><!-- /.AccordianCtrl -->
 
