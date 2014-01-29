@@ -16,10 +16,15 @@ div ng-show="loading" class="loading">
     <span class="input-group-btn">
       <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
     </span>
-
   </div>
-
-
+  
+  <!-- List View -->
+  <div ng-show="liveSearch || !selectedNode">
+    <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
+      <div class="header">{{ node.type }}</div>
+      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
+    </div>
+  </div>
 
   <!-- Node View -->
   <div ng-show="selectedNode && !liveSearch" ng-controller="accordionController">
@@ -43,14 +48,5 @@ div ng-show="loading" class="loading">
       <div class="divider">NODE INFO</div>
     </accordion>
   </div><!-- /.AccordianCtrl -->
-
-    <!-- List View -->
-  <div ng-show="liveSearch || !selectedNode">
-    <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
-      <div class="header">{{ node.type }}</div>
-      <div>UUID: {{ formatUUID(node.attributes.UUID) }}
-    </div>
-  </div>
-
 
 </div><!-- /.sidePanel
