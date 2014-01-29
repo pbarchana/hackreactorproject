@@ -77,12 +77,6 @@ var selectLink = function(link, i, selected_link){
     .classed('node-link-select', true);
 
   if (selected_link !== null) {
-    d3.select(".linkSelected")
-    .transition()
-    .style("stroke", "#999")
-    .style("stroke-width", '2px')
-    .style("stroke-opacity", 0.3)
-    .style("stroke-dasharray", "none");
     d3.select('.linkSelected')
     .classed('linkSelected', false);
   }

@@ -41,7 +41,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
       .linkStrength(0.1)
       .linkDistance(70)
       .gravity(0.3)
-      .size([viewWidth - 200, viewHeight - 200]);
+      .size([viewWidth, viewHeight]);
 
     //Create view window SVG
     var svg =  d3.select(element[0])
@@ -79,6 +79,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
         .data(function(d) {return pie(d.components.nics); })
         .enter().append("svg:path")
         .attr("d", arc)
+        .classed('node', true)
         .on('click', function(d){
           var centerX = d3.select(this.parentNode).node().transform.animVal.getItem(0).matrix.e;
           var centerY = d3.select(this.parentNode).node().transform.animVal.getItem(0).matrix.f;
@@ -125,9 +126,6 @@ var bootstrapd3 = function(scope,  element, attrs) {
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; })
             .classed('link', true)
-            // .attr("class", "link")
-            // .style("stroke-width", "1px")
-            // .style("stroke", "black")
           }
 
       })
@@ -194,8 +192,9 @@ var bootstrapd3 = function(scope,  element, attrs) {
         .data(scope.nwdata.links)
         .enter().append("line")
         .classed('link', true)
-        .style("stroke-width", "1px")
-        .style("stroke", "black")
+        .on('mouseover', showLinkDetails)
+        .on('mouseout', hideLinkDetails)
+        .on('click', selectLink)
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
@@ -226,3 +225,65 @@ app.directive('zoomIn', [function() {
     }
   };
 }]);
+
+//Called on edge hover
+var showLinkDetails = function(link){
+  d3.select(this)
+    .classed('link-hover', true);
+};
+
+//Called on edge mouse out
+var hideLinkDetails = function(link){
+  d3.select(this)
+    .classed('link-hover', false);
+};
+
+//Called on edge click
+var selectLink = function(link, i, selected_link){
+  d3.select('body').selectAll('.d3-tip').remove();
+  d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
+  d3.select('body').selectAll('.link').classed('link-select', false);
+
+  var linkTarget = d3.selectAll('.node').filter(function(d,i){
+    return d === link.target ? d : null; });
+
+  console.log('linkTarget --------- ', linkTarget);
+
+  // var tarVend = linkTarget.each(function(d){ return d; });
+  // var tarX = linkTarget.attr('cx');
+  // var tarY = linkTarget.attr('cy');
+  // console.log('linkTarget x ------ ', linkTarget.attributes);
+
+  var linkSource = d3.selectAll('.node').filter(function(d,i){
+    return d === link.source ? d : null; });
+
+  // d3.select('body')
+  //   .append('div')
+  //   // .html('Vendor: ' + linkTarget.attributes.vendor)
+  //   .classed('d3-tip', true)
+  //   .style('top', (parseInt(tarY) + 13) + 'px')
+  //   .style('left', (parseInt(tarX) + 13) + 'px');
+
+  // toolTip(linkTarget);
+  // toolTip(linkSource);
+
+  linkTarget
+    .classed('arc-select', true);
+
+  linkSource
+    .classed('arc-select', true);
+
+  if (selected_link !== null) {
+    d3.select('.linkSelected')
+    .classed('linkSelected', false);
+  }
+  else if(selected_link === link){
+    selected_link = null;
+    return;
+  } else {
+    selected_link = link;
+  }
+
+  d3.select(this)
+  .classed('link-select', true);
+};
