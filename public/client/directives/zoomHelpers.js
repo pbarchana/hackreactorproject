@@ -25,7 +25,7 @@ module.exports.macToArcMapping = function(arc) {
               ptY = centroidY + centerY;
 
               arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
-                         {arc: d3.select(n.childNodes[i]).datum(),
+                         {element: d3.select(n.childNodes[i]).datum(),
                           x: ptX,
                           y: ptY
                         });

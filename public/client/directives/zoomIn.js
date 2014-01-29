@@ -40,6 +40,9 @@ var bootstrapd3 = function(scope,  element, attrs) {
   var selectedArc;
   var selectedArc1;
 
+  console.log(scope.nwdata.links);
+  debugger;
+
   force
   .links(scope.nwdata.links)
   .nodes(scope.nwdata.nodes)
@@ -66,8 +69,8 @@ var bootstrapd3 = function(scope,  element, attrs) {
     }
     d3.selectAll(".link").transition()
       .style("stroke", function(l) {
-        if (l.source.arc.hiliteLink === 'true' ||
-            l.target.arc.hiliteLink === 'true') {
+        if (l.source.element.hiliteLink === 'true' ||
+            l.target.element.hiliteLink === 'true') {
               return "black";
         }
         else {
@@ -75,8 +78,8 @@ var bootstrapd3 = function(scope,  element, attrs) {
         }
       })
       .style("stroke-opacity", function(l) {
-        if (l.source.arc.hiliteLink === 'true' ||
-            l.target.arc.hiliteLink === 'true') {
+        if (l.source.element.hiliteLink === 'true' ||
+            l.target.element.hiliteLink === 'true') {
               return 1.0;
         }
         else {
@@ -92,14 +95,14 @@ var bootstrapd3 = function(scope,  element, attrs) {
     }
     d3.selectAll(".link").transition()
       .style("stroke", function(l) {
-        if (l.source.arc.hiliteLink === 'true' ||
-            l.target.arc.hiliteLink === 'true') {
+        if (l.source.element.hiliteLink === 'true' ||
+            l.target.element.hiliteLink === 'true') {
               return "#999";
         }
       })
       .style("stroke-opacity", function(l) {
-        if (l.source.arc.hiliteLink === 'true' ||
-            l.target.arc.hiliteLink === 'true') {
+        if (l.source.element.hiliteLink === 'true' ||
+            l.target.element.hiliteLink === 'true') {
               return 0.1;
         }
     });
@@ -132,11 +135,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
         var centerY = d3.select(this.parentNode).node().transform.animVal.getItem(0).matrix.f;
         var centroidX = arc.centroid(d)[0];
         var centroidY = arc.centroid(d)[1];
-        // console.log("Centroid X", centroidX);
-        // console.log("Centroid X", centroidY);
-        // console.log("Center X", centerX);
-        // console.log("Center Y", centerY);
-
+        
         point1.x = point.x;
         point1.y = point.y;
         point.x = centerX + centroidX;
@@ -157,11 +156,8 @@ var bootstrapd3 = function(scope,  element, attrs) {
           testLink.target.x = point.x;
           testLink.target.y = point.y;
 
-          //console.log("Testlink", testLink);
-
           testLinkArray.push(testLink);
           force.links().push(testLink);
-          //console.log(testLinkArray);
 
           svg.append('g').selectAll(".link")
           .data(testLinkArray)
@@ -171,9 +167,6 @@ var bootstrapd3 = function(scope,  element, attrs) {
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; })
           .classed('link', true)
-          // .attr("class", "link")
-          // .style("stroke-width", "1px")
-          // .style("stroke", "black")
         }
 
     })
@@ -191,25 +184,23 @@ var bootstrapd3 = function(scope,  element, attrs) {
         linkDirectory[b + "," + a] = 1;
       };
 
-    
     var map = zoomHelpers.macToArcMapping(arc);
     var tempNode;
 
     for (var k = 0;  k < scope.nwdata.links.length; k++) {
       var l = scope.nwdata.links[k];
-      // console.log("l = ",l.source);
-      tempNode = l.source.arc;
-      //console.log(" map = ",map," temp = ", tempNode);
-      l.source["arc"] = map.get(tempNode).arc;
+
+      tempNode = l.source.element;
+      l.source["element"] = map.get(tempNode).element;
       l.source.x   = map.get(tempNode).x;
       l.source.y   = map.get(tempNode).y;
-      tempNode = l.target.arc;
 
-      l.target["arc"] = map.get(tempNode).arc;
+      tempNode = l.target.element;
+      l.target["element"] = map.get(tempNode).element;
       l.target.x   = map.get(tempNode).x;
       l.target.y   = map.get(tempNode).y;
     }
-    // console.log("s", scope.nwdata.links[0]);
+
     var link = svg.selectAll(".link")
       .data(scope.nwdata.links)
       .enter().append("line")

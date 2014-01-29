@@ -95,11 +95,12 @@ var selectLink = function(link, i, selected_link){
   .classed('link-select', true);
 };
 
-var showNodeDetails = function(node){
-  var selected = d3.select(this).attr('nodeSelected');
+var showNodeDetails = function(node, that){
+
+  var selected = d3.select(that).attr('nodeSelected');
 
   if(selected === 'false'){
-    d3.select(this).classed('node-hover', true);
+    d3.select(that).classed('node-hover', true);
   }
 
   d3.selectAll(".link")
@@ -153,6 +154,7 @@ module.exports.drawNodes = function(node, link, force, scope){
     })
     .on('click.selectNode', selectNode)
     .on("click", function(d){
+      var that = this;
       scope.$apply(function () {
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
         scope.$parent.selectedNode = d;
@@ -180,7 +182,7 @@ module.exports.drawNodes = function(node, link, force, scope){
                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
             })
             .classed("link", true);
-          showNodeDetails(d);
+          showNodeDetails(d, that);
         }
       });
     })
@@ -191,7 +193,10 @@ module.exports.drawNodes = function(node, link, force, scope){
       return "#888";
       }
     })
-    .on('mouseover', showNodeDetails)
+    .on('mouseover',  function(d) {
+      var that = this;
+      showNodeDetails(d, that);
+    })
     .on('mouseout', hideNodeDetails)
     .append("title").text(function(d, i) {
       var retString =
