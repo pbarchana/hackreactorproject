@@ -206,7 +206,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
     window.onresize = function() {
         scope.$apply();
       };
-  }, 300);
+  }, 500);
 };
 
 app.directive('zoomIn', [function() {
@@ -243,10 +243,12 @@ var selectLink = function(link, i, selected_link){
   d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
 
-  var linkTarget = d3.selectAll('.node').filter(function(d,i){
-    return d === link.target ? d : null; });
+  console.log('link link link source ', link.source);
+  console.log('link link link target ', link.target);
 
-  console.log('linkTarget --------- ', linkTarget);
+  var linkTarget = d3.selectAll('.node').selectAll('path').filter(function(d,i){
+    if(i < 2){ console.log( d ); }
+    return d === link.target ? d : null; });
 
   // var tarVend = linkTarget.each(function(d){ return d; });
   // var tarX = linkTarget.attr('cx');
