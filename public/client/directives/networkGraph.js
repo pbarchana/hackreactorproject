@@ -4,7 +4,7 @@ var d3 = require('d3');
 
 var app = angular.module('app');
 var bootstrapd3 = function(scope, element, attrs) {
-  
+
   function redraw() {
     svg.attr('transform', 'translate(' +
       d3.event.translate + ')' +
@@ -27,7 +27,7 @@ var bootstrapd3 = function(scope, element, attrs) {
     .linkStrength(0.2)
     .linkDistance(200)
     .size([viewWidth, viewHeight])
-    .gravity(0.5)
+    .gravity(2.0)
     .size([viewWidth - 300, viewHeight]);
 
   //Create view window SVG
@@ -111,11 +111,10 @@ var bootstrapd3 = function(scope, element, attrs) {
   window.onresize = function() {
     scope.$apply();
   };
+
 };
 
-
-
-module.exports = app.directive('networkGraph', [function() {
+app.directive('networkGraph', [function() {
   return {
     restrict: 'EA',
     scope: {
