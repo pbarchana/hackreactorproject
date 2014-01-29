@@ -1,6 +1,6 @@
 var angular = require('angular');
 //var helpers = require('./helpers.js');
-//var zoomhelpers = require('./zoomHelpers.js');
+var zoomHelpers = require('./zoomHelpers.js');
 var d3 = require('d3');
 
 var app = angular.module('app');
