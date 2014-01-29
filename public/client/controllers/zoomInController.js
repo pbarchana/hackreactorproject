@@ -1,7 +1,7 @@
 var angular = require('angular');
 
  module.exports = angular.module('app')
-.controller('zoomInController', function($scope, $location, data){
+.controller('zoomInController', ['$scope', '$location', 'data', function($scope, $location, data){
 	//alert("Inside zoomInController");
 	$scope.loading = true;
 
@@ -15,4 +15,4 @@ var angular = require('angular');
     $scope.selectedNode = node;
     $scope.liveSearch = "";
   };
-});
+}]);

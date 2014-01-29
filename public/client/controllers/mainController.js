@@ -1,7 +1,8 @@
 var angular = require('angular');
 
 var app = angular.module('app');
-app.controller('mainController', function($scope, $location, data){
+app.controller('mainController', ['$scope', '$location', 'NetworkDataService', 'data', function($scope, $location, NetworkDataService, data){
+  
   $scope.loading = true;
   $scope.changeToZoomInView = false;
   $scope.ctldata = data;
@@ -28,4 +29,4 @@ app.controller('mainController', function($scope, $location, data){
       $location.path('/zoomIn');
     }
   });
-});
+}]);

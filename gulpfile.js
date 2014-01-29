@@ -7,6 +7,7 @@ var gulp          = require('gulp'),
     nodemon       = require('gulp-nodemon'),
     templateCache = require('gulp-angular-templatecache'),
     async         = require('async');
+    uglify        = require('gulp-uglify');
 
 // =============== Gulp Config ===============
 
@@ -86,11 +87,13 @@ gulp.task('templates', function () {
     }))
     .pipe(gulp.dest('./public/client'));
 });
+// TODO: get uglify working
 gulp.task('scripts', ['templates'], function() {
   return gulp.src('public/index.js')
     .pipe(browserify({
       insertGlobals : true,
     }))
+    // .pipe(uglify())
     .pipe(rename("bundle.js"))
     .pipe(gulp.dest(dest));
 });
