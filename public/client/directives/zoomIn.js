@@ -10,10 +10,7 @@ var app = angular.module('app');
 var bootstrapd3 = function(scope,  element, attrs) {
   setTimeout(function(){
 
-    function redraw() {
-      svg.attr('transform', 'translate(' + d3.event.translate + ')'
-        + ' scale(' + d3.event.scale + ')');
-    }
+    
 
     //View window width and height
     var viewWidth = element[0].offsetWidth;
@@ -26,12 +23,12 @@ var bootstrapd3 = function(scope,  element, attrs) {
     var radius = 45;
     var color = d3.scale.category20c();
 
+
     var pie = zoomHelpers.definePie();
     var arc = zoomHelpers.defineArc(radius);
+    var svg = zoomHelpers.createSvg(element[0], viewWidth, viewHeight);
 
     
-    // d3.select('link')
-    //   .on('keydown', keydown);
 
     var force = d3.layout.force()
       .charge(-2000)
@@ -41,14 +38,7 @@ var bootstrapd3 = function(scope,  element, attrs) {
       .size([viewWidth - 200, viewHeight - 200]);
 
     //Create view window SVG
-    var svg =  d3.select(element[0])
-      .append('svg')
-      .attr('width', viewWidth)
-      .attr('height', viewHeight)
-      .attr("pointer-events", "all")
-      .append('g')
-      .call(d3.behavior.zoom().on("zoom", redraw))
-      .append('g');
+    
 
     var selectedArc;
     var selectedArc1;

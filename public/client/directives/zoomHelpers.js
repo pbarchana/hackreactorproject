@@ -47,3 +47,21 @@ module.exports.defineArc = function(radius){
     .innerRadius(2/3 * radius);
     return arc;
 }
+
+module.exports.createSvg = function(view, width, height){
+  var svg =  d3.select(view)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr("pointer-events", "all")
+      .append('g')
+      .call(d3.behavior.zoom().on("zoom", module.exports.redraw))
+      .append('g');
+      return svg;
+}
+
+module.exports.redraw = function() {
+      svg.attr('transform', 'translate(' + d3.event.translate + ')'
+        + ' scale(' + d3.event.scale + ')');
+    };
+
