@@ -12,7 +12,7 @@ module.exports = angular.module('app')
       }
     }
 	})
-	.when('/dataCenter', {
+	.when('/data-center', {
 		controller: 'dataCenterController',
 		templateUrl: 'client/views/dataCenter.html',
 		resolve: {

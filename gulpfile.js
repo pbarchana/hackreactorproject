@@ -18,9 +18,9 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 10;
-var switchNum = 5;
-var dataCenterNum = 5;
+var serverNum = 1000;
+var switchNum = 100;
+var dataCenterNum = 30;
 
 // =============== Generate Data ===============
 

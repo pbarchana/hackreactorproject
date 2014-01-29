@@ -60,8 +60,75 @@ module.exports.createSvg = function(view, width, height){
       return svg;
 }
 
+module.exports.createForceLayout =function(width, height){
+  var force = d3.layout.force()
+        .charge(-2000)
+        .linkStrength(0.1)
+        .linkDistance(70)
+        .gravity(0.3)
+        .size([width, height]);
+  return force;
+}
+
 module.exports.redraw = function() {
       svg.attr('transform', 'translate(' + d3.event.translate + ')'
         + ' scale(' + d3.event.scale + ')');
     };
+
+module.exports.showNodeInfo = function(node, that){
+      console.log("Node", node);
+      //debugger;
+      var selected = d3.select(that).attr('nodeSelected');
+
+      if(selected === 'false'){
+        d3.select(that).style('stroke', '#bada55');
+      }
+
+      showNode = that;
+      for (var i = 0; i < that.childNodes.length; i++) {
+        d3.select(that.childNodes[i]).datum().hiliteLink = 'true'
+      }
+      d3.selectAll(".link").transition()
+        .style("stroke", function(l) {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
+                return "black";
+          }
+          else {
+            return "#999";
+          }
+        })
+        .style("stroke-opacity", function(l) {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
+                return 1.0;
+          }
+          else {
+            return 0.1;
+          }
+      });
+    };
+
+
+module.exports.hideNodeInfo = function() {
+      var that = showNode;
+      for (var i = 0; i < that.childNodes.length; i++) {
+        d3.select(that.childNodes[i]).datum().hiliteLink = 'false'
+      }
+      d3.selectAll(".link").transition()
+        .style("stroke", function(l) {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
+                return "#999";
+          }
+        })
+        .style("stroke-opacity", function(l) {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
+                return 0.1;
+          }
+      });
+
+      showNode = "";
+    }
 

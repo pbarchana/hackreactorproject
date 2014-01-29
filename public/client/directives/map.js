@@ -37,8 +37,9 @@ var createMap = function (scope, elem, attrs) {
     });
 
     google.maps.event.addListener(marker, 'dblclick', function() {
+      // debugger;
+      // scope.zoomIn(node._id);
       window.location = '/?id=' + node._id;
-      // alert(JSON.stringify(node._id));
     });
   });
 
