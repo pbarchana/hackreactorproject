@@ -22,13 +22,8 @@ var bootstrapd3 = function(scope,  element, attrs) {
     var pie = zoomHelpers.definePie();
     var arc = zoomHelpers.defineArc(radius);
     var svg = zoomHelpers.createSvg(element[0], viewWidth, viewHeight);
-
-    var force = d3.layout.force()
-      .charge(-2000)
-      .linkStrength(0.1)
-      .linkDistance(70)
-      .gravity(0.3)
-      .size([viewWidth - 200, viewHeight - 200]);
+    var force = zoomHelpers.createForceLayout(viewWidth-200, viewHeight-200);
+    
 
     var selectedArc;
     var selectedArc1;

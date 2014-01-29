@@ -60,6 +60,16 @@ module.exports.createSvg = function(view, width, height){
       return svg;
 }
 
+module.exports.createForceLayout =function(width, height){
+  var force = d3.layout.force()
+        .charge(-2000)
+        .linkStrength(0.1)
+        .linkDistance(70)
+        .gravity(0.3)
+        .size([width, height]);
+  return force;
+}
+
 module.exports.redraw = function() {
       svg.attr('transform', 'translate(' + d3.event.translate + ')'
         + ' scale(' + d3.event.scale + ')');
