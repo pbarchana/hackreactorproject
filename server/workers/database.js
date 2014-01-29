@@ -37,16 +37,6 @@ var saveFilesToDb = function(Model, pathToDir, callback) {
     console.log('models saved to DB');
     callback();
   });
-
-
-  // files.forEach(function(file) {
-  //   json.push(fs.readFileSync(file));
-  // });
-  // // To large to do it this way
-  // Model.collection.insert(json, null, function(err, results) {
-  //   console.log(results);
-  //   cb();
-  // });
 };
 
 // =========== Exports ===============
@@ -63,14 +53,24 @@ module.exports.close = function(callback) {
 };
 
 module.exports.delete = function(callback) {
-  var collections = _.keys(mongoose.connection.collections);
-  async.each(collections, function(collectionName, cb) {
-    var collection = mongoose.connection.collections[collectionName];
-    collection.drop(function(err) {
-      if (err && err.message != 'ns not found') cb(err);
-      cb();
-    });
-  }, callback);
+  // mongoose.connection.db.dropDatabase();
+
+  var collectionDropFunctions = _.map(models, function(model) {
+    return function(cb) { model.remove({}, cb); };
+  });
+  async.parallel(collectionDropFunctions, function() {
+    console.log('collections dropped');
+    callback();
+  });
+
+  // var collections = _.keys(mongoose.connection.collections);
+  // async.each(collections, function(collectionName, cb) {
+  //   var collection = mongoose.connection.collections[collectionName];
+  //   collection.drop(function(err) {
+  //     if (err && err.message != 'ns not found') cb(err);
+  //     cb();
+  //   });
+  // }, callback);
 };
 
 module.exports.saveFiles = function(callback) {

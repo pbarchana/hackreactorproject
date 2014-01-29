@@ -17,8 +17,8 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 100;
-var switchNum = 20;
+var serverNum = 10;
+var switchNum = 5;
 var dataCenterNum = 5;
 
 // =============== Generate Data ===============
@@ -27,16 +27,18 @@ var connect = require('./server/workers/connectServers');
 var dir = __dirname + '/server/workers/';
 var cwd = { cwd: 'server/workers' };
 
-gulp.task('open', function(cb) {
-  db.connect(cb);
+// -------------- Prepare Files -----------------
+
+gulp.task('checkDirectories', function(cb) {
+  exec('node checkForDirectories.js', cwd, cb);
 });
 
-gulp.task('delete', ['open'], function(cb) {
-  db.delete(cb);
+gulp.task('deleteFiles', ['checkDirectories'], function(cb) {
+  exec('node deleteMockData.js', cwd, cb);
 });
 
 // TODO: find a cleaner way to do this with bind/each. Is there any way to change the bind order??
-gulp.task('create', ['delete'], function(cb) {
+gulp.task('createFiles', ['deleteFiles'], function(cb) {
   async.series([
     function(callback) {
       exec('python mockNodes.py ' + serverNum, cwd, callback);
@@ -50,7 +52,17 @@ gulp.task('create', ['delete'], function(cb) {
   ], cb);
 });
 
-gulp.task('saveFiles', ['open', 'create'], function(cb) {
+// -------------- Prepare DB -----------------
+
+gulp.task('open', function(cb) {
+  db.connect(cb);
+});
+
+gulp.task('delete', ['open'], function(cb) {
+  db.delete(cb);
+});
+
+gulp.task('saveFiles', ['open', 'createFiles'], function(cb) {
   db.saveFiles(cb);
 });
 
@@ -58,7 +70,7 @@ gulp.task('connect', ['open', 'saveFiles'], function(cb) {
   connect.servers.tree(cb);
 });
 
-gulp.task('generate', ['open', 'delete', 'create', 'saveFiles', 'connect'], function() {
+gulp.task('generate', ['checkDirectories', 'deleteFiles', 'createFiles', 'open', 'delete', 'createFiles', 'saveFiles', 'connect'], function() {
   db.close();
 });
 
