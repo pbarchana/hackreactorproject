@@ -17,24 +17,29 @@ var stylesheets = [
   'public/stylesheets/style.css'
 ];
 
-var serverNum = 30;
-var switchNum = 5;
-var dataCenterNum = 5;
+var serverNum = 400;
+var switchNum = 200;
+var dataCenterNum = 30;
+
 
 // =============== Generate Data ===============
+var db = require('./server/workers/database');
+var connect = require('./server/workers/connectServers');
 var dir = __dirname + '/server/workers/';
-// exec = exec.bind(null, { cwd: 'server/workers' });
 var cwd = { cwd: 'server/workers' };
 
-gulp.task('delete', function(cb) {
-  var commands = [
-    'node ' + dir + 'checkForDirectories.js',
-    'node ' + dir + 'deleteMockData.js'
-  ];
-  async.each(commands, exec, cb);
+// -------------- Prepare Files -----------------
+
+gulp.task('checkDirectories', function(cb) {
+  exec('node checkForDirectories.js', cwd, cb);
 });
+
+gulp.task('deleteFiles', ['checkDirectories'], function(cb) {
+  exec('node deleteMockData.js', cwd, cb);
+});
+
 // TODO: find a cleaner way to do this with bind/each. Is there any way to change the bind order??
-gulp.task('create', ['delete'], function(cb) {
+gulp.task('createFiles', ['deleteFiles'], function(cb) {
   async.series([
     function(callback) {
       exec('python mockNodes.py ' + serverNum, cwd, callback);
@@ -48,14 +53,27 @@ gulp.task('create', ['delete'], function(cb) {
   ], cb);
 });
 
-gulp.task('connect', ['create'], function(cb) {
+// -------------- Prepare DB -----------------
 
-  exec('node mockConnectivity ', cwd, cb);
+gulp.task('open', function(cb) {
+  db.connect(cb);
 });
 
-gulp.task('generate', ['connect'], function(cb) {
-  require('./server/workers/connectServers');
-  // exec('node saveFilesToDB.js', cwd, cb);
+gulp.task('delete', ['open'], function(cb) {
+  db.delete(cb);
+});
+
+gulp.task('saveFiles', ['open', 'createFiles'], function(cb) {
+  db.saveFiles(cb);
+});
+
+gulp.task('connect', ['open', 'saveFiles'], function(cb) {
+  connect.servers.tree(cb);
+});
+
+gulp.task('generate', ['checkDirectories', 'deleteFiles', 'createFiles', 'open', 'delete', 'createFiles', 'saveFiles', 'connect'], function() {
+  db.close();
+
 });
 
 // gulp.task('generate', ['save']);

@@ -5,13 +5,13 @@ var d3 = require('d3');
 var app = angular.module('app');
 var bootstrapd3 = function(scope, element, attrs) {
   setTimeout(function(){
-    debugger;
 
-  function redraw() {
-    svg.attr('transform', 'translate(' +
-      d3.event.translate + ')' +
-    ' scale(' + d3.event.scale + ')');
-  }
+      function redraw() {
+        svg.attr('transform', 'translate(' +
+          d3.event.translate + ')' +
+        ' scale(' + d3.event.scale + ')');
+      }
+
       //View window width and height
       var viewWidth = element[0].offsetWidth;
       var viewHeight = element[0].offsetHeight;
@@ -38,7 +38,7 @@ var bootstrapd3 = function(scope, element, attrs) {
         .attr('height', viewHeight)
         .attr("pointer-events", "all")
         .append('g')
-        .call(d3.behavior.zoom().on("zoom", redraw))
+        //.call(d3.behavior.zoom().on("zoom", redraw))
         .append('g');
 
 

@@ -3,6 +3,7 @@ var angular = require('angular');
 module.exports = angular.module('app')
 .controller('mainController', function($scope, $location, NetworkDataService){
   $scope.loading = true;
+  $scope.changeToZoomInView = false;
 
   NetworkDataService.getAllFlattened()
   .then(function(data) {
@@ -23,4 +24,11 @@ module.exports = angular.module('app')
     $scope.selectedNode = node;
     $scope.liveSearch = "";
   };
+
+  $scope.$watch('changeToZoomInView', function(newValue, oldValue) {
+    if (newValue === true) {
+      $scope.changeToZoomInView = false;
+      $location.path('/zoomIn');
+    }
+  });
 });
