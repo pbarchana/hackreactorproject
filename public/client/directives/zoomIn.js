@@ -64,6 +64,66 @@ var bootstrapd3 = function(scope,  element, attrs) {
        force.tick();
     }
 
+    var showNode;
+ 
+    var showNodeInfo = function(node, that){
+      console.log("Node", node);
+      //debugger;
+      var selected = d3.select(that).attr('nodeSelected');
+
+      if(selected === 'false'){
+        d3.select(that).style('stroke', '#bada55');
+      }
+
+      showNode = that;
+      for (var i = 0; i < that.childNodes.length; i++) {
+        d3.select(that.childNodes[i]).datum().hiliteLink = 'true'
+      }
+      d3.selectAll(".link").transition()
+        .style("stroke", function(l) {
+          if (l.source.arc.hiliteLink === 'true' ||
+              l.target.arc.hiliteLink === 'true') {
+                return "black";
+          }
+          else {
+            return "#999";
+          }
+        })
+        .style("stroke-opacity", function(l) {
+          if (l.source.arc.hiliteLink === 'true' ||
+              l.target.arc.hiliteLink === 'true') {
+                return 1.0;
+          }
+          else {
+            return 0.1;
+          }
+      });
+    };
+
+    var hideNodeInfo = function() {
+      var that = showNode;
+      for (var i = 0; i < that.childNodes.length; i++) {
+        d3.select(that.childNodes[i]).datum().hiliteLink = 'false'
+      }
+      d3.selectAll(".link").transition()
+        .style("stroke", function(l) {
+          if (l.source.arc.hiliteLink === 'true' ||
+              l.target.arc.hiliteLink === 'true') {
+                return "#999";
+          }
+        })
+        .style("stroke-opacity", function(l) {
+          if (l.source.arc.hiliteLink === 'true' ||
+              l.target.arc.hiliteLink === 'true') {
+                return 0.1;
+          }
+      });
+
+      showNode = "";
+    }
+
+
+
     setTimeout(function(){
       force.stop()
 
@@ -72,7 +132,11 @@ var bootstrapd3 = function(scope,  element, attrs) {
       var node = svg.selectAll(".node")
         .data(scope.nwdata.nodes)
         .enter().append("g")
-        .classed('node', true);
+        .classed('node', true)
+        .on('mouseenter', function(d) {
+          var that = this;
+          showNodeInfo(d, that)})
+        .on('mouseleave', hideNodeInfo);
 
       node.selectAll("path")
         .data(function(d) {return pie(d.components.nics); })
@@ -129,6 +193,11 @@ var bootstrapd3 = function(scope,  element, attrs) {
             // .style("stroke", "black")
           }
 
+      })
+      .append("title").text(function(d, i) {
+       var retString = 
+        "MAC: " + d.data.mac;
+        return retString;
       })
       .style("fill", function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 
