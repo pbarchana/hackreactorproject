@@ -1,8 +1,12 @@
 var angular = require('angular');
 
 module.exports = angular.module('app')
-.controller('accordionController', function($scope, $rootScope) {
+.controller('accordionController', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.oneAtATime = false;
+
+  $scope.appendGroup = function(element) {
+    // debugger;
+  }
 
   $scope.isPrimitive = function(value, key) {
     if (Array.isArray(value)) return false;
@@ -13,5 +17,5 @@ module.exports = angular.module('app')
     return true;
   };
 
-});
+}]);
 

@@ -20,7 +20,7 @@
   <script type="text/ng-template"  id="tree_item_renderer.html">
     <!-- Branches -->
     <div ng-if="!isPrimitive(value)">
-      <accordion-group heading="{{ key }}" is-open="false">
+      <accordion-group heading="{{ key }}" is-open="false" ng-click="appendGroup()">
         <div ng-repeat="(key, value) in value" ng-include="'tree_item_renderer.html'"></div>
       </accordion-group>
     </div>

@@ -4,7 +4,15 @@ var d3 = require('d3');
 
 var app = angular.module('app');
 
+
+
 var bootstrapd3 = function(scope,  element, attrs) {
+
+  var redraw = function () {
+    svg.attr('transform', 'translate(' +
+      d3.event.translate + ')' +
+    ' scale(' + d3.event.scale + ')');
+  }
 
     var viewWidth = element[0].offsetWidth;
     var viewHeight = element[0].offsetHeight;
@@ -16,6 +24,8 @@ var bootstrapd3 = function(scope,  element, attrs) {
     var arc = zoomHelpers.defineArc(radius);
     var svg = zoomHelpers.createSvg(element[0], viewWidth, viewHeight);
     var force = zoomHelpers.createForceLayout(viewWidth-200, viewHeight-200);
+
+    svg.call(d3.behavior.zoom().on("zoom", redraw));
 
     force
     .links(scope.nwdata.links)

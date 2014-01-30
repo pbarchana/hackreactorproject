@@ -86,11 +86,13 @@ gulp.task('templates', function () {
     }))
     .pipe(gulp.dest('./public/client'));
 });
+// TODO: get uglify working
 gulp.task('scripts', ['templates'], function() {
   return gulp.src('public/index.js')
     .pipe(browserify({
       insertGlobals : true,
     }))
+    // .pipe(uglify())
     .pipe(rename("bundle.js"))
     .pipe(gulp.dest(dest));
 });
@@ -135,6 +137,7 @@ gulp.task('nodemon', ['scripts', 'css', 'copy'], function () {
 gulp.task('watch', ['scripts', 'css', 'copy'], function () {
   gulp.watch('public/client/**', ['scripts']);
   gulp.watch('public/stylesheets/**', ['css']);
+  gulp.watch('public/index.html', ['copy']);
 });
 
 // =============== Default ===============

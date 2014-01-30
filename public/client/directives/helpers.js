@@ -1,5 +1,3 @@
-
-
 var d3 = require('d3');
 
  //find all nodes connected to selected node  -- NOT USED
@@ -30,6 +28,7 @@ var hideLinkDetails = function(link){
 
 //Called on node click
 var selectNode = function(node, i){
+  debugger;
   d3.selectAll('.node')
   .attr('nodeSelected', false)
   .classed('node-select', false)
@@ -49,20 +48,8 @@ var selectLink = function(link, i, selected_link){
   var linkTarget = d3.selectAll('.node').filter(function(d,i){
     return d === link.target ? d : null; });
 
-  // var tarVend = linkTarget.each(function(d){ return d; });
-  // var tarX = linkTarget.attr('cx');
-  // var tarY = linkTarget.attr('cy');
-  // console.log('linkTarget x ------ ', linkTarget.attributes);
-
   var linkSource = d3.selectAll('.node').filter(function(d,i){
     return d === link.source ? d : null; });
-
-  // d3.select('body')
-  //   .append('div')
-  //   // .html('Vendor: ' + linkTarget.attributes.vendor)
-  //   .classed('d3-tip', true)
-  //   .style('top', (parseInt(tarY) + 13) + 'px')
-  //   .style('left', (parseInt(tarX) + 13) + 'px');
 
   toolTip(linkTarget);
   toolTip(linkSource);
@@ -89,7 +76,6 @@ var selectLink = function(link, i, selected_link){
 };
 
 var showNodeDetails = function(node, that){
-
   var selected = d3.select(that).attr('nodeSelected');
 
   if(selected === 'false'){
@@ -115,8 +101,6 @@ var hideNodeDetails = function(node){
   .classed('link-hover', false);
 };
 
-
-
 module.exports.drawLinks = function(link, force){
   link.data(force.links())
   .enter().append("path")
@@ -141,16 +125,17 @@ module.exports.drawNodes = function(node, link, force, scope){
     .attr("r", 15)
     .attr('nodeSelected', 'false')
     .on('dblclick', function(d) {
-        scope.$apply(function() {
-          scope.$parent.changeToZoomInView = true;
-      })
+      scope.$apply(function() {
+        scope.$parent.changeToZoomInView = true;
+      });
     })
     .on('click.selectNode', selectNode)
     .on("click", function(d){
       var that = this;
       scope.$apply(function () {
+
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        scope.$parent.selectedNode = d;
+        scope.$parent.select(d);
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&

@@ -1,10 +1,14 @@
 var angular = require('angular');
 
 var app = angular.module('app');
+<<<<<<< HEAD
 module.exports = app.factory('NetworkDataService', function($q, $http) {
 
   var networkData;
 
+=======
+module.exports = app.factory('NetworkDataService', ['$q', '$http', function($q, $http) {
+>>>>>>> 8b69013cdb9c7f71e7b48261d0f121a89b292551
   var service = {
 
     setData: function(data) {
@@ -27,20 +31,6 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
       });
       return d.promise;
     },
-
-    // Following is not used anymore
-    // getAllFlattened: function() {
-    //   var d = $q.defer();
-    //   $http({
-    //     method: 'GET',
-    //     url: '/all-flattened'
-    //   }).success(function(data) {
-    //     d.resolve(data);
-    //   }).error(function(reason) {
-    //     d.reject(reason);
-    //   });
-    //   return d.promise;
-    // },
    
     getAllZoomed: function() {
       var d = $q.defer();
@@ -147,7 +137,7 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
       return d.promise;
     },
 
-    getTheSwitchInfo: function(id) {
+    getSwitch: function(id) {
       var d = $q.defer();
       $http({
         method: 'GET',
@@ -158,9 +148,22 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
         d.reject(reason);
       });
       return d.promise;
+    },
+    
+    getServer: function(id) {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/server/'+id
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
     }
   };
   return service;
-});
+}]);
 
 

@@ -12,7 +12,8 @@ var dest = 'dist';
 
 // set up environments
 app.use(express.logger('dev'));
-app.use(express.json());
+app.use(express.json()); // parses json
+app.use(express.compress()); // gzips data if user agent supports it
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
