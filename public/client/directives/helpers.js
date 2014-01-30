@@ -1,5 +1,3 @@
-
-
 var d3 = require('d3');
 
  //find all nodes connected to selected node  -- NOT USED
@@ -9,7 +7,6 @@ var neighbors = function(target, source, linkDirectory){
 };
 
 var toolTip = function(node){
-  console.log('node ====== ', node);
   d3.select('body')
     .append('div')
     .classed('d3-tip', true)
@@ -75,12 +72,6 @@ var selectLink = function(link, i, selected_link){
     .classed('node-link-select', true);
 
   if (selected_link !== null) {
-    d3.select(".linkSelected")
-    .transition()
-    .style("stroke", "#999")
-    .style("stroke-width", '2px')
-    .style("stroke-opacity", 0.3)
-    .style("stroke-dasharray", "none");
     d3.select('.linkSelected')
     .classed('linkSelected', false);
   }
@@ -95,11 +86,12 @@ var selectLink = function(link, i, selected_link){
   .classed('link-select', true);
 };
 
-var showNodeDetails = function(node){
-  var selected = d3.select(this).attr('nodeSelected');
+var showNodeDetails = function(node, that){
+
+  var selected = d3.select(that).attr('nodeSelected');
 
   if(selected === 'false'){
-    d3.select(this).classed('node-hover', true);
+    d3.select(that).classed('node-hover', true);
   }
 
   d3.selectAll(".link")
@@ -147,22 +139,22 @@ module.exports.drawNodes = function(node, link, force, scope){
     .attr("r", 15)
     .attr('nodeSelected', 'false')
     .on('dblclick', function(d) {
-        scope.$apply(function() {
-          scope.$parent.changeToZoomInView = true;
-      })
+      scope.$apply(function() {
+        scope.$parent.changeToZoomInView = true;
+      });
     })
     .on('click.selectNode', selectNode)
     .on("click", function(d){
+      var that = this;
       scope.$apply(function () {
+        debugger;
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
-        scope.$parent.selectedNode = d;
+        scope.$parent.select(d);
         scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
           scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
-          console.log("node", scope.$parent.selectedNode);
-          console.log("node1", scope.$parent.selectedNode1);
-
+      
           var testLink = {};
           var testLinkArray = [];
           testLink.source = scope.$parent.selectedNode1;
@@ -180,7 +172,7 @@ module.exports.drawNodes = function(node, link, force, scope){
                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
             })
             .classed("link", true);
-          showNodeDetails(d);
+          showNodeDetails(d, that);
         }
       });
     })
@@ -191,7 +183,10 @@ module.exports.drawNodes = function(node, link, force, scope){
       return "#888";
       }
     })
-    .on('mouseover', showNodeDetails)
+    .on('mouseover',  function(d) {
+      var that = this;
+      showNodeDetails(d, that);
+    })
     .on('mouseout', hideNodeDetails)
     .append("title").text(function(d, i) {
       var retString =
@@ -211,7 +206,6 @@ module.exports.addLink = function(a, b, linkDirectory){
 
 module.exports.keydown = function (d, selected_link) {
   d3.event.preventDefault();
-  console.log("Inside keydown");
   // ctrl
   if(d3.event.keyCode === 17) {
   circle.call(force.drag);

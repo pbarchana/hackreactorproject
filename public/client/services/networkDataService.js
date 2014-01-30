@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 var app = angular.module('app');
-module.exports = app.factory('NetworkDataService', function($q, $http) {
+module.exports = app.factory('NetworkDataService', ['$q', '$http', function($q, $http) {
   var service = {
     
     getAll: function() {
@@ -9,19 +9,6 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
       $http({
         method: 'GET',
         url: '/all'
-      }).success(function(data) {
-        d.resolve(data);
-      }).error(function(reason) {
-        d.reject(reason);
-      });
-      return d.promise;
-    },
-
-    getAllFlattened: function() {
-      var d = $q.defer();
-      $http({
-        method: 'GET',
-        url: '/all-flattened'
       }).success(function(data) {
         d.resolve(data);
       }).error(function(reason) {
@@ -135,7 +122,7 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
       return d.promise;
     },
 
-    getTheSwitchInfo: function(id) {
+    getSwitch: function(id) {
       var d = $q.defer();
       $http({
         method: 'GET',
@@ -146,9 +133,22 @@ module.exports = app.factory('NetworkDataService', function($q, $http) {
         d.reject(reason);
       });
       return d.promise;
+    },
+    
+    getServer: function(id) {
+      var d = $q.defer();
+      $http({
+        method: 'GET',
+        url: '/server/'+id
+      }).success(function(data) {
+        d.resolve(data);
+      }).error(function(reason) {
+        d.reject(reason);
+      });
+      return d.promise;
     }
   };
   return service;
-});
+}]);
 
 

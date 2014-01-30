@@ -6,4 +6,4 @@ public/lib
 public/stylesheets/*.css
 dist
 public/*.css
-public/client/templates.js
+templates.js

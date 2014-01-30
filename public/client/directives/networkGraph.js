@@ -23,7 +23,7 @@ var bootstrapd3 = function(scope, element, attrs) {
     .on('keydown', helpers.keydown);
 
   var force = d3.layout.force()
-    .charge(-2000)
+    .charge(-2500)
     .linkStrength(0.2)
     .linkDistance(200)
     .size([viewWidth, viewHeight])
@@ -47,8 +47,9 @@ var bootstrapd3 = function(scope, element, attrs) {
   //set link source and target to node instead of mac address
   scope.nwdata.links.forEach(function(l){
     helpers.addLink(l.source, l.target, linkDirectory);
-    l.source = map.get(l.source);
-    l.target = map.get(l.target);
+    // debugger;
+    l.source = map.get(l.source.element);
+    l.target = map.get(l.target.element);
   });
 
   // This function is an attempt to set a fixed position on all
@@ -56,7 +57,6 @@ var bootstrapd3 = function(scope, element, attrs) {
   // and return an array with only the switch nodes value 'fixed'
   // set to true. It will be passed into the force.nodes method below
   var allNodes = function(){
-    console.log(scope.nwdata.nodes);
     var nodes = scope.nwdata.nodes;
     var result = [];
     var switches = [];
@@ -78,7 +78,6 @@ var bootstrapd3 = function(scope, element, attrs) {
     nodes.forEach(function(n){
       result.push(n);
     });
-    console.log('result ------ ', result);
     return result;
   };
 

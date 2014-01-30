@@ -1,13 +1,13 @@
 var angular = require('angular');
 
 var app = angular.module('app');
-app.controller('mainController', function($scope, $location, data){
-  $scope.loading = true;
+app.controller('mainController', ['$scope', '$location', 'NetworkDataService', 'data', function($scope, $location, NetworkDataService, data){
+  
   $scope.changeToZoomInView = false;
-  $scope.ctldata = data;
-  console.log(data);
-  $scope.nodes = data.nodes;
-  $scope.links = data.links;
+
+  $scope.ctldata = JSON.parse(JSON.stringify(data));
+  $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
+  $scope.links = JSON.parse(JSON.stringify(data.links));
 
   $scope.formatUUID = function(UUID) {
     if (!UUID) return '';
@@ -18,8 +18,29 @@ app.controller('mainController', function($scope, $location, data){
   // Searches all links for ones containing the selected id
   // Choose the ones that are not the selected id
   $scope.select = function(node) {
-    $scope.selectedNode = node;
-    $scope.liveSearch = "";
+    $scope.loading = true;
+    if (node.type === 'server') {
+      NetworkDataService.getServer(node._id)
+      .then(function(data) {
+        $scope.selectedNode = data;
+        $scope.liveSearch = "";
+        $scope.loading = false;
+      }, function errorFunction(reason) {
+        $scope.error = reason;
+      });
+    }
+    if (node.type === 'switch') {
+      NetworkDataService.getSwitch(node._id)
+      .then(function(data) {
+        $scope.selectedNode = data;
+        $scope.liveSearch = "";
+        $scope.loading = false;
+      }, function errorFunction(reason) {
+        $scope.error = reason;
+      });
+    }
+
+
   };
 
   $scope.$watch('changeToZoomInView', function(newValue, oldValue) {
@@ -28,4 +49,4 @@ app.controller('mainController', function($scope, $location, data){
       $location.path('/zoomIn');
     }
   });
-});
+}]);

@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module('app')
-.controller('dataCenterController', function($scope, $location, data){
+.controller('dataCenterController', ['$scope', '$location', 'data', function($scope, $location, data){
   $scope.loading = true;
 
   $scope.ctldata = data.dataCenters;
@@ -13,9 +13,8 @@ module.exports = angular.module('app')
   };
 
   $scope.zoomIn = function(nodeId) {
-    debugger;
     $location.path('/?id=' + nodeId);
     // window.location = '/?id=' + id;
   };
 
-});
+}]);

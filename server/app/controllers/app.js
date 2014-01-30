@@ -34,19 +34,19 @@ var addToD3Links = function(connections, links) {
   });
 };
 
-var addToZoomD3Links = function(connections, links) {
-  connections.forEach(function(connection) {
-    link = {};
-    link.source = {};
-    link.target = {};
-    link.source.arc = connection.toObject().source;
-    link.source.x   = -1;
-    link.source.y   = -1;
+var makeZoomD3Links = function(links) {
+  return _.map(links, function(link) {
+    var nwLink = {};
+    nwLink.source = {};
+    nwLink.source.element = link.toObject().source;
+    nwLink.source.x   = -1;
+    nwLink.source.y   = -1;
     
-    link.target.arc = connection.toObject().target;
-    link.target.x   = -1;
-    link.target.y   = -1;
-    links.push(link);
+    nwLink.target = {};
+    nwLink.target.element = link.toObject().target;
+    nwLink.target.x   = -1;
+    nwLink.target.y   = -1;
+    return nwLink;
   });
 };
 
@@ -65,48 +65,48 @@ module.exports.getAll = function(req, res) {
   });
 };
 
-module.exports.getAllFlattened = function(req, res) {
+module.exports.getAllZoomed = function(req, res) {
   var json = {};
   async.parallel({
     servers: function(callback){
-      Server.find(callback);
+      // specifies which attributes to select
+      Server.find({}, 'type attributes.UUID attributes.cVendor attributes.platform components.nics.mac', callback);
     },
     switches: function(callback){
       Switch.find(callback);
     },
-    connections: function(callback){
+    links: function(callback){
       Connection.find(callback);
     }
   }, function(err, results) {
     json.nodes = results.servers.concat(results.switches);
-    json.links = results.connections;
+    json.links = makeZoomD3Links(results.links);
     res.set("Content-Type", "application/json");
     res.send(json);
   });
+
+  // var json = {};
+  // var nodes = [];
+  // var links = [];
+  // Server.find(function (err, servers) {
+  //   Switch.find(function (err, switches) {
+  //     Connection.find(function (err, connections) {
+  //       servers.forEach(function(server) {
+  //         nodes.push(server);
+  //       });
+  //       switches.forEach(function(oneSwitch) {
+  //         nodes.push(oneSwitch);
+  //       });
+  //       addToZoomD3Links(connections, links);
+  //       json.nodes = nodes;
+  //       json.links = links;
+  //       res.set("Content-Type", "application/json");
+  //       res.send(json);
+  //     });
+  //   });
+  // });
 };
 
-module.exports.getAllZoomed = function(req, res) {
-  var json = {};
-  var nodes = [];
-  var links = [];
-  Server.find(function (err, servers) {
-    Switch.find(function (err, switches) {
-      Connection.find(function (err, connections) {
-        servers.forEach(function(server) {
-          nodes.push(server);
-        });
-        switches.forEach(function(oneSwitch) {
-          nodes.push(oneSwitch);
-        });
-        addToZoomD3Links(connections, links);
-        json.nodes = nodes;
-        json.links = links;
-        res.set("Content-Type", "application/json");
-        res.send(json);
-      });
-    });
-  });
-};
 
 module.exports.getD3Data = function(req, res) {
   // lean returns a plain javascript object with not mongoose stuff atached to it
