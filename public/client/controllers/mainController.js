@@ -4,10 +4,11 @@ var app = angular.module('app');
 app.controller('mainController', function($scope, $location, data){
   $scope.loading = true;
   $scope.changeToZoomInView = false;
-  $scope.ctldata = data;
-  console.log(data);
-  $scope.nodes = data.nodes;
-  $scope.links = data.links;
+
+  $scope.ctldata = JSON.parse(JSON.stringify(data));
+  console.log("Data = ", data);
+  $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
+  $scope.links = JSON.parse(JSON.stringify(data.links));
 
   $scope.formatUUID = function(UUID) {
     if (!UUID) return '';

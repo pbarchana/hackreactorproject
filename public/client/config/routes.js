@@ -8,11 +8,11 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/main.html',
 		resolve: {
       data: function(NetworkDataService) {
-        return NetworkDataService.getAllFlattened();
+        return NetworkDataService.getAllZoomed();
       }
     }
 	})
-	.when('/dataCenter', {
+	.when('/data-center', {
 		controller: 'dataCenterController',
 		templateUrl: 'client/views/dataCenter.html',
 		resolve: {
