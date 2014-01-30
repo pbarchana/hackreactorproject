@@ -1,13 +1,16 @@
 var angular = require('angular');
 
 var app = angular.module('app');
-app.controller('mainController', function($scope, $location, data){
+app.controller('mainController', ['$scope', '$location', 'NetworkDataService', 'data', 
+                        function($scope, $location, NetworkDataService, data){
+
   $scope.loading = true;
   $scope.changeToZoomInView = false;
 
+  NetworkDataService.setData(data);
   $scope.ctldata = JSON.parse(JSON.stringify(data));
-  $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
-  $scope.links = JSON.parse(JSON.stringify(data.links));
+  $scope.nodes   = JSON.parse(JSON.stringify(data.nodes));
+  $scope.links   = JSON.parse(JSON.stringify(data.links));
 
   $scope.formatUUID = function(UUID) {
     if (!UUID) return '';
@@ -28,4 +31,4 @@ app.controller('mainController', function($scope, $location, data){
       $location.path('/zoomIn');
     }
   });
-});
+}]);

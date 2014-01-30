@@ -2,9 +2,9 @@ var angular = require('angular');
 
 module.exports = angular.module('app')
 .controller('dataCenterController', function($scope, $location, data){
-  $scope.loading = true;
+  $scope.loading     = true;
 
-  $scope.ctldata = data.dataCenters;
+  $scope.ctldata     = data.dataCenters;
   $scope.connections = data.connections;
 
   $scope.select = function(node) {

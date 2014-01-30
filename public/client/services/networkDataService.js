@@ -2,8 +2,19 @@ var angular = require('angular');
 
 var app = angular.module('app');
 module.exports = app.factory('NetworkDataService', function($q, $http) {
+
+  var networkData;
+
   var service = {
-    
+
+    setData: function(data) {
+      networkData = data;
+    },
+
+    getData: function() {
+      return networkData;
+    },
+
     getAll: function() {
       var d = $q.defer();
       $http({

@@ -6,7 +6,7 @@ module.exports = angular.module('app')
 	.when('/', {
 		controller: 'mainController',
 		templateUrl: 'client/views/main.html',
-		resolve: {
+    resolve: {
       data: function(NetworkDataService) {
         return NetworkDataService.getAllZoomed();
       }
@@ -26,7 +26,10 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/zoomIn.html',
 		resolve: {
       data: function(NetworkDataService) {
-        return NetworkDataService.getAllZoomed();
+        if (NetworkDataService.getData() !== undefined)
+          return NetworkDataService.getData();
+        else 
+          return NetworkDataService.getAllZoomed();
       }
     }
 	});
