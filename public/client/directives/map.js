@@ -44,7 +44,6 @@ var createMap = function (scope, elem, attrs) {
   });
 
   scope.connections.forEach(function(connection) {
-    debugger;
     var coordinates = [
       new google.maps.LatLng(connection[0][0], connection[0][1]),
       new google.maps.LatLng(connection[1][0], connection[1][1])

@@ -138,6 +138,7 @@ gulp.task('nodemon', ['scripts', 'css', 'copy'], function () {
 gulp.task('watch', ['scripts', 'css', 'copy'], function () {
   gulp.watch('public/client/**', ['scripts']);
   gulp.watch('public/stylesheets/**', ['css']);
+  gulp.watch('public/index.html', ['copy']);
 });
 
 // =============== Default ===============

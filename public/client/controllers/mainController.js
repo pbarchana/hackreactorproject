@@ -3,7 +3,6 @@ var angular = require('angular');
 var app = angular.module('app');
 app.controller('mainController', ['$scope', '$location', 'NetworkDataService', 'data', function($scope, $location, NetworkDataService, data){
   
-  $scope.loading = true;
   $scope.changeToZoomInView = false;
   $scope.ctldata = data;
   console.log(data);
@@ -19,11 +18,13 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
   // Searches all links for ones containing the selected id
   // Choose the ones that are not the selected id
   $scope.select = function(node) {
+    $scope.loading = true;
     if (node.type === 'server') {
       NetworkDataService.getServer(node._id)
       .then(function(data) {
         $scope.selectedNode = data;
         $scope.liveSearch = "";
+        $scope.loading = false;
       }, function errorFunction(reason) {
         $scope.error = reason;
       });
@@ -33,6 +34,7 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
       .then(function(data) {
         $scope.selectedNode = data;
         $scope.liveSearch = "";
+        $scope.loading = false;
       }, function errorFunction(reason) {
         $scope.error = reason;
       });

@@ -1,7 +1,4 @@
-<!-- Loading gif -->
-<div ng-show="loading" class="loading">
-  <img src="img/ajax-loader.gif"></img>
-</div>
+
 
 <!-- Content -->
 <div network-graph class="content" loading="loading" nwdata="ctldata">
@@ -14,6 +11,11 @@
 <!-- Side Panel -->
 <div class="side-panel" style="overflow-y: scroll">
   
+  <!-- Loading gif -->
+  <div ng-show="loading" class="loading">
+    <img src="img/ajax-loader.gif"></img>
+  </div>
+
   <!-- Search -->
   <div class="input-group search">
     <input placeholder="search for node" type="text" ng-model="liveSearch" class="form-control">
@@ -21,7 +23,6 @@
       <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
     </span>
   </div>
-
 
   <!-- Node View -->
   <div ng-show="selectedNode && !liveSearch" ng-controller="accordionController">
@@ -52,6 +53,7 @@
 
 
   <!-- List View -->
+
   <div ng-show="liveSearch || !selectedNode">
     <div class="summary" ng-click="select(node)" ng-repeat="node in ctldata.nodes | filter:liveSearch">
       <div class="header">{{ node.type }}</div>
