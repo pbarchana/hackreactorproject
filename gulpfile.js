@@ -7,7 +7,6 @@ var gulp          = require('gulp'),
     nodemon       = require('gulp-nodemon'),
     templateCache = require('gulp-angular-templatecache'),
     async         = require('async');
-    uglify        = require('gulp-uglify');
 
 // =============== Gulp Config ===============
 
