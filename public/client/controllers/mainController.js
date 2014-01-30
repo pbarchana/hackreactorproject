@@ -4,10 +4,10 @@ var app = angular.module('app');
 app.controller('mainController', ['$scope', '$location', 'NetworkDataService', 'data', function($scope, $location, NetworkDataService, data){
   
   $scope.changeToZoomInView = false;
-  $scope.ctldata = data;
-  console.log(data);
-  $scope.nodes = data.nodes;
-  $scope.links = data.links;
+
+  $scope.ctldata = JSON.parse(JSON.stringify(data));
+  $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
+  $scope.links = JSON.parse(JSON.stringify(data.links));
 
   $scope.formatUUID = function(UUID) {
     if (!UUID) return '';

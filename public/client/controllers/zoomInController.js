@@ -4,9 +4,9 @@ var angular = require('angular');
 .controller('zoomInController', ['$scope', '$location', 'data', function($scope, $location, data){
 	//alert("Inside zoomInController");
 	$scope.loading = true;
-
   $scope.ctldata = data;
 
+ 
   $scope.formatUUID = function(UUID) {
     return UUID.split('-')[0];
   };

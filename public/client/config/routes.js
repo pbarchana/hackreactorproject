@@ -8,7 +8,7 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/main.html',
 		resolve: {
       data: function(NetworkDataService) {
-        return NetworkDataService.getAllMinimized();
+        return NetworkDataService.getAllZoomed();
       }
     }
 	})
