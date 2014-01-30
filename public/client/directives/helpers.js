@@ -28,6 +28,7 @@ var hideLinkDetails = function(link){
 
 //Called on node click
 var selectNode = function(node, i){
+  debugger;
   d3.selectAll('.node')
   .attr('nodeSelected', false)
   .classed('node-select', false)
@@ -75,7 +76,6 @@ var selectLink = function(link, i, selected_link){
 };
 
 var showNodeDetails = function(node, that){
-
   var selected = d3.select(that).attr('nodeSelected');
 
   if(selected === 'false'){
