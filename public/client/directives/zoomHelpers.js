@@ -92,24 +92,26 @@ module.exports.selectLink = function(link, i, selected_link){
   var linkSource = d3.selectAll('path').filter(function(d,i){
     return (link.source.element.data.mac === d.data.mac) ? d : null; });
 
-
-  // var tarVend = linkTarget.each(function(d){ return d; });
-  // var tarX = linkTarget.attr('cx');
-  // var tarY = linkTarget.attr('cy');
-  // console.log('linkTarget x ------ ', linkTarget.attributes);
-
   var linkTarget = d3.selectAll('path').filter(function(d,i){
     return (link.target.element.data.mac === d.data.mac) ? d : null; });
 
-  // d3.select('body')
-  //   .append('div')
-  //   // .html('Vendor: ' + linkTarget.attributes.vendor)
-  //   .classed('d3-tip', true)
-  //   .style('top', (parseInt(tarY) + 13) + 'px')
-  //   .style('left', (parseInt(tarX) + 13) + 'px');
+  var toolTip = function(link){
+    d3.select('body')
+      .append('div')
+      .classed('d3-tip', true)
+      .html('Interface: ' + link.element.data.interface)
+      .style('top', (parseInt(link.x) + 13) + 'px')
+      .style('left', (parseInt(link.y) + 13) + 'px');
+  };
+debugger;
+  var tarVend = linkTarget.each(function(d){ return d; });
+  var tarX = linkTarget.attr('cx');
+  var tarY = linkTarget.attr('cy');
+  debugger;
+  console.log('linkTarget x ------ ', link.target);
 
-  // toolTip(linkTarget);
-  // toolTip(linkSource);
+  toolTip(link.target);
+  toolTip(link.source);
 
   linkTarget
     .classed('arc-select', true);
