@@ -25,7 +25,7 @@ module.exports.macToArcMapping = function(arc) {
               ptY = centroidY + centerY;
 
               arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
-                         {arc: d3.select(n.childNodes[i]).datum(),
+                         {element: d3.select(n.childNodes[i]).datum(),
                           x: ptX,
                           y: ptY
                         });
@@ -90,8 +90,8 @@ var showNodeInfo = function(node, that){
       }
       d3.selectAll(".link").transition()
         .style("stroke", function(l) {
-          if (l.source.arc.hiliteLink === 'true' ||
-              l.target.arc.hiliteLink === 'true') {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
                 return "black";
           }
           else {
@@ -99,8 +99,8 @@ var showNodeInfo = function(node, that){
           }
         })
         .style("stroke-opacity", function(l) {
-          if (l.source.arc.hiliteLink === 'true' ||
-              l.target.arc.hiliteLink === 'true') {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
                 return 1.0;
           }
           else {
@@ -117,14 +117,14 @@ var hideNodeInfo = function() {
       }
       d3.selectAll(".link").transition()
         .style("stroke", function(l) {
-          if (l.source.arc.hiliteLink === 'true' ||
-              l.target.arc.hiliteLink === 'true') {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
                 return "#999";
           }
         })
         .style("stroke-opacity", function(l) {
-          if (l.source.arc.hiliteLink === 'true' ||
-              l.target.arc.hiliteLink === 'true') {
+          if (l.source.element.hiliteLink === 'true' ||
+              l.target.element.hiliteLink === 'true') {
                 return 0.1;
           }
       });

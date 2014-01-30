@@ -47,8 +47,9 @@ var bootstrapd3 = function(scope, element, attrs) {
   //set link source and target to node instead of mac address
   scope.nwdata.links.forEach(function(l){
     helpers.addLink(l.source, l.target, linkDirectory);
-    l.source = map.get(l.source);
-    l.target = map.get(l.target);
+    // debugger;
+    l.source = map.get(l.source.element);
+    l.target = map.get(l.target.element);
   });
 
   // This function is an attempt to set a fixed position on all

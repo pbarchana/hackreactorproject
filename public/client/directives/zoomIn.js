@@ -34,14 +34,14 @@ var bootstrapd3 = function(scope,  element, attrs) {
       var map = zoomHelpers.macToArcMapping(arc);
 
       for (var k = 0;  k < scope.nwdata.links.length; k++) {
-        var l = scope.nwdata.links[k];
-        var tempNode = l.source.arc;
-        l.source["arc"] = map.get(tempNode).arc;
+        var l = scope.nwdata.links[k];        
+        tempNode = l.source.element;
+        l.source["element"] = map.get(tempNode).element;
         l.source.x   = map.get(tempNode).x;
         l.source.y   = map.get(tempNode).y;
-        tempNode = l.target.arc;
 
-        l.target["arc"] = map.get(tempNode).arc;
+        tempNode = l.target.element;
+        l.target["element"] = map.get(tempNode).element;
         l.target.x   = map.get(tempNode).x;
         l.target.y   = map.get(tempNode).y;
       }
@@ -55,7 +55,6 @@ var bootstrapd3 = function(scope,  element, attrs) {
     window.onresize = function() {
         scope.$apply();
       };
-
 };
 
 app.directive('zoomIn', [function() {

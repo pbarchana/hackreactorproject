@@ -39,11 +39,11 @@ var addToZoomD3Links = function(connections, links) {
     link = {};
     link.source = {};
     link.target = {};
-    link.source.arc = connection.toObject().source;
+    link.source.element = connection.toObject().source;
     link.source.x   = -1;
     link.source.y   = -1;
     
-    link.target.arc = connection.toObject().target;
+    link.target.element = connection.toObject().target;
     link.target.x   = -1;
     link.target.y   = -1;
     links.push(link);
@@ -101,6 +101,7 @@ module.exports.getAllZoomed = function(req, res) {
         addToZoomD3Links(connections, links);
         json.nodes = nodes;
         json.links = links;
+        console.log("Links from Server", links);
         res.set("Content-Type", "application/json");
         res.send(json);
       });
