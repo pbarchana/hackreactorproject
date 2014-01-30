@@ -5,7 +5,7 @@ module.exports = angular.module('app')
   $scope.oneAtATime = false;
 
   $scope.appendGroup = function(element) {
-    debugger;
+    // debugger;
   }
 
   $scope.isPrimitive = function(value, key) {

@@ -39,8 +39,6 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
         $scope.error = reason;
       });
     }
-
-
   };
 
   $scope.$watch('changeToZoomInView', function(newValue, oldValue) {
