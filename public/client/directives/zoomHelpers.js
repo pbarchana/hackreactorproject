@@ -54,16 +54,10 @@ module.exports.createSvg = function(view, width, height){
       .attr('width', width)
       .attr('height', height)
       .attr("pointer-events", "all")
-      .append('g')
-      .call(d3.behavior.zoom().on("zoom", module.exports.redraw))
       .append('g');
       return svg;
 }
 
-module.exports.redraw = function(view) {
-  view.attr('transform', 'translate(' + d3.event.translate + ')'
-    + ' scale(' + d3.event.scale + ')');
-};
 
 //Called on edge hover
 var showLinkDetails = function(link){
@@ -103,11 +97,11 @@ var selectLink = function(link, i, selected_link){
       .style('top', (parseInt(link.x) + 13) + 'px')
       .style('left', (parseInt(link.y) + 13) + 'px');
   };
-debugger;
+
   var tarVend = linkTarget.each(function(d){ return d; });
   var tarX = linkTarget.attr('cx');
   var tarY = linkTarget.attr('cy');
-  debugger;
+
   console.log('linkTarget x ------ ', link.target);
 
   toolTip(link.target);
@@ -144,10 +138,6 @@ module.exports.createForceLayout =function(width, height){
   return force;
 }
 
-module.exports.redraw = function() {
-      svg.attr('transform', 'translate(' + d3.event.translate + ')'
-        + ' scale(' + d3.event.scale + ')');
-    };
 
 var showNodeInfo = function(node, that){
       var selected = d3.select(that).attr('nodeSelected');
@@ -271,3 +261,4 @@ module.exports.drawLinks = function(scope, svg){
         .attr("y2", function(d) { return d.target.y; });
   return link;
 };
+

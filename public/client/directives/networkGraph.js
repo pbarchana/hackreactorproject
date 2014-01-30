@@ -37,7 +37,7 @@ var bootstrapd3 = function(scope, element, attrs) {
     .attr('height', viewHeight)
     .attr("pointer-events", "all")
     .append('g')
-    //.call(d3.behavior.zoom().on("zoom", redraw))
+    .call(d3.behavior.zoom().on("zoom", redraw))
     .append('g');
 
 
@@ -47,7 +47,7 @@ var bootstrapd3 = function(scope, element, attrs) {
   //set link source and target to node instead of mac address
   scope.nwdata.links.forEach(function(l){
     helpers.addLink(l.source, l.target, linkDirectory);
-    // debugger;
+  
     l.source = map.get(l.source.element);
     l.target = map.get(l.target.element);
   });
