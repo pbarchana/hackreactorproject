@@ -1,14 +1,10 @@
 var angular = require('angular');
 
 var app = angular.module('app');
-<<<<<<< HEAD
-module.exports = app.factory('NetworkDataService', function($q, $http) {
 
-  var networkData;
-
-=======
 module.exports = app.factory('NetworkDataService', ['$q', '$http', function($q, $http) {
->>>>>>> 8b69013cdb9c7f71e7b48261d0f121a89b292551
+  var networkData;
+  
   var service = {
 
     setData: function(data) {

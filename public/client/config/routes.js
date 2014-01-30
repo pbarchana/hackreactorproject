@@ -8,7 +8,12 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/main.html',
     resolve: {
       data: function(NetworkDataService) {
-        return NetworkDataService.getAllZoomed();
+        if (NetworkDataService.getData() !== undefined) {
+          return NetworkDataService.getData();
+        }
+        else {
+          return NetworkDataService.getAllZoomed();
+        }
       }
     }
 	})
@@ -26,10 +31,12 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/zoomIn.html',
 		resolve: {
       data: function(NetworkDataService) {
-        if (NetworkDataService.getData() !== undefined)
+        if (NetworkDataService.getData() !== undefined) {
           return NetworkDataService.getData();
-        else 
+        }
+        else {
           return NetworkDataService.getAllZoomed();
+        }
       }
     }
 	});
