@@ -133,6 +133,7 @@ var hideNodeInfo = function() {
 
 module.exports.nodeActions = function(scope, force, pie, arc, svg){
       var point = {}, prevArc, currentSelectedArc;
+      var showNode;
       var node = svg.selectAll(".node")
         .data(scope.nwdata.nodes)
         .enter().append("g")
