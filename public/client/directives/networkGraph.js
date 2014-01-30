@@ -57,7 +57,6 @@ var bootstrapd3 = function(scope, element, attrs) {
   // and return an array with only the switch nodes value 'fixed'
   // set to true. It will be passed into the force.nodes method below
   var allNodes = function(){
-    console.log(scope.nwdata.nodes);
     var nodes = scope.nwdata.nodes;
     var result = [];
     var switches = [];
@@ -79,7 +78,6 @@ var bootstrapd3 = function(scope, element, attrs) {
     nodes.forEach(function(n){
       result.push(n);
     });
-    console.log('result ------ ', result);
     return result;
   };
 

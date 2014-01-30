@@ -6,7 +6,6 @@ app.controller('mainController', function($scope, $location, data){
   $scope.changeToZoomInView = false;
 
   $scope.ctldata = JSON.parse(JSON.stringify(data));
-  console.log("Data = ", data);
   $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
   $scope.links = JSON.parse(JSON.stringify(data.links));
 

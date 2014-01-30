@@ -76,8 +76,6 @@ module.exports.redraw = function() {
     };
 
 module.exports.showNodeInfo = function(node, that){
-      console.log("Node", node);
-      //debugger;
       var selected = d3.select(that).attr('nodeSelected');
 
       if(selected === 'false'){

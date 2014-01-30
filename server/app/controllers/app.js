@@ -65,25 +65,27 @@ module.exports.getAll = function(req, res) {
   });
 };
 
-module.exports.getAllFlattened = function(req, res) {
-  var json = {};
-  async.parallel({
-    servers: function(callback){
-      Server.find(callback);
-    },
-    switches: function(callback){
-      Switch.find(callback);
-    },
-    connections: function(callback){
-      Connection.find(callback);
-    }
-  }, function(err, results) {
-    json.nodes = results.servers.concat(results.switches);
-    json.links = results.connections;
-    res.set("Content-Type", "application/json");
-    res.send(json);
-  });
-};
+// NOT USED ANYMORE -TODO - REMOVE
+// module.exports.getAllFlattened = function(req, res) {
+//   var json = {};
+//   async.parallel({
+//     servers: function(callback){
+//       Server.find(callback);
+//     },
+//     switches: function(callback){
+//       Switch.find(callback);
+//     },
+//     connections: function(callback){
+//       Connection.find(callback);
+//     }
+//   }, function(err, results) {
+//     json.nodes = results.servers.concat(results.switches);
+//     json.links = results.connections;
+//     res.set("Content-Type", "application/json");
+//     res.send(json);
+//   });
+// };
+
 
 module.exports.getAllZoomed = function(req, res) {
   var json = {};
@@ -101,13 +103,13 @@ module.exports.getAllZoomed = function(req, res) {
         addToZoomD3Links(connections, links);
         json.nodes = nodes;
         json.links = links;
-        console.log("Links from Server", links);
         res.set("Content-Type", "application/json");
         res.send(json);
       });
     });
   });
 };
+
 
 module.exports.getD3Data = function(req, res) {
   // lean returns a plain javascript object with not mongoose stuff atached to it
