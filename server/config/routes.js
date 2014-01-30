@@ -10,7 +10,6 @@ var dataCenterConnectionCtrl = require('../app/controllers/dataCenterConnection.
 module.exports = function(app) {
   // get all data
   app.get('/all', appCtrl.getAll);
-  app.get('/all-flattened', appCtrl.getAllFlattened);
   app.get('/all-zoomed', appCtrl.getAllZoomed);
   // get D3 data
   app.get('/d3data', appCtrl.getD3Data);

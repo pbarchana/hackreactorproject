@@ -9,7 +9,6 @@ var neighbors = function(target, source, linkDirectory){
 };
 
 var toolTip = function(node){
-  console.log('node ====== ', node);
   d3.select('body')
     .append('div')
     .classed('d3-tip', true)
@@ -156,9 +155,7 @@ module.exports.drawNodes = function(node, link, force, scope){
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
           scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
-          console.log("node", scope.$parent.selectedNode);
-          console.log("node1", scope.$parent.selectedNode1);
-
+      
           var testLink = {};
           var testLinkArray = [];
           testLink.source = scope.$parent.selectedNode1;
@@ -210,7 +207,6 @@ module.exports.addLink = function(a, b, linkDirectory){
 
 module.exports.keydown = function (d, selected_link) {
   d3.event.preventDefault();
-  console.log("Inside keydown");
   // ctrl
   if(d3.event.keyCode === 17) {
   circle.call(force.drag);
