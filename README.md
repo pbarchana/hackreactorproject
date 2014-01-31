@@ -28,7 +28,7 @@ Network Topology Visualizer is a web application that provides a visual represen
 The tool displays various information in three different views:
 * Network Main View
 * Network Zoomed In View
-* Network DGeo View
+* Network Geo View
 
 ### Network Main View
 
