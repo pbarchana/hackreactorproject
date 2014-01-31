@@ -193,14 +193,10 @@ module.exports.addLink = function(a, b, linkDirectory){
   linkDirectory[b + "," + a] = 1;
 };
 
-
+// deletes the selected link when delete or 
+// backspace key is pressed
 module.exports.keydown = function (d, selected_link) {
   d3.event.preventDefault();
-  // ctrl
-  if(d3.event.keyCode === 17) {
-  circle.call(force.drag);
-  svg.classed('ctrl', true);
-  }
 
   if(!selected_link) return;
   switch(d3.event.keyCode) {
@@ -219,6 +215,7 @@ module.exports.keydown = function (d, selected_link) {
 };
 
 //function to map MAC address of nic to containing host
+// required for drawing the links in d3 force layout
 module.exports.mapMac = function(nodes) {
   var tempNode;
   var nics;

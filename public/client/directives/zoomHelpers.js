@@ -2,6 +2,8 @@
 
 var d3 = require('d3');
 
+//function to map MAC address to each arc on the pie chart
+// required for drawing the links in d3 force layout
 module.exports.macToArcMapping = function(arc) {
   var arcMap = d3.map();
   var allNodes = d3.selectAll(".node");
@@ -9,35 +11,27 @@ module.exports.macToArcMapping = function(arc) {
   allNodes[0].forEach(function(n){
 
     node = d3.select(n);
-
+    // the center of the pie chart and the centroid of the arc
+    // together provide the location for the beggining of links
     var centerX = d3.select(n)[0][0].__data__.x;
     var centerY = d3.select(n)[0][0].__data__.y;
-    var centroidX;
-    var centroidY;
-    var ptX;
-    var ptY;
-
+    
     for (var i = 0; i < n.childNodes.length; i++) {
       var segment = d3.select(n.childNodes[i]);
       var seg = segment[0][0].__data__;
-      centroidX = arc.centroid(seg)[0];
-      centroidY = arc.centroid(seg)[1];
-
-      ptX = centroidX + centerX;
-      ptY = centroidY + centerY;
-
-      if (d3.select(n.childNodes[i]).datum().data === undefined) {
-      }
+      var centroidX = arc.centroid(seg)[0];
+      var centroidY = arc.centroid(seg)[1];
       arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
                  {element: d3.select(n.childNodes[i]).datum(),
-                  x: ptX,
-                  y: ptY
+                  x: centroidX + centerX,
+                  y: centroidY + centerY
                 });
     }
   });
   return arcMap;
 };
 
+// each switch and server is visualized as a pie chart
 module.exports.definePie = function(){
   var pie = d3.layout.pie()
     .sort(null)
@@ -45,6 +39,7 @@ module.exports.definePie = function(){
     return pie;
 };
 
+// each mac is visualized as an arc on the pie chart
 module.exports.defineArc = function(radius){
   var arc = d3.svg.arc()
     .outerRadius(radius)
@@ -52,6 +47,7 @@ module.exports.defineArc = function(radius){
     return arc;
 };
 
+// create the SVG element
 module.exports.createSvg = function(view, width, height){
   var svg =  d3.select(view)
       .append('svg')
@@ -101,9 +97,8 @@ var selectLink = function(link, i, selected_link){
   var tarVend = linkTarget.each(function(d){ return d; });
   var tarX = linkTarget.attr('cx');
   var tarY = linkTarget.attr('cy');
-
-  // toolTip(link.target);
-  // toolTip(link.source);
+  //toolTip(link.target);
+  //toolTip(link.source);
 
   linkTarget
     .classed('arc-select', true);
@@ -126,6 +121,7 @@ var selectLink = function(link, i, selected_link){
   .classed('link-select', true);
 };
 
+// drawing the force layout
 module.exports.createForceLayout =function(width, height){
   var force = d3.layout.force()
         .charge(-2000)
@@ -136,7 +132,8 @@ module.exports.createForceLayout =function(width, height){
   return force;
 };
 
-
+// determines all the links originating from the  node
+// and highlights them
 var showNodeInfo = function(node, that){
   showNode = that;
   for (var i = 0; i < that.childNodes.length; i++) {
@@ -159,8 +156,10 @@ var showNodeInfo = function(node, that){
   });
 };
 
+//Called on node click, removes previous selected nodes
+//'nodeSelected' attribute from all nodes
+//then adds appropriate 'node-select' css class to clicked node
 var highlightSelectedNode = function(svg, node, that){
-
   var selected = d3.select(that).attr('nodeSelected');
   if(selected === 'false'){
     d3.select(that).style('stroke', '#bada55');
@@ -174,9 +173,9 @@ var highlightSelectedNode = function(svg, node, that){
   .attr('nodeSelected', true)
   .classed('node-select', true)
   .classed('node-hover', true);
-
 };
 
+//remove the highlight from the node when the mouse moves over
 var removeHighlightfromNode = function(node){
   d3.select(node)
     .attr('nodeSelected', false)
@@ -190,6 +189,8 @@ var removeHighlightfromNode = function(node){
 
 };
 
+// removes all the highlights from the links and reverts back to 
+// the original state for the node highlighted in showNodeInfo
 var hideNodeInfo = function() {
   var that = showNode;
   removeHighlightfromNode(showNode);
@@ -212,6 +213,8 @@ var hideNodeInfo = function() {
   showNode = "";
 };
 
+// Draw force layout nodes and apply events like
+// mouseenter and mouseleave on them
 module.exports.nodeActions = function(scope, force, pie, arc, svg){
   var point = {}, prevArc, currentSelectedArc;
   var showNode;
@@ -268,6 +271,7 @@ module.exports.nodeActions = function(scope, force, pie, arc, svg){
   node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 };
 
+// draw links for the force layout
 module.exports.drawLinks = function(scope, svg){
   var link = svg.selectAll(".link")
     .data(scope.nwdata.links)
