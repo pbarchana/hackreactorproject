@@ -1,11 +1,7 @@
 var d3 = require('d3');
 
- //find all nodes connected to selected node  -- NOT USED
-var neighbors = function(target, source, linkDirectory){
-  return linkDirectory[target + "," + source] ||
-    linkDirectory[source + "," + target];
-};
-
+// Unused tooltip function, formating not complete to implement uncomment
+// lines 40, 50 and 51
 var toolTip = function(node){
   d3.select('body')
     .append('div')
@@ -14,19 +10,20 @@ var toolTip = function(node){
     .style('left', (parseInt(node.y) + 13) + 'px');
 };
 
-//Called on edge hover
+//Called on edge hover, adds 'link-hover' css class
 var showLinkDetails = function(link){
   d3.select(this)
     .classed('link-hover', true);
 };
 
-//Called on edge mouse out
+//Called on edge mouse out, removes 'link-hover' css class
 var hideLinkDetails = function(link){
   d3.select(this)
     .classed('link-hover', false);
 };
 
-//Called on node click
+//Called on node click, first removes 'nodeSelected' attribute from all nodes
+//then adds appropriate 'node-select' css class to clicked node
 var selectNode = function(node, i){
   d3.selectAll('.node')
   .attr('nodeSelected', false)
@@ -38,9 +35,9 @@ var selectNode = function(node, i){
   .classed('node-select', true);
 };
 
-//Called on edge click
+//Called on edge click, resets all links and sends selected node info to sidebar
 var selectLink = function(link, i, selected_link){
-  d3.select('body').selectAll('.d3-tip').remove();
+  // d3.select('body').selectAll('.d3-tip').remove(); //
   d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
 
@@ -50,8 +47,8 @@ var selectLink = function(link, i, selected_link){
   var linkSource = d3.selectAll('.node').filter(function(d,i){
     return d === link.source ? d : null; });
 
-  toolTip(linkTarget);
-  toolTip(linkSource);
+  // toolTip(linkTarget);
+  // toolTip(linkSource);
 
   linkTarget
     .classed('node-link-select', true);
@@ -74,13 +71,17 @@ var selectLink = function(link, i, selected_link){
   .classed('link-select', true);
 };
 
+// Called on node hover
 var showNodeDetails = function(node, that){
   var selected = d3.select(that).attr('nodeSelected');
 
+  // If hovering over a none selected node change the css styling
+  // otherwise leave the selected node styling intact
   if(selected === 'false'){
     d3.select(that).classed('node-hover', true);
   }
 
+  // Highlights all connected links and lightens any other links
   d3.selectAll(".link")
     .classed('link-hover', function(l){
       return (l.source === node || l.target === node) ? true : false;
@@ -90,6 +91,7 @@ var showNodeDetails = function(node, that){
     });
 };
 
+// Called on node 'mouseout' event, resets css styling to original
 var hideNodeDetails = function(node){
   var selected = d3.select(this).attr('nodeSelected');
   if(selected === 'false'){
@@ -100,6 +102,7 @@ var hideNodeDetails = function(node){
   .classed('link-hover', false);
 };
 
+// Initial function to draw the links on the SVG canvas
 module.exports.drawLinks = function(link, force){
   link.data(force.links())
   .enter().append("path")
@@ -115,6 +118,7 @@ module.exports.drawLinks = function(link, force){
   .on('mouseout', hideLinkDetails);
 };
 
+// Initiall function to draw the node on the SVG canvas
 module.exports.drawNodes = function(node, link, force, scope){
   node.data(force.nodes())
     .enter().append("circle")
@@ -138,7 +142,7 @@ module.exports.drawNodes = function(node, link, force, scope){
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
           scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
-      
+
           var testLink = {};
           var testLinkArray = [];
           testLink.source = scope.$parent.selectedNode1;
