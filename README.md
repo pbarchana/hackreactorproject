@@ -8,9 +8,10 @@ Network Topology Visualizer is a web application that provides a visual represen
 * While in the project folder run `npm install` to get dependencies
 * [Generate](https://github.com/NodePrime/hackreactorproject/edit/develop/README.md#generating-data) a new set of mock data
 * Run `gulp` to compile the application, and start the server
+* Navigate to `localhost:8080` in web browser
 
 ## Generating Data
-* Run `gulp generate` to generate a set of mock data
+* Run `gulp generate` in project folder to generate a set of mock data
 * Adjust the quantities of servers, switches, and data centers in the **Config** section of gulpfile.js
 
 ## Making requests to the server
