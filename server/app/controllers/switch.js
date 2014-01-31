@@ -24,6 +24,13 @@ var getNodeConnections = function(node, allConnections) {
 // ================= Exports =====================
 
 module.exports.getById = function(req, res) {
+  Switch.findById(req.params.id, function(err, result) {
+    res.set("Content-Type", "application/json");
+    res.send(result);
+  });
+};
+
+module.exports.getByIdWithConnections = function(req, res) {
   var json = {};
   async.parallel({
     switch: function(callback) {
@@ -44,6 +51,7 @@ module.exports.getById = function(req, res) {
     res.send(mySwitch);
   });
 };
+
 
 module.exports.getAll = function(req, res) {
   Switch.find(function (err, switches) {
