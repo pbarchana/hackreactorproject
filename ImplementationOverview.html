@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.1  (Unix)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Joseph Toney">
+	<META NAME="CHANGED" CONTENT="20140131;15462400">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin: 0.79in }
+		P { margin-bottom: 0.08in }
+		TD P { margin-bottom: 0in }
+		TH P { margin-bottom: 0in }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<PRE>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Network Topology Visualizer</B></FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Implementation Overview and File Structure Details</B></FONT></FONT>
+
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Introduction</B></FONT></FONT>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>The Network Topology Visualizer is an easy to use web interface for displaying servers and switches along with connections in a data center. The tool is built using MEAN stack and heavily uses D3.js for data visualization.</FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>File Organization</B></FONT></FONT>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>The server related files are under the server directory and the front-end/client related files are organized under public/client.  Scripts for generating the mockdata have been placed under server/mockData. mockData creation, DB creation and initialization and starting up the server are all tasks controlled by gulpfile.js. The README.md provides a detailed information about this process.</FONT></FONT>
+
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Front-End File Organization</B></FONT></FONT>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>The Angular Front End is organized as directives, views, services, config, controllers. There are three main views: </FONT></FONT>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>	Network Main View</FONT></FONT>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>	Network ZoomedIn View </FONT></FONT>
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>	Network Geo View</FONT></FONT>
+</PRE>
+<TABLE WIDTH=782 BORDER=2 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=192>
+	<COL WIDTH=213>
+	<COL WIDTH=206>
+	<COL WIDTH=135>
+	<THEAD>
+		<TR VALIGN=TOP>
+			<TH WIDTH=192>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>View</FONT></FONT></P>
+			</TH>
+			<TH WIDTH=213>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Controllers</FONT></FONT></P>
+			</TH>
+			<TH WIDTH=206>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Directives</FONT></FONT></P>
+			</TH>
+			<TH WIDTH=135>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Helpers</FONT></FONT></P>
+			</TH>
+		</TR>
+	</THEAD>
+	<TBODY>
+		<TR VALIGN=TOP>
+			<TD WIDTH=192>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Network
+				Main</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=213>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>mainController.js</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=206>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>networkMain.js</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=135>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>mainHelper.js</FONT></FONT></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=192>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Network
+				ZoomedIn</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=213>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>zoomInController.js</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=206>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>networkZoomIn.js</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=135>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>zoomInHelper.js</FONT></FONT></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=192>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Network
+				Geo</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=213>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>dataCenterController.js</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=206>
+				<P ALIGN=CENTER><FONT FACE="Times New Roman, serif"><FONT SIZE=3>networkDataCenter.js</FONT></FONT></P>
+			</TD>
+			<TD WIDTH=135>
+				<P ALIGN=CENTER><BR>
+				</P>
+			</TD>
+		</TR>
+	</TBODY>
+</TABLE>
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<PRE>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Network Main View</B></FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>D3 force layout is employed for rendering the network topology. Each node could be selected and additional information about that node would appear in the side panel. On mouse hover over a node, limited information is also available. When a link is selected (by mouse click), it is highlighted and its source and target are highlighted.  When a node is double-clicked upon, the Network ZoomedIn View is rendered. The view also provides support for dynamic link creation and deletion. When two nodes are selected (by mouse click) consecutively, a link is drawn between them. A link could also be deleted by selection followed by pressing the 'delete' key. </FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>Known limitation: Currently there is no edit mode in this view. Links would automatically be drawn between two nodes that are selected consecutively. Links  created or deleted in this view are not persistent across views.</FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Network ZoomedIn View</B></FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>This view shows all the ports and MAC addresses of the servers and switches. When a node is selected the side panel displays information related to that server/switch. Tooltips show the MAC address associated with the segment when hovered over. A dynamic link can be created by clicking on the segments.</FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>Known limitation: This view renders dynamic links incorrectly.</FONT></FONT>
+
+
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Network Geo View</B></FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>This view uses Google MAPS API to provide a map background and the data centers in a geographical location. When a datacenter on this view is double-clicked, the Network Main View is rendered. </FONT></FONT>
+
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Application Front End Details</B></FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3>When the front end is first rendered, data is requested from the back end for the mainController.js. This data is  saved in NetworkDataService.js and is shared with the zoomedIn View to avoid a new database lookup.</FONT></FONT>
+
+<FONT FACE="Times New Roman, serif"><FONT SIZE=3><B>Future Work</B></FONT></FONT>
+</PRE>
+<UL>
+	<LI><PRE><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Persistence of dynamic links across multiple view.</FONT></FONT></PRE>
+	<LI><PRE><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Edit mode to allow dynamic link creation/deletion.</FONT></FONT></PRE>
+	<LI><PRE><FONT FACE="Times New Roman, serif"><FONT SIZE=3>When a node is double clicked in the  main view, it would be centered in the zoomIn view.</FONT></FONT></PRE>
+	<LI><PRE><FONT FACE="Times New Roman, serif"><FONT SIZE=3>In the zoomIn view, segments that are connected to MACs would be color coded differently form the segments that are not connected to MACs.</FONT></FONT></PRE>
+	<LI><PRE><FONT FACE="Times New Roman, serif"><FONT SIZE=3>When there is mouse hover over a link, information about the source and target could appear in a tooltip.</FONT></FONT></PRE>
+</UL>
+<PRE></PRE>
+</BODY>
+</HTML>
