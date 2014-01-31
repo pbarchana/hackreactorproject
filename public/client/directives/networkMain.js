@@ -1,5 +1,5 @@
 var angular = require('angular');
-var helpers = require('./helpers.js');
+var helpers = require('./mainHelpers.js');
 var d3 = require('d3');
 
 var app = angular.module('app');
