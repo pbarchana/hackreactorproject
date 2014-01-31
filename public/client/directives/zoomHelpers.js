@@ -13,13 +13,12 @@ module.exports.macToArcMapping = function(arc) {
     // together provide the location for the beggining of links
     var centerX = d3.select(n)[0][0].__data__.x;
     var centerY = d3.select(n)[0][0].__data__.y;
-  
+    
     for (var i = 0; i < n.childNodes.length; i++) {
       var segment = d3.select(n.childNodes[i]);
       var seg = segment[0][0].__data__;
       var centroidX = arc.centroid(seg)[0];
       var centroidY = arc.centroid(seg)[1];
-
       arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
                  {element: d3.select(n.childNodes[i]).datum(),
                   x: centroidX + centerX,
@@ -36,7 +35,7 @@ module.exports.definePie = function(){
     .sort(null)
     .value(function(d) { return 1; });
     return pie;
-}
+};
 
 // each mac is visualized as an arc on the pie chart
 module.exports.defineArc = function(radius){
@@ -44,7 +43,7 @@ module.exports.defineArc = function(radius){
     .outerRadius(radius)
     .innerRadius(2/3 * radius);
     return arc;
-}
+};
 
 // create the SVG element
 module.exports.createSvg = function(view, width, height){
@@ -55,7 +54,8 @@ module.exports.createSvg = function(view, width, height){
       .attr("pointer-events", "all")
       .append('g');
       return svg;
-}
+};
+
 
 //Called on edge hover
 var showLinkDetails = function(link){
@@ -71,15 +71,18 @@ var hideLinkDetails = function(link){
 
 //Called on edge click
 var selectLink = function(link, i, selected_link){
-  d3.select('body').selectAll('.d3-tip').remove();
+  // d3.select('body').selectAll('.d3-tip').remove();
   d3.select('body').selectAll('.arc-select').classed('arc-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
+
   var linkSource = d3.selectAll('path').filter(function(d,i){
     return (link.source.element.data.mac === d.data.mac) ? d : null; });
 
   var linkTarget = d3.selectAll('path').filter(function(d,i){
     return (link.target.element.data.mac === d.data.mac) ? d : null; });
 
+  // Unused tooltip function, formating not complete to implement uncomment
+  // lines 78, 103 and 104
   var toolTip = function(link){
     d3.select('body')
       .append('div')
@@ -92,8 +95,8 @@ var selectLink = function(link, i, selected_link){
   var tarVend = linkTarget.each(function(d){ return d; });
   var tarX = linkTarget.attr('cx');
   var tarY = linkTarget.attr('cy');
-  toolTip(link.target);
-  toolTip(link.source);
+  //toolTip(link.target);
+  //toolTip(link.source);
 
   linkTarget
     .classed('arc-select', true);
@@ -117,22 +120,22 @@ var selectLink = function(link, i, selected_link){
 };
 
 // drawing the force layout
-module.exports.createForceLayout = function(width, height){
+module.exports.createForceLayout =function(width, height){
   var force = d3.layout.force()
-    .charge(-2000)
-    .linkStrength(0.1)
-    .linkDistance(70)
-    .gravity(0.3)
-    .size([width, height]);
+        .charge(-2000)
+        .linkStrength(0.1)
+        .linkDistance(70)
+        .gravity(0.3)
+        .size([width, height]);
   return force;
-}
+};
 
 // determines all the links originating from the  node
 // and highlights them
 var showNodeInfo = function(node, that){
   showNode = that;
   for (var i = 0; i < that.childNodes.length; i++) {
-    d3.select(that.childNodes[i]).datum().hiliteLink = 'true'
+    d3.select(that.childNodes[i]).datum().hiliteLink = 'true';
   }
   d3.selectAll(".link").transition()
     .style("stroke", function(l) {
@@ -176,10 +179,12 @@ var removeHighlightfromNode = function(node){
     .attr('nodeSelected', false)
     .classed('node-hover', false)
     .classed('node-select', false);
+
   var selected = d3.select(node).attr('nodeSelected');
   if(selected === 'false'){
     d3.select(node).style('stroke', '#fff');
   }
+
 };
 
 // removes all the highlights from the links and reverts back to 
@@ -188,7 +193,7 @@ var hideNodeInfo = function() {
   var that = showNode;
   removeHighlightfromNode(showNode);
   for (var i = 0; i < that.childNodes.length; i++) {
-    d3.select(that.childNodes[i]).datum().hiliteLink = 'false'
+    d3.select(that.childNodes[i]).datum().hiliteLink = 'false';
   }
   d3.selectAll(".link").transition()
     .style("stroke", function(l) {
@@ -230,7 +235,7 @@ module.exports.nodeActions = function(scope, force, pie, arc, svg){
     .data(function(d) {return pie(d.components.nics); })
     .enter().append("svg:path")
     .attr("d", arc)
-    .on('click', function(d){    // on click add dynamic links between arcs
+    .on('click', function(d){
       var centerX = d3.select(this.parentNode).node().transform.animVal.getItem(0).matrix.e;
       var centerY = d3.select(this.parentNode).node().transform.animVal.getItem(0).matrix.f;
       var centroidX = arc.centroid(d)[0];
@@ -248,15 +253,15 @@ module.exports.nodeActions = function(scope, force, pie, arc, svg){
       testLink.target.y = centerY + centroidY;
       point = testLink.target;
 
-      force.links().push(testLink);  // append new links to the force layout
-      svg.append('g').selectAll(".link") // make the links visible in SVG element
+      force.links().push(testLink);
+      svg.append('g').selectAll(".link")
       .data([testLink])
       .enter().insert("line", ".node")
       .attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; })
-      .classed('link', true)
+      .classed('link', true);
     }
   })
   .append("title").text(function(d, i) { return "MAC: " + d.data.mac; })
