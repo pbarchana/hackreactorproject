@@ -4,7 +4,8 @@ A web application for NodePrime that graphically displays connections between se
 
 ## Setup
 * Make sure [mongoDB](http://www.mongodb.org/) is installed and running on default port by running `mongod`
-* Run `npm install` to get dependencies. 
+* While in the project folder run `npm install` to get dependencies
+* [Generate](https://github.com/NodePrime/hackreactorproject/edit/develop/README.md#generating-data) a new set of mock data
 * Run `gulp` to compile the application, and start the server
 
 ## Generating Data
@@ -19,3 +20,10 @@ A web application for NodePrime that graphically displays connections between se
 * GET /switch/:id to get specific switch data
 * GET /connection to get all connection data
 * GET /data-center to get all data center info
+
+## Views
+* There are three views
+  * A geographical representation datacenters
+  * A flatened view of an individual datacenters
+  * A Zoomed in view of an individual datacenter with interface representation
+
