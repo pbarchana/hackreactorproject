@@ -1,3 +1,8 @@
+
+/**
+ *  This file is not currently being used.
+ */
+
 var mongoose = require('mongoose');
 
 // server schema

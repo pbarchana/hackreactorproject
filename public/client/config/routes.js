@@ -14,7 +14,7 @@ module.exports = angular.module('app')
           return NetworkDataService.getData();
         }
         else {
-          return NetworkDataService.getAllZoomed();
+          return NetworkDataService.get('/all-zoomed');
         }
       }
     }
@@ -24,7 +24,7 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/dataCenter.html',
 		resolve: {
       data: function(NetworkDataService) {
-        return NetworkDataService.getAllDataCenters();
+        return NetworkDataService.get('/data-center');
       }
     }
   })
@@ -38,7 +38,7 @@ module.exports = angular.module('app')
           return NetworkDataService.getData();
         }
         else {
-          return NetworkDataService.getAllZoomed();
+          return NetworkDataService.get('/all-zoomed');
         }
       }
     }
