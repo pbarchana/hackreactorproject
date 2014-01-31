@@ -27,6 +27,7 @@ module.exports = function(app) {
   // get switch data
   app.get('/switch', switchCtrl.getAll);
   app.get('/switch/:id', switchCtrl.getById);
+  app.get('/switchConn/:id', switchCtrl.getByIdWithConnections);
 
   // get switch data
   app.get('/connection', connectionCtrl.getAll);

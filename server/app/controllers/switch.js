@@ -7,18 +7,26 @@ var Connection = mongoose.model('Connection');
 
 var getNodeConnections = function(node, allConnections) {
   // get all connections that match either source or target
-  var queries = [ { sourceId: node._id }, { targetId: node._id } ];
-  async.concat(queries, allConnections.find, function(err, results){
-    // select whichever id != node id
-    var connectionIds = _.map(results, function(err, result) {
-      if (node._id === result.sourceId) return result.targetId;
-      if (node._id === result.targetId) return result.sourceId;
-    });
-    // query for those id's
-    async.each(connectionIds, Switch.findById, function() {
-
-    });
+  // var queries = [ { sourceId: node._id.toHexString() }, { targetId: node._id.toHexString() } ];
+  
+  // Connection.find({ sourceId: node._id.toHexString() }, function(err, result) {
+  //   debugger;
+  // });
+  Connection.find({ targetId: node._id }, function(err, result) {
+    debugger;
   });
+
+  // async.each(queries, Connection.find, function(err, results){
+  //   // select whichever id != node id
+  //   var connectionIds = _.map(results, function(err, result) {
+  //     if (node._id === result.sourceId) return result.targetId;
+  //     if (node._id === result.targetId) return result.sourceId;
+  //   });
+  //   // query for those id's
+  //   async.each(connectionIds, Switch.findById, function(err, results) {
+  //     debugger;
+  //   });
+  // });
 };
 
 // ================= Exports =====================
@@ -40,13 +48,9 @@ module.exports.getByIdWithConnections = function(req, res) {
       Connection.find(callback);
     }
   }, function(err, results) {
+    debugger;
     json.node = results.switch;
     json.connections = getNodeConnections(results.switch, results.connections);
-    res.set("Content-Type", "application/json");
-    res.send(mySwitch);
-  });
-
-  Switch.findById(req.params.id, function(err, mySwitch) {
     res.set("Content-Type", "application/json");
     res.send(mySwitch);
   });
