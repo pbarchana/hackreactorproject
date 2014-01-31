@@ -1,3 +1,7 @@
+// **********************************************************************
+// Controller for the network main view
+// **********************************************************************
+
 var angular = require('angular');
 
 var app = angular.module('app');

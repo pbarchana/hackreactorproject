@@ -1,3 +1,8 @@
+// **********************************************************************
+// Directive for network main view
+// **********************************************************************
+
+
 var angular = require('angular');
 var helpers = require('./mainHelpers.js');
 var d3 = require('d3');

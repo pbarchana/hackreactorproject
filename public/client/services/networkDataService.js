@@ -1,3 +1,8 @@
+// **********************************************************************
+// Services for getting data from the backend
+
+// **********************************************************************
+
 var angular = require('angular');
 
 var app = angular.module('app');

@@ -1,3 +1,8 @@
+// **********************************************************************
+// Controller for geo location of datacenters
+// **********************************************************************
+
+
 var angular = require('angular');
 
 module.exports = angular.module('app')

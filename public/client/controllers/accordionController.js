@@ -1,3 +1,7 @@
+// **********************************************************************
+// Controller for search and side panel
+// **********************************************************************
+
 var angular = require('angular');
 
 module.exports = angular.module('app')

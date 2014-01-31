@@ -1,3 +1,7 @@
+// **********************************************************************
+// Controller for zoomed in network view
+// **********************************************************************
+
 var angular = require('angular');
 
  module.exports = angular.module('app')
