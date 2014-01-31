@@ -140,11 +140,9 @@ module.exports.createForceLayout =function(width, height){
 
 
 var showNodeInfo = function(node, that){
-  var selected = d3.select(that).attr('nodeSelected');
+ 
   
-  if(selected === 'false'){
-    d3.select(that).style('stroke', '#bada55');
-  }
+  
   showNode = that;
   for (var i = 0; i < that.childNodes.length; i++) {
     d3.select(that.childNodes[i]).datum().hiliteLink = 'true'
@@ -167,7 +165,11 @@ var showNodeInfo = function(node, that){
 };
 
 var highlightSelectedNode = function(svg, node, that){
-  console.log("Node = ", node, " that = ", that);
+
+  var selected = d3.select(that).attr('nodeSelected');
+  if(selected === 'false'){
+    d3.select(that).style('stroke', '#bada55');
+  }
   d3.selectAll('.node')
   .attr('nodeSelected', false)
   .classed('node-select', false)
@@ -175,14 +177,22 @@ var highlightSelectedNode = function(svg, node, that){
 
   d3.select(that)
   .attr('nodeSelected', true)
-  .classed('node-select', true);
+  .classed('node-select', true)
+  .classed('node-hover', true);
 
 };
 
 var removeHighlightfromNode = function(node){
   d3.select(node)
     .attr('nodeSelected', false)
+    .classed('node-hover', false)
     .classed('node-select', false);
+
+  var selected = d3.select(node).attr('nodeSelected');
+  if(selected === 'false'){
+    d3.select(node).style('stroke', '#fff');
+  }
+
 };
 
 var hideNodeInfo = function() {
