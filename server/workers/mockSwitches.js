@@ -1,3 +1,5 @@
+//Script to create Switches
+
 var fs = require('fs');
 var path = require('path');
 var baseDir = path.join(__dirname, '..', 'mockData/');
@@ -13,6 +15,7 @@ var generateMAC = function() {
   return mac;
 };
 
+// Possible number of MACs on a Switch
 var nrPortConfigs = [24, 48, 72];
 
 

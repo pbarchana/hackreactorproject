@@ -1,3 +1,4 @@
+// Main file for Node Server
 // Dependencies
 var express   = require('express'),
     mongoose  = require('mongoose'),

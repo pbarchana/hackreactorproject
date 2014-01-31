@@ -1,3 +1,5 @@
+// Script to create connectivity between servers and switches
+
 var fs   = require('fs');
 var path = require('path');
 var glob = require('glob');
@@ -158,7 +160,5 @@ var generateConnectivity = function() {
     }
     fs.writeFileSync("../mockData/connectivity/switchInfo_"+s+".json", JSON.stringify(switchInfo));
   }
-
-//return switchConn;
 
 }();
