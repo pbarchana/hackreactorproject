@@ -14,9 +14,9 @@ require("./client/controllers/zoomInController.js");
 require("./client/controllers/dataCenterController.js");
 
 // Directives
-require("./client/directives/map.js");
-require("./client/directives/networkGraph.js");
-require("./client/directives/zoomIn.js");
+require("./client/directives/networkDataCenter.js");
+require("./client/directives/networkMain.js");
+require("./client/directives/networkZoomIn.js");
 
 // Routes
 require("./client/config/routes.js");

@@ -1,5 +1,5 @@
 var angular = require('angular');
-var helpers = require('./helpers.js');
+var helpers = require('./mainHelpers.js');
 var d3 = require('d3');
 
 var app = angular.module('app');
@@ -60,21 +60,6 @@ var bootstrapd3 = function(scope, element, attrs) {
     var nodes = scope.nwdata.nodes;
     var result = [];
     var switches = [];
-    // nodes.forEach(function(node, i){
-    //   if(node.type === 'switch'){
-    //     switches.push(node);
-    //   }
-    // });
-
-    // switches.forEach(function(s, i){
-    //   console.log(s, i);
-    //   node.fixed = true;
-    //   node.cx = viewWidth / 2;
-    //   node.cy = (viewHeight / nodes.length) * i;
-    //   console.log('PYPYPY ',node.cy);
-    //   result.push(s);
-    // });
-
     nodes.forEach(function(n){
       result.push(n);
     });
@@ -94,9 +79,11 @@ var bootstrapd3 = function(scope, element, attrs) {
   setTimeout(function(){
     force.stop();
 
+    // Draw network connections
     link = svg.append('g').selectAll(".link")
     helpers.drawLinks(link, force);
 
+    // Draw servers and switches
     node = svg.append('g').selectAll(".node");
     helpers.drawNodes(node, link, force, scope);
 

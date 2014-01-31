@@ -16,7 +16,6 @@ var getCoordinates = function(id) {
 module.exports.getAll = function(req, res) {
   DataCenter.find(function(err, dataCenters) {
     DataCenterConnection.find(function(err, dataCenterConnections) {
-      console.log(dataCenterConnections);
       var json = {};
       json.dataCenters = dataCenters;
       var  connections = [];
@@ -48,7 +47,7 @@ module.exports.getAll = function(req, res) {
 };
 
 module.exports.getById = function(req, res) {
-  // lean returns a plain javascript object with not mongoose stuff atached to it
+  // lean returns a plain javascript object with no mongoose stuff atached to it
   DataCenter.findById(req.params.id, function(err, dataCenter) {
     res.set("Content-Type", "application/json");
     res.send(dataCenter);

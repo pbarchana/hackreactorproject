@@ -1,3 +1,5 @@
+// Directive for Geo View
+
 var angular = require('angular');
 
 // ============== Functions ====================
@@ -71,7 +73,6 @@ var dataCenterMap = (function() {
   // --------------- Initialize -------------------
   // generate map
   var init = function(initScope, element, attrs) {
-    debugger;
     scope = initScope;
     map = makeMap(element[0]);
     selectedMarker = null;

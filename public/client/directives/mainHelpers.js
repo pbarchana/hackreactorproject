@@ -1,7 +1,9 @@
+// Helpers for Network Main View
+
 var d3 = require('d3');
 
-// Unused tooltip function, formating not complete to implement uncomment
-// lines 40, 50 and 51
+// Unused tooltip function, formating not complete.
+// to implement, uncomment lines 40, 50 and 51
 var toolTip = function(node){
   d3.select('body')
     .append('div')
@@ -37,7 +39,7 @@ var selectNode = function(node, i){
 
 //Called on edge click, resets all links and sends selected node info to sidebar
 var selectLink = function(link, i, selected_link){
-  // d3.select('body').selectAll('.d3-tip').remove(); //
+  // d3.select('body').selectAll('.d3-tip').remove(); // Removes tooltip from previous link click
   d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
 
@@ -75,7 +77,7 @@ var selectLink = function(link, i, selected_link){
 var showNodeDetails = function(node, that){
   var selected = d3.select(that).attr('nodeSelected');
 
-  // If hovering over a none selected node change the css styling
+  // If hovering over a non-selected node change the css styling
   // otherwise leave the selected node styling intact
   if(selected === 'false'){
     d3.select(that).classed('node-hover', true);
@@ -118,7 +120,7 @@ module.exports.drawLinks = function(link, force){
   .on('mouseout', hideLinkDetails);
 };
 
-// Initiall function to draw the node on the SVG canvas
+// Initial function to draw the node on the SVG canvas
 module.exports.drawNodes = function(node, link, force, scope){
   node.data(force.nodes())
     .enter().append("circle")
@@ -191,14 +193,10 @@ module.exports.addLink = function(a, b, linkDirectory){
   linkDirectory[b + "," + a] = 1;
 };
 
-
+// deletes the selected link when delete or 
+// backspace key is pressed
 module.exports.keydown = function (d, selected_link) {
   d3.event.preventDefault();
-  // ctrl
-  if(d3.event.keyCode === 17) {
-  circle.call(force.drag);
-  svg.classed('ctrl', true);
-  }
 
   if(!selected_link) return;
   switch(d3.event.keyCode) {
@@ -217,6 +215,7 @@ module.exports.keydown = function (d, selected_link) {
 };
 
 //function to map MAC address of nic to containing host
+// required for drawing the links in d3 force layout
 module.exports.mapMac = function(nodes) {
   var tempNode;
   var nics;
