@@ -5,6 +5,8 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
   
   $scope.changeToZoomInView = false;
 
+  console.log(data);
+
   $scope.ctldata = JSON.parse(JSON.stringify(data));
   $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
   $scope.links = JSON.parse(JSON.stringify(data.links));
