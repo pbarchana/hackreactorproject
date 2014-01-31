@@ -1,91 +1,108 @@
 var angular = require('angular');
 
-var createMap = function (scope, elem, attrs) {
-  // generate map
-  var mapOptions, map;
-  mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(37.76487, -122.41948),
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  };
-  map = new google.maps.Map(elem[0], mapOptions);
+// ============== Functions ====================
 
-  // generate map overlay
-  var selectedMarker;
-  var data = scope.nwdata;
-  data.forEach(function(node, i) {
-    var marker = new google.maps.Marker({
+var dataCenterMap = (function() {
+
+  var scope, map, selectedMarker, data;
+
+  // --------------- Helpers -------------------
+  var makeMap = function(element) {
+    return new google.maps.Map(element, {
+      zoom: 8,
+      center: new google.maps.LatLng(37.76487, -122.41948),
+      mapTypeId: google.maps.MapTypeId.TERRAIN
+    });
+  };
+
+  var makeCircle = function(fillColor) {
+    return {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 10,
+      fillOpacity: 1,
+      fillColor: fillColor,
+      strokeColor: 'black',
+      strokeWeight: 1.5
+    };
+  };
+
+  var makeMarker = function(node) {
+    return new google.maps.Marker({
       position: new google.maps.LatLng(node.latitude, node.longitude),
       map: map,
-      icon: getCircle(),
+      icon: makeCircle('grey'),
     });
-    marker.setTitle(node.name);
-    // attachSecretMessage(marker, i);
+  };
+
+  var selectOnClick = function(marker, node) {
     google.maps.event.addListener(marker, 'click', function(data) {
-      if (selectedMarker) selectedMarker.setIcon(getCircle());
+      if (selectedMarker) selectedMarker.setIcon(makeCircle('grey'));
       selectedMarker = marker;
-      marker.setIcon(getBlueCircle());
+      marker.setIcon(makeCircle('#BADA55'));
       scope.$apply(function() {
         scope.selectedNode = node;
       });
-
-      // var infowindow = new google.maps.InfoWindow({
-      //   content: node.name,
-      //   size: new google.maps.Size(50,50)
-      // });
-      // infowindow.open(map, marker);
     });
+  };
 
+  var zoomOnDoubleClick = function(marker) {
     google.maps.event.addListener(marker, 'dblclick', function() {
-      // debugger;
-      // scope.zoomIn(node._id);
       window.location = '/?id=' + node._id;
     });
-  });
+  };
 
-  scope.connections.forEach(function(connection) {
-    var coordinates = [
-      new google.maps.LatLng(connection[0][0], connection[0][1]),
-      new google.maps.LatLng(connection[1][0], connection[1][1])
-    ];
-    var line = new google.maps.Polyline({
-      path: coordinates,
-      map: map,
-      geodesic: true,
-      strokeColor: '#7555DA',
-      strokeOpacity: 0.6,
-      strokeWeight: 2
+  // var drawConnections = function(connections) {
+  //   connections.forEach(function(connection) {
+  //     var coordinates = [
+  //       new google.maps.LatLng(connection[0][0], connection[0][1]),
+  //       new google.maps.LatLng(connection[1][0], connection[1][1])
+  //     ];
+  //     var line = new google.maps.Polyline({
+  //       path: coordinates,
+  //       map: map,
+  //       geodesic: true,
+  //       strokeColor: '#7555DA',
+  //       strokeOpacity: 0.6,
+  //       strokeWeight: 2
+  //     });
+  //   });
+  // };
+
+  // --------------- Initialize -------------------
+  // generate map
+  var init = function(initScope, element, attrs) {
+    debugger;
+    scope = initScope;
+    map = makeMap(element[0]);
+    selectedMarker = null;
+    data = scope.nwdata;
+
+    // Make each marker from the data
+    data.forEach(function(node, i) {
+      var marker = makeMarker(node);
+      marker.setTitle(node.name);
+      
+      // Select data center marker when clicked
+      selectOnClick(marker, node);
+
+      // Zoom in to next view when double clicked
+      zoomOnDoubleClick(marker);
     });
-  });
 
-  function getCircle() {
-    var circle = {
-      path: google.maps.SymbolPath.CIRCLE,
-      scale: 10,
-      fillOpacity: 1,
-      fillColor: 'grey',
-      strokeColor: 'black',
-      strokeWeight: 1.5
-    };
-    return circle;
-  }
-  function getBlueCircle() {
-    var circle = {
-      path: google.maps.SymbolPath.CIRCLE,
-      scale: 10,
-      fillOpacity: 1,
-      fillColor: 'BADA55',
-      strokeColor: 'black',
-      strokeWeight: 1.5
-    };
-    return circle;
-  }
-  scope.loading = false;
- 
-};
+    scope.loading = false;
+  };
+
+  // --------------- Exposed Methods -------------------
+  return {
+    init: init
+  };
+}());
+
+
+// ============== Directive ====================
 
 var app = angular.module('app');
-module.exports = app.directive('map', [function() {
+app.directive('map', [function() {
   return {
     restrict: 'EA',
     scope: {
@@ -94,6 +111,6 @@ module.exports = app.directive('map', [function() {
       loading: '=',
       connections: '='
     },
-    link: createMap
+    link: dataCenterMap.init
   };
 }]);
