@@ -5,11 +5,10 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
   
   $scope.changeToZoomInView = false;
 
-  console.log(data);
-
+  NetworkDataService.setData(data);
   $scope.ctldata = JSON.parse(JSON.stringify(data));
-  $scope.nodes = JSON.parse(JSON.stringify(data.nodes));
-  $scope.links = JSON.parse(JSON.stringify(data.links));
+  $scope.nodes   = JSON.parse(JSON.stringify(data.nodes));
+  $scope.links   = JSON.parse(JSON.stringify(data.links));
 
   $scope.formatUUID = function(UUID) {
     if (!UUID) return '';
@@ -41,8 +40,6 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
         $scope.error = reason;
       });
     }
-
-
   };
 
   $scope.$watch('changeToZoomInView', function(newValue, oldValue) {
