@@ -18,7 +18,7 @@ var generateCoordinate = function(num) {
 
 // Generate coordinate within 2 points of given number
 var generateLocation = function() {
-  var locations = ['San Francisco', 'San Jose', 'Los Angeles']
+  var locations = ['San Francisco', 'San Jose', 'Los Angeles'];
   return locations[Math.floor(Math.random() * locations.length)];
 };
 

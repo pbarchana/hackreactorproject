@@ -1,3 +1,5 @@
+// Helpers for Network Zoomed In View
+
 var d3 = require('d3');
 
 module.exports.macToArcMapping = function(arc) {

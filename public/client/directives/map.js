@@ -1,3 +1,5 @@
+// Directive for Geo View
+
 var angular = require('angular');
 
 var createMap = function (scope, elem, attrs) {
@@ -81,7 +83,7 @@ var createMap = function (scope, elem, attrs) {
     return circle;
   }
   scope.loading = false;
- 
+
 };
 
 var app = angular.module('app');

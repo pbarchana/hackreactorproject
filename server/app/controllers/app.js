@@ -21,6 +21,7 @@ var addToD3Nodes = function(nodes, type, newNodes) {
     newNodes.push(newNode);
   });
 };
+
 var addToD3Links = function(connections, links) {
   connections.forEach(function(connection) {
     connection.interfaces.forEach(function(interface) {
@@ -41,7 +42,7 @@ var makeZoomD3Links = function(links) {
     nwLink.source.element = link.toObject().source;
     nwLink.source.x   = -1;
     nwLink.source.y   = -1;
-    
+
     nwLink.target = {};
     nwLink.target.element = link.toObject().target;
     nwLink.target.x   = -1;
@@ -84,27 +85,6 @@ module.exports.getAllZoomed = function(req, res) {
     res.set("Content-Type", "application/json");
     res.send(json);
   });
-
-  // var json = {};
-  // var nodes = [];
-  // var links = [];
-  // Server.find(function (err, servers) {
-  //   Switch.find(function (err, switches) {
-  //     Connection.find(function (err, connections) {
-  //       servers.forEach(function(server) {
-  //         nodes.push(server);
-  //       });
-  //       switches.forEach(function(oneSwitch) {
-  //         nodes.push(oneSwitch);
-  //       });
-  //       addToZoomD3Links(connections, links);
-  //       json.nodes = nodes;
-  //       json.links = links;
-  //       res.set("Content-Type", "application/json");
-  //       res.send(json);
-  //     });
-  //   });
-  // });
 };
 
 
@@ -127,23 +107,3 @@ module.exports.getD3Data = function(req, res) {
     });
   });
 };
-
-// module.exports.getConnectingNodes = function(req, res) {
-//   var json = {};
-//   async.parallel({
-//     servers: function(callback){
-//       Server.find(callback);
-//     },
-//     switches: function(callback){
-//       Switch.find(callback);
-//     },
-//     connections: function(callback){
-//       Connection.find(callback);
-//     }
-//   }, function(err, results) {
-//     json.nodes = results.servers.concat(results.switches);
-//     json.links = results.connections;
-//     res.set("Content-Type", "application/json");
-//     res.send(json);
-//   });
-// };

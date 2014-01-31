@@ -1,7 +1,9 @@
+// Helpers for Network Main View
+
 var d3 = require('d3');
 
-// Unused tooltip function, formating not complete to implement uncomment
-// lines 40, 50 and 51
+// Unused tooltip function, formating not complete.
+// to implement, uncomment lines 40, 50 and 51
 var toolTip = function(node){
   d3.select('body')
     .append('div')
@@ -118,7 +120,7 @@ module.exports.drawLinks = function(link, force){
   .on('mouseout', hideLinkDetails);
 };
 
-// Initiall function to draw the node on the SVG canvas
+// Initial function to draw the node on the SVG canvas
 module.exports.drawNodes = function(node, link, force, scope){
   node.data(force.nodes())
     .enter().append("circle")

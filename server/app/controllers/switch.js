@@ -7,13 +7,14 @@ var Connection = mongoose.model('Connection');
 
 var getNodeConnections = function(node, allConnections) {
   // get all connections that match either source or target
+
   // var queries = [ { sourceId: node._id.toHexString() }, { targetId: node._id.toHexString() } ];
-  
+
   // Connection.find({ sourceId: node._id.toHexString() }, function(err, result) {
   //   debugger;
   // });
   Connection.find({ targetId: node._id }, function(err, result) {
-    debugger;
+
   });
 
   // async.each(queries, Connection.find, function(err, results){
@@ -48,7 +49,6 @@ module.exports.getByIdWithConnections = function(req, res) {
       Connection.find(callback);
     }
   }, function(err, results) {
-    debugger;
     json.node = results.switch;
     json.connections = getNodeConnections(results.switch, results.connections);
     res.set("Content-Type", "application/json");
@@ -60,7 +60,6 @@ module.exports.getByIdWithConnections = function(req, res) {
 module.exports.getAll = function(req, res) {
   Switch.find(function (err, switches) {
     if (err) console.log(err);// TODO handle err
-    console.log('RETRIEVED:' + switches);
     res.set("Content-Type", "application/json");
     res.send(switches);
   });
