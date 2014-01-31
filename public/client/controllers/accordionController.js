@@ -4,10 +4,6 @@ module.exports = angular.module('app')
 .controller('accordionController', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.oneAtATime = false;
 
-  $scope.appendGroup = function(element) {
-    // debugger;
-  }
-
   $scope.isPrimitive = function(value, key) {
     if (Array.isArray(value)) return false;
     if (typeof value === 'object') return false;

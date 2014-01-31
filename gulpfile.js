@@ -19,8 +19,9 @@ var stylesheets = [
 ];
 
 var serverNum = 100;
-var switchNum = 10;
-var dataCenterNum = 5;
+var switchNum = 20;
+// Minimum 3 for mock layout, best result is 10+ data centers
+var dataCenterNum = 20;
 
 // =============== Generate Data ===============
 
