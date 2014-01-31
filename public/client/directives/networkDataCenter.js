@@ -1,5 +1,3 @@
-// Directive for Geo View
-
 var angular = require('angular');
 
 // ============== Functions ====================
@@ -47,7 +45,7 @@ var dataCenterMap = (function() {
     });
   };
 
-  var zoomOnDoubleClick = function(marker) {
+  var zoomOnDoubleClick = function(marker, node) {
     google.maps.event.addListener(marker, 'dblclick', function() {
       window.location = '/?id=' + node._id;
     });
@@ -87,7 +85,7 @@ var dataCenterMap = (function() {
       selectOnClick(marker, node);
 
       // Zoom in to next view when double clicked
-      zoomOnDoubleClick(marker);
+      zoomOnDoubleClick(marker, node);
     });
 
     scope.loading = false;
