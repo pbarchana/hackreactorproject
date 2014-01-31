@@ -10,8 +10,8 @@ var Schema = mongoose.Schema;
 // });
 
 var connectionSchema = new Schema ({
-  origin: {type: Schema.ObjectId, ref: 'DataCenter'},
-  connection: {type: Schema.ObjectId, ref: 'DataCenter'}
+  sourceId: {type: Schema.ObjectId, ref: 'DataCenter'},
+  targetId: {type: Schema.ObjectId, ref: 'DataCenter'}
 });
 
 mongoose.model('DataCenterConnection', connectionSchema);

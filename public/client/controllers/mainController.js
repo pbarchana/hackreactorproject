@@ -21,7 +21,7 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
   $scope.select = function(node) {
     $scope.loading = true;
     if (node.type === 'server') {
-      NetworkDataService.getServer(node._id)
+      NetworkDataService.get('/server/' + node._id)
       .then(function(data) {
         $scope.selectedNode = data;
         $scope.liveSearch = "";
@@ -31,7 +31,7 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
       });
     }
     if (node.type === 'switch') {
-      NetworkDataService.getSwitch(node._id)
+      NetworkDataService.get('/switch/' + node._id)
       .then(function(data) {
         $scope.selectedNode = data;
         $scope.liveSearch = "";

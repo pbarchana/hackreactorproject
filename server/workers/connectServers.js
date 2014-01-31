@@ -105,7 +105,22 @@ module.exports.servers.tree = function(cb) {
 
 // ------------ Data Centers -----------
 
-module.exports.dataCenters = function() {
-  // TODO: ...
+module.exports.dataCenters = {};
+module.exports.dataCenters.tree = function(cb) {
+  async.parallel({
+    dataCenters: function(callback){
+      models.DataCenter.find(callback);
+    },
+    switches: function(callback){
+      models.Switch.find(callback);
+    }
+  }, function(err, results) {
+    var connections = makeTreeConnections(resultsDataCenters);
+
+    models.Connection.collection.insert(connections, null, function(err, results) {
+      console.log(results);
+      cb();
+    });
+  });
 };
 

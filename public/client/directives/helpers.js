@@ -37,7 +37,7 @@ var selectNode = function(node, i){
 
 //Called on edge click, resets all links and sends selected node info to sidebar
 var selectLink = function(link, i, selected_link){
-  // d3.select('body').selectAll('.d3-tip').remove(); //
+  // d3.select('body').selectAll('.d3-tip').remove(); // Removes tooltip from previous link click
   d3.select('body').selectAll('.node-link-select').classed('node-link-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
 
@@ -75,7 +75,7 @@ var selectLink = function(link, i, selected_link){
 var showNodeDetails = function(node, that){
   var selected = d3.select(that).attr('nodeSelected');
 
-  // If hovering over a none selected node change the css styling
+  // If hovering over a non-selected node change the css styling
   // otherwise leave the selected node styling intact
   if(selected === 'false'){
     d3.select(that).classed('node-hover', true);
