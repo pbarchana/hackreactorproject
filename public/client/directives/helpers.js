@@ -136,7 +136,6 @@ module.exports.drawNodes = function(node, link, force, scope){
 
         scope.$parent.selectedNode1 = scope.$parent.selectedNode;
         scope.$parent.select(d);
-        scope.$parent.$parent.selectedNode  = d;
         if (scope.$parent.selectedNode !== undefined &&
           scope.$parent.selectedNode1 !== undefined &&
           scope.$parent.selectedNode1 !== scope.$parent.selectedNode) {
