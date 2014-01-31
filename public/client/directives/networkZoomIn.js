@@ -1,3 +1,8 @@
+// **********************************************************************
+// Directive for Network Zoomed In View
+
+// **********************************************************************
+
 var zoomHelpers = require('./zoomHelpers.js');
 var angular = require('angular');
 var d3 = require('d3');
