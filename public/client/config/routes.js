@@ -1,4 +1,5 @@
 var angular = require('angular');
+var d3 = require('d3');
 
 module.exports = angular.module('app')
 .config(['$routeProvider', function($routeProvider) {
@@ -8,6 +9,7 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/main.html',
     resolve: {
       data: function(NetworkDataService) {
+        NetworkDataService.clearDOMElements();
         if (NetworkDataService.getData() !== undefined) {
           return NetworkDataService.getData();
         }
@@ -31,6 +33,7 @@ module.exports = angular.module('app')
 		templateUrl: 'client/views/zoomIn.html',
 		resolve: {
       data: function(NetworkDataService) {
+        NetworkDataService.clearDOMElements();
         if (NetworkDataService.getData() !== undefined) {
           return NetworkDataService.getData();
         }
