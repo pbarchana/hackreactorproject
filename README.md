@@ -26,18 +26,24 @@ Network Topology Visualizer is a web application that provides a visual represen
 ## Views
 
 The tool displays various information in three different views:
-* Network Data Main View
-* Network Data Zoomed In View
-* Network Data Geo View
+* Network Main View
+* Network Zoomed In View
+* Network Geo View
 
-### Network Data MainView
+### Network Main View
+
+![](public/img/main-view.png)
 
 This view provides a global view of all the switches and servers in a Data Center. An individual server or a switch can be selected and detailed information about the selected component would be displayed in the drop-down panel on the right hand side. Hovering the mouse over a component also pop-ups a tooltip that provides limited information. A link could also be clicked and this would highlight the link and show the components that it is connected to. The view could also be zoomedIn/ ZoomedOut to provide required granularity using the mouse.
 
-###Network Data ZoomedIn View
+###Network ZoomedIn View
+
+![](public/img/zoomedin-view.png)
 
 This view can be rendered when a server or a switch is double-clicked in the Network Data Main View. This view provides more detailed information about a server or a switch complete with all the MAC addresses on the component. Hovering the mouse over a segment on a node would display its MAC address. A node could also be selected (by mouse clicking) and this would provide the user with detailed information about the node through the drop down panel on the right hand side (similar to the Network Data Main View)
 
-###Network Data Geo View
+###Network Geo View
+
+![](public/img/geo-view.png)
 
 This view uses the Google Maps API to render the location of data centers on various geographical locations. When a data center on this view is double clicked, detailed information about that data center would be rendered through the Network Data Main View. A data center could also be searched for using the search panel.
