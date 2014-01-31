@@ -75,7 +75,7 @@ var hideLinkDetails = function(link){
 
 //Called on edge click
 var selectLink = function(link, i, selected_link){
-  d3.select('body').selectAll('.d3-tip').remove();
+  // d3.select('body').selectAll('.d3-tip').remove();
   d3.select('body').selectAll('.arc-select').classed('arc-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
 
@@ -85,6 +85,8 @@ var selectLink = function(link, i, selected_link){
   var linkTarget = d3.selectAll('path').filter(function(d,i){
     return (link.target.element.data.mac === d.data.mac) ? d : null; });
 
+  // Unused tooltip function, formating not complete to implement uncomment
+  // lines 78, 103 and 104
   var toolTip = function(link){
     d3.select('body')
       .append('div')
