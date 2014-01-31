@@ -4,7 +4,7 @@ var app = angular.module('app');
 
 module.exports = app.factory('NetworkDataService', ['$q', '$http', function($q, $http) {
   var networkData;
-  
+
   var service = {
 
     setData: function(data) {
@@ -15,6 +15,11 @@ module.exports = app.factory('NetworkDataService', ['$q', '$http', function($q, 
       return networkData;
     },
 
+    clearDOMElements:  function() {
+      require('d3').selectAll(".node").remove();
+      require('d3').selectAll(".link").remove();
+    },
+    
     getAll: function() {
       var d = $q.defer();
       $http({

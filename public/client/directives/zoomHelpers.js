@@ -24,6 +24,9 @@ module.exports.macToArcMapping = function(arc) {
       ptX = centroidX + centerX;
       ptY = centroidY + centerY;
 
+      if (d3.select(n.childNodes[i]).datum().data === undefined) {
+        debugger;
+      }
       arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
                  {element: d3.select(n.childNodes[i]).datum(),
                   x: ptX,
