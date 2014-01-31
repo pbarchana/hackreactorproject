@@ -7,7 +7,7 @@ A web application for NodePrime that graphically displays connections between se
 * Run `npm install` to get dependencies. 
 * Run `gulp` to compile the application, and start the server
 
-# Generating Data
+## Generating Data
 * Run `gulp generate` to generate a set of mock data
 * Adjust the quantities of servers, switches, and data centers in the **Config** section of gulpfile.js
 
