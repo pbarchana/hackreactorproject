@@ -25,7 +25,6 @@ module.exports.macToArcMapping = function(arc) {
       ptY = centroidY + centerY;
 
       if (d3.select(n.childNodes[i]).datum().data === undefined) {
-        debugger;
       }
       arcMap.set(d3.select(n.childNodes[i]).datum().data.mac,
                  {element: d3.select(n.childNodes[i]).datum(),
@@ -42,14 +41,14 @@ module.exports.definePie = function(){
     .sort(null)
     .value(function(d) { return 1; });
     return pie;
-}
+};
 
 module.exports.defineArc = function(radius){
   var arc = d3.svg.arc()
     .outerRadius(radius)
     .innerRadius(2/3 * radius);
     return arc;
-}
+};
 
 module.exports.createSvg = function(view, width, height){
   var svg =  d3.select(view)
@@ -59,7 +58,7 @@ module.exports.createSvg = function(view, width, height){
       .attr("pointer-events", "all")
       .append('g');
       return svg;
-}
+};
 
 
 //Called on edge hover
@@ -80,12 +79,6 @@ var selectLink = function(link, i, selected_link){
   d3.select('body').selectAll('.arc-select').classed('arc-select', false);
   d3.select('body').selectAll('.link').classed('link-select', false);
 
-  console.log('link link link source ', link.source);
-  console.log('link link link target ', link.target);
-  console.log('selected_link ------ ', selected_link)
-
-  // console.log('lt lt lt lt ', lt)
-
   var linkSource = d3.selectAll('path').filter(function(d,i){
     return (link.source.element.data.mac === d.data.mac) ? d : null; });
 
@@ -105,10 +98,8 @@ var selectLink = function(link, i, selected_link){
   var tarX = linkTarget.attr('cx');
   var tarY = linkTarget.attr('cy');
 
-  console.log('linkTarget x ------ ', link.target);
-
-  toolTip(link.target);
-  toolTip(link.source);
+  // toolTip(link.target);
+  // toolTip(link.source);
 
   linkTarget
     .classed('arc-select', true);
@@ -139,16 +130,13 @@ module.exports.createForceLayout =function(width, height){
         .gravity(0.3)
         .size([width, height]);
   return force;
-}
+};
 
 
 var showNodeInfo = function(node, that){
- 
-  
-  
   showNode = that;
   for (var i = 0; i < that.childNodes.length; i++) {
-    d3.select(that.childNodes[i]).datum().hiliteLink = 'true'
+    d3.select(that.childNodes[i]).datum().hiliteLink = 'true';
   }
   d3.selectAll(".link").transition()
     .style("stroke", function(l) {
@@ -200,10 +188,9 @@ var removeHighlightfromNode = function(node){
 
 var hideNodeInfo = function() {
   var that = showNode;
-  //console.log("hide showNode = ", that);
   removeHighlightfromNode(showNode);
   for (var i = 0; i < that.childNodes.length; i++) {
-    d3.select(that.childNodes[i]).datum().hiliteLink = 'false'
+    d3.select(that.childNodes[i]).datum().hiliteLink = 'false';
   }
   d3.selectAll(".link").transition()
     .style("stroke", function(l) {
@@ -269,7 +256,7 @@ module.exports.nodeActions = function(scope, force, pie, arc, svg){
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; })
-      .classed('link', true)
+      .classed('link', true);
     }
   })
   .append("title").text(function(d, i) { return "MAC: " + d.data.mac; })
