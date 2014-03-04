@@ -69,9 +69,9 @@ var bootstrapd3 = function(scope,  element, attrs) {
         scope.loading = false;
       });
     }, 500);
-    window.onresize = function() {
-        scope.$apply();
-      };
+    // window.onresize = function() {
+    //     scope.$apply();
+    //   };
 };
 
 // Directive to populate the graph in the view 

@@ -11,9 +11,7 @@ app.controller('mainController', ['$scope', '$location', 'NetworkDataService', '
 
   NetworkDataService.setData(data);
   $scope.ctldata = JSON.parse(JSON.stringify(data));
-  $scope.nodes   = JSON.parse(JSON.stringify(data.nodes));
-  $scope.links   = JSON.parse(JSON.stringify(data.links));
-
+  
   $scope.formatUUID = function(UUID) {
     if (!UUID) return '';
     return UUID.split('-')[0];
